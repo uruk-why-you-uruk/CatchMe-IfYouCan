@@ -7,7 +7,7 @@ public class MainClass {
 		System.out.println("asdfa");
 	//github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git
 		System.out.println("¾È³ç");
-		System.out.println("°¡³ª´Ù");
+
 	}
 
 }

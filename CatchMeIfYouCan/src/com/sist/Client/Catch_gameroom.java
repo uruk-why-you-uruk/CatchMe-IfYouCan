@@ -26,7 +26,6 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		
 		ta = new JTextArea();
 	    JScrollPane js3 = new JScrollPane(ta);
-	    
 	    tf = new JTextField();
 		//초기값
 		
@@ -50,22 +49,16 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 			char_group[i] = new JPanel();
 			char_group[i].setBackground(Color.blue);
 		}
-		
-		
-		
-		
-		
-		//배치
-		setLayout(null);
 		for(int i=0;i<8;i++)
 		{
 			add(char_group[i]);
 			
 		}	
+		
+		
 		add(draw);
 		add(tf);
 		add(timer);
-		add(ta);
 		
 		char_group[0].setBounds(50, 110, 180, 110);
 		char_group[1].setBounds(50, 230, 180, 110);
@@ -75,14 +68,14 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    char_group[5].setBounds(1025, 230, 180, 110);
 	    char_group[6].setBounds(1025, 350, 180, 110);
 	    char_group[7].setBounds(1025, 470, 180, 110);
-	    
 	    draw.setBounds(265, 110, 725, 370);
 	    timer.setBounds(265, 600, 150, 50);
-	    ta.setBounds(700, 500, 290, 100);
-	    ta.setOpaque(true);
+	    js3.setBounds(700,500,290,100);
+	    add(js3);
 	    tf.setBounds(700, 620, 290, 30);
-		
 	    
+		//
+	    setLayout(null);
 		setVisible(true);
 		
 		tf.addActionListener(this);

@@ -45,6 +45,8 @@ public class MyWindow extends JFrame implements ActionListener{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mv.b1.addActionListener(this);
 		cs.enter.addActionListener(this);
+		wr.b1.addActionListener(this);
+		
 	}
 	
 
@@ -68,6 +70,9 @@ public class MyWindow extends JFrame implements ActionListener{
 		}  
 		if(e.getSource()==cs.enter) {
 			card.show(getContentPane(), "WR");
+		}
+		if(e.getSource()==wr.b1) {
+			card.show(getContentPane(), "GR");
 		}
 		
 	}

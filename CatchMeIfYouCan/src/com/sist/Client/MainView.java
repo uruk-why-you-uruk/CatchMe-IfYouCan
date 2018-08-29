@@ -29,6 +29,7 @@ public class MainView extends JPanel{
 		tf = new JTextField("아이디");
 		pf = new JPasswordField("패스워드");
 		
+		
 		b1 = new JButton(new ImageIcon("image\\Login.png"));
 		b1.setBorderPainted(false); 
 		b1.setFocusPainted(false); 

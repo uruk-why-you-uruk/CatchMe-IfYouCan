@@ -8,7 +8,7 @@ class char_if
 }
 
 public class Catch_gameroom extends JPanel{
-	
+	Image back;
 	JPanel draw,timer;
 	JLabel room_grade,chat;
 	char_if[] player = new char_if[8];
@@ -16,8 +16,10 @@ public class Catch_gameroom extends JPanel{
 	JTextField tf;
 	JButton[] color = new JButton[8];
 	
-	Catch_gameroom()
-	{
+	Catch_gameroom(){
+		setLayout(null);
+		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.jpg");
+
 		//�ʱⰪ
 		
 		for(int i=0;i<8;i++)
@@ -71,6 +73,12 @@ public class Catch_gameroom extends JPanel{
 		setVisible(true);
 		
 	}
+	 @Override
+	   protected void paintComponent(Graphics g) {
+	      g.drawImage(back, 0, 0, getWidth(), getHeight(), this);
+
+	   }
+
 	
 
 

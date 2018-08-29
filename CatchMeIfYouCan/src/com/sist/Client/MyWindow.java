@@ -61,8 +61,6 @@ public class MyWindow extends JFrame implements ActionListener{
 		new MyWindow().setLocationRelativeTo(null);
 
 	}
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==mv.b1) {
@@ -74,6 +72,8 @@ public class MyWindow extends JFrame implements ActionListener{
 		if(e.getSource()==wr.b1) {
 			card.show(getContentPane(), "GR");
 		}
+		
+		
 		
 	}
 

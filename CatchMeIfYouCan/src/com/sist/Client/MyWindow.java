@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 public class MyWindow extends JFrame implements ActionListener{
 	// 윈도우 설정
 	MainView mv = new MainView();
+	WaitRoom wr = new WaitRoom();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
@@ -31,6 +32,7 @@ public class MyWindow extends JFrame implements ActionListener{
 		add("MV",mv);
 		add("CS",cs);
 		add("GR",gr);
+		add("WR",wr);
 		//add("MF",mf);
 		
 		
@@ -65,7 +67,7 @@ public class MyWindow extends JFrame implements ActionListener{
 			card.show(getContentPane(), "CS");
 		}  
 		if(e.getSource()==cs.enter) {
-			card.show(getContentPane(), "GR");
+			card.show(getContentPane(), "WR");
 		}
 		
 	}

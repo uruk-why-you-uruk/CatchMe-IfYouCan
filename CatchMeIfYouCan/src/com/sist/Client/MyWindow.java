@@ -63,7 +63,7 @@ public class MyWindow extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==mv.b1) {
 			card.show(getContentPane(), "CS");
-		}
+		}  
 		if(e.getSource()==cs.enter) {
 			card.show(getContentPane(), "GR");
 		}

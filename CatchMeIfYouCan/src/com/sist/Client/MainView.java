@@ -29,7 +29,7 @@ public class MainView extends JPanel implements MouseListener{
       
       //   배치
       setLayout(null); //   배치를 사용하지 않고 직접 배치
-      la1.setForeground(Color.black);
+      la1.setForeground(Color.black); 
       la1.setBounds(625,350,80,30);
       add(la1);
       

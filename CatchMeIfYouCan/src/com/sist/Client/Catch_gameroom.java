@@ -56,11 +56,11 @@ public class Catch_gameroom extends JPanel{
 		add(tf);
 		add(timer);
 		
-		char_group[0].setBounds(10, 15, 150, 150);
-		char_group[4].setBounds(1000, 15, 150, 150);
-		draw.setBounds(170, 15, 800, 300);
-		timer.setBounds(180, 550, 100, 50);
-		tf.setBounds(300, 600, 150, 30);
+		char_group[0].setBounds(50, 130, 180, 110);
+	    char_group[4].setBounds(1025, 130, 180, 110);
+	    draw.setBounds(265, 130, 725, 320);
+	    timer.setBounds(265, 520, 120, 80);
+	    tf.setBounds(700, 560, 300, 30);
 		
 		setVisible(true);
 		

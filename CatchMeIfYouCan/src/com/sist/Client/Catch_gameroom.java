@@ -46,8 +46,11 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		}
 		for(int i=0;i<8;i++)
 		{
+			//ImageIcon img2 = new ImageIcon("image\\nickname.png");
 			char_group[i] = new JPanel();
-			char_group[i].setBackground(Color.blue);
+			char_group[i].setOpaque(false);
+			
+			
 		}
 		for(int i=0;i<8;i++)
 		{
@@ -68,6 +71,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    char_group[5].setBounds(1025, 230, 180, 110);
 	    char_group[6].setBounds(1025, 350, 180, 110);
 	    char_group[7].setBounds(1025, 470, 180, 110);
+	    
 	    draw.setBounds(265, 110, 725, 370);
 	    timer.setBounds(265, 600, 150, 50);
 	    js3.setBounds(700,500,290,100);

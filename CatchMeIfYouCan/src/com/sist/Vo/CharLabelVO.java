@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CharLabelVO {
-	JLabel state;
-
+	JLabel state,rank,score,id,image;
+	ImageIcon img;
+	
 }

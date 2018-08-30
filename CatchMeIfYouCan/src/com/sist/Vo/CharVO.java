@@ -1,6 +1,6 @@
 package com.sist.Vo;
 
-public class CharVO {
+public class CharVO { 
 	private int rank=1,score=0;
 	private String id,icon;
 	public int getRank() {

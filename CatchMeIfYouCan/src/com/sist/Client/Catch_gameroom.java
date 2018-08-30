@@ -64,7 +64,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		add(tf);
 		add(timer);
 		
-		char_group[0].setBounds(50, 110, 180, 110);
+		char_group[0].setBounds(50, 110, 180, 110); 
 		char_group[1].setBounds(50, 230, 180, 110);
 		char_group[2].setBounds(50, 350, 180, 110);
 		char_group[3].setBounds(50, 470, 180, 110);

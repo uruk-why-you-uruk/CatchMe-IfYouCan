@@ -15,7 +15,7 @@ public class Character_select extends JPanel{
 	ImageIcon[] img1 = new ImageIcon[15];
 	ImageIcon img2;
 	ImageIcon img3;
-	ImageIcon[] img4 = new ImageIcon[15];
+	ImageIcon[] img4 = new ImageIcon[15]; 
 	Image back; 
 	
 	

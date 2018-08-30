@@ -16,7 +16,7 @@ public class CharLabelVO extends JPanel{
 		//ImageIcon a = new ImageIcon("image\\rank\\"+rank+".png");
 		this.rank = new JLabel();
 		this.rank.setSize(90, 30);
-		this.score = new JLabel("0");
+		this.score = new JLabel("0"); 
 		//this.img = new ImageIcon("image\\"+img+"\\"+rank+".png");
 		this.img_la = new JLabel(/*this.img*/);
 		this.img_la.setSize(90, 100);

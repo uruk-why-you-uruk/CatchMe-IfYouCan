@@ -15,6 +15,7 @@ public class Character_select extends JPanel{
 	ImageIcon[] img1 = new ImageIcon[15];
 	ImageIcon img2;
 	ImageIcon img3;
+	ImageIcon[] img4 = new ImageIcon[15];
 	Image back; 
 	
 	
@@ -25,6 +26,12 @@ public class Character_select extends JPanel{
 		for(int i=0;i<15;i++)
 		{
 			img1[i] = new ImageIcon("image\\char_mini\\"+i+".png");
+			
+		}
+		
+		for(int i=0;i<15;i++)
+		{
+			img4[i] = new ImageIcon("image\\char_max\\"+i+".png");
 			
 		}
 		
@@ -85,7 +92,7 @@ public class Character_select extends JPanel{
 		
 		add(enter);
 		
-		result.setBounds(150,150,125,125);
+		result.setBounds(160,150,170,125);
 		enter.setBounds(320, 250, 200, 200);
 		enter.setRolloverIcon(img3);
 			
@@ -102,7 +109,7 @@ public class Character_select extends JPanel{
 		{
 			if(e.getSource()==jb[i])
 			{
-				result.setIcon(img1[i]);
+				result.setIcon(img4[i]);
 			}
 		}
 		

@@ -1,5 +1,6 @@
 package com.sist.Client;
 import javax.swing.*;
+import com.sist.Vo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,8 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
 	JPanel draw,timer;
 	JLabel room_grade,chat;
-	char_if[] player = new char_if[8];
-	JPanel[] char_group = new JPanel[8];
+	CharVO[] player = new CharVO[8];
+	CharLabelVO[] char_group = new CharLabelVO[8];
 	JTextArea ta;
 	JTextField tf;
 	JButton[] color = new JButton[8];
@@ -31,7 +32,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		
 		for(int i=0;i<8;i++)
 		{
-			player[i] = new char_if();
+			player[i] = new CharVO();
 		}
 		draw = new JPanel();
 		draw.setBackground(Color.BLACK);
@@ -47,7 +48,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		for(int i=0;i<8;i++)
 		{
 			//ImageIcon img2 = new ImageIcon("image\\nickname.png");
-			char_group[i] = new JPanel();
+			char_group[i] = new CharLabelVO();
 			char_group[i].setOpaque(false);
 			
 			

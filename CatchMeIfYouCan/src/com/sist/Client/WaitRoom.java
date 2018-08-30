@@ -60,9 +60,9 @@ public class WaitRoom extends JPanel implements ActionListener {
       add(js2);
       
       
-      ta.setBounds(30, 470, 700, 205); // 채팅창
-      ta.setOpaque(true);
-      add(ta);
+      js3.setBounds(30, 470, 700, 205); // 채팅창
+      js3.setOpaque(true);
+      add(js3);
       tf.setBounds(30, 685, 700, 20); // 채팅치는곳
       tf.setOpaque(true);
       add(tf);

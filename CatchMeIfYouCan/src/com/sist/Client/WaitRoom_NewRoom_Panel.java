@@ -42,6 +42,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		noButtonIcon=new ImageIcon("C:\\javaDev\\newroom_no_btn.png");
 		okButton=new JButton("",okButtonIcon);
 		noButton=new JButton("",noButtonIcon);		
+		/////////////////////////////////////////////
 		okButton.setBounds(205, 270, 85, 40);
 		okButton.setOpaque(false);
 		okButton.setBorderPainted(false); 

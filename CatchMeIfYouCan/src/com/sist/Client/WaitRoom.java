@@ -26,8 +26,8 @@ public class WaitRoom extends JPanel implements ActionListener {
       ta = new JTextArea();
       JScrollPane js3 = new JScrollPane(ta);
       tf = new JTextField();
-      b2 = new JButton("다음페이지");
       
+      b2 = new JButton("다음페이지");      
       //방만들기 버튼
       mb=new ImageIcon("image\\newroombtn.png");
       b1 = new JButton("",mb);      

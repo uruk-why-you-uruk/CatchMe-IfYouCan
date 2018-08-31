@@ -44,10 +44,10 @@ public class MyWindow extends JFrame implements ActionListener {
 		setVisible(true);
 		setResizable(false);// 크기변경 제한
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		mv.b1.addActionListener(this);
-		mv.b2.addActionListener(this);
+		mv.b1.addActionListener(this);		
 		cs.enter.addActionListener(this);
 		wr.b1.addActionListener(this);
+		wr.b2.addActionListener(this);
 	}
 
 	public static void main(String[] args) {

@@ -3,9 +3,7 @@ import java.util.Scanner;
 public class Timer {
 	  public static void main(String[] args) throws InterruptedException
 	  {
-	   //Scanner scan = new Scanner(System.in);
-	    //System.out.println("How much time (In Minutes) ?");
-	    int timet= 140; // Convert to seconds
+	    int timet= 140;
 	    long delay = timet * 1000;
 
 	    do

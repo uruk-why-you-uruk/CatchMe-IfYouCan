@@ -12,12 +12,8 @@ class char_if
 
 public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
-<<<<<<< HEAD
 	ImageIcon out_img;
 	JPanel draw,timer;
-=======
-	JPanel draw,timer;  
->>>>>>> branch 'master' of https://github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];
 	CharLabelVO[] char_group = new CharLabelVO[8];

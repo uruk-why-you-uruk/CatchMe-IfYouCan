@@ -50,7 +50,8 @@ public class MyWindow extends JFrame implements ActionListener {
 		cs.enter.addActionListener(this);
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
-	}
+		gr.out_btn.addActionListener(this);
+	}   
 
 	public static void main(String[] args) {
 		try {
@@ -75,6 +76,9 @@ public class MyWindow extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
+		}
+		if(e.getSource() == gr.out_btn) {
+			card.show(getContentPane(), "WR");
 		}
 	}
 }

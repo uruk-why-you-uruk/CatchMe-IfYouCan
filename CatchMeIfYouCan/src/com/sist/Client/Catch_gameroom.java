@@ -12,6 +12,7 @@ class char_if
 
 public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
+	ImageIcon out_img;
 	JPanel draw,timer;
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];
@@ -19,11 +20,13 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	JTextArea ta;
 	JTextField tf;
 	JButton[] color = new JButton[8];
+	JButton out_btn;
 	
 	Catch_gameroom(){
 		setLayout(null);
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.jpg");
-
+		out_img=new ImageIcon("image\\newroombtn.png");
+		out_btn=new JButton("",out_img);
 		
 		ta = new JTextArea();
 	    JScrollPane js3 = new JScrollPane(ta);
@@ -49,14 +52,11 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		{
 			//ImageIcon img2 = new ImageIcon("image\\nickname.png");
 			char_group[i] = new CharLabelVO();
-			char_group[i].setOpaque(false);
-			
-			
+			char_group[i].setOpaque(false);			
 		}
 		for(int i=0;i<8;i++)
 		{
-			add(char_group[i]);
-			
+			add(char_group[i]);			
 		}	
 		
 		
@@ -78,7 +78,8 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    js3.setBounds(700,500,290,100);
 	    add(js3);
 	    tf.setBounds(700, 620, 290, 30);
-	    
+	    out_btn.setBounds(1030, 600, 150, 50);
+	    add(out_btn);
 		//
 	    setLayout(null);
 		setVisible(true);

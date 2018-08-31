@@ -78,7 +78,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    js3.setBounds(700,500,290,100);
 	    add(js3);
 	    tf.setBounds(700, 620, 290, 30);
-	    out_btn.setBounds(1030, 600, 150, 50);
+	    out_btn.setBounds(1030, 600, 130, 50);
 	    add(out_btn);
 		//
 	    setLayout(null);

@@ -14,8 +14,6 @@ import java.awt.event.ActionListener;
  *      ======= 위에는 자주 쓰이는 것
  *      JDialog : 닫기버튼만 있을때
  *      JWindow : 타이틀바가 없는 것 => 홍보할때 
- * 
- *       
  */
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -28,7 +26,6 @@ public class MyWindow extends JFrame implements ActionListener {
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
-
 
 	public MyWindow() {
 		setLayout(card);
@@ -51,7 +48,7 @@ public class MyWindow extends JFrame implements ActionListener {
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
-	}   
+	}     
 
 	public static void main(String[] args) {
 		try {

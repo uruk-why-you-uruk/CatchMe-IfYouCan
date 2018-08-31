@@ -29,7 +29,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
 	public MyWindow() {
 		setLayout(card);
-		add("MV", mv);
+		add("MV", mv);  
 		add("CS", cs);
 		add("GR", gr);
 		add("WR", wr);

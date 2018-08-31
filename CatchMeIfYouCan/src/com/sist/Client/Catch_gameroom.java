@@ -89,7 +89,6 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	 @Override
 	   protected void paintComponent(Graphics g) {
 	      g.drawImage(back, 0, 0, getWidth(), getHeight(), this);
-
 	   }
 
 	 @Override

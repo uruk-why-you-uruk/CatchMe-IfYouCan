@@ -14,13 +14,14 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
 	JPanel draw,timer;  
 	JLabel room_grade,chat;
-	CharVO[] player = new CharVO[8];
+	//JButton[] char_group = new JButton[8];
+	CharVO[] player = new CharVO[8];  
 	CharLabelVO[] char_group = new CharLabelVO[8];
 	//JLabel[] char_group = new JLabel[8];
 	JTextArea ta;  
 	JTextField tf;
 	JButton[] color = new JButton[8];
-	
+	  
 	Catch_gameroom(){
 		setLayout(null);
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.jpg");
@@ -32,7 +33,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		//�ʱⰪ
 		
 		for(int i=0;i<8;i++)
-		{
+		{  
 			player[i] = new CharVO();
 		}
 		draw = new JPanel();

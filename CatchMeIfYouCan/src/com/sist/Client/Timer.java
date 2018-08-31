@@ -16,10 +16,10 @@ public class Timer extends JFrame implements ActionListener{
 		// 선언
 //		back=Toolkit.getDefaultToolkit().getImage("image\\time.gif");
 		back=Toolkit.getDefaultToolkit().getImage("image\\time.gif");
-		      
+		    
 		draw = new JPanel();
 		// 배치
-		    
+		  
 		draw.setVisible(true);
 		setSize(500, 500);
 		setVisible(true);

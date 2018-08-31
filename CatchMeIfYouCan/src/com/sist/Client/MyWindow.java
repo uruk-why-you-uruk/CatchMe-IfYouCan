@@ -29,12 +29,14 @@ public class MyWindow extends JFrame implements ActionListener {
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
 
+
 	public MyWindow() {
 		setLayout(card);
 		add("MV", mv);
 		add("CS", cs);
 		add("GR", gr);
 		add("WR", wr);
+
 		// add("MF",mf);
 
 		// 윈도우 크기

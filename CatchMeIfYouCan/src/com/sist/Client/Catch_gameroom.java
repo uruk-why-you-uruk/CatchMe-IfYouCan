@@ -12,12 +12,12 @@ class char_if
 
 public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
-	JPanel draw,timer;
+	JPanel draw,timer;  
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];
 	CharLabelVO[] char_group = new CharLabelVO[8];
 	//JLabel[] char_group = new JLabel[8];
-	JTextArea ta;
+	JTextArea ta;  
 	JTextField tf;
 	JButton[] color = new JButton[8];
 	

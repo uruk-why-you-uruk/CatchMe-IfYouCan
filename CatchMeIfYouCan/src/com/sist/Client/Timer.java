@@ -19,7 +19,7 @@ public class Timer extends JFrame implements ActionListener{
 		    
 		draw = new JPanel();
 		// ¹èÄ¡
-		  
+		    
 		draw.setVisible(true);
 		setSize(500, 500);
 		setVisible(true);

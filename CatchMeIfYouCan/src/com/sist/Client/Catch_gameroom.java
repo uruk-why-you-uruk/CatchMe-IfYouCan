@@ -12,11 +12,12 @@ class char_if
 
 public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
-	JPanel draw,timer;
+	JPanel draw,timer;  
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];
 	CharLabelVO[] char_group = new CharLabelVO[8];
-	JTextArea ta;
+	//JLabel[] char_group = new JLabel[8];
+	JTextArea ta;  
 	JTextField tf;
 	JButton[] color = new JButton[8];
 	
@@ -63,15 +64,16 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		add(draw);
 		add(tf);
 		add(timer);
-		
-		char_group[0].setBounds(30, 130, 180, 110); 
-		char_group[1].setBounds(30, 250, 180, 110);
-		char_group[2].setBounds(30, 370, 180, 110);
-		char_group[3].setBounds(30, 490, 180, 110);
-	    char_group[4].setBounds(1005, 130, 180, 110);
-	    char_group[5].setBounds(1005, 250, 180, 110);
-	    char_group[6].setBounds(1005, 370, 180, 110);
-	    char_group[7].setBounds(1005, 490, 180, 110);
+		int y= 112;
+		//int y= 110;
+		char_group[0].setBounds(45, y, 180, 110); 
+		char_group[1].setBounds(45, y+120, 180, 110);
+		char_group[2].setBounds(45, y+240, 180, 110);
+		char_group[3].setBounds(45, y+360, 180, 110);
+	    char_group[4].setBounds(1022, y, 180, 110);
+	    char_group[5].setBounds(1022, y+120, 180, 110);
+	    char_group[6].setBounds(1022, y+240, 180, 110);
+	    char_group[7].setBounds(1022, y+360, 180, 110);
 	    
 	    draw.setBounds(265, 110, 725, 370);
 	    timer.setBounds(265, 600, 150, 50);

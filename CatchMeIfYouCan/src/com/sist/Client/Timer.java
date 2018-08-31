@@ -12,7 +12,7 @@ public class Timer extends JFrame implements ActionListener{
 	Image back;
 	JPanel draw;
 	ImageIcon img;
-	Timer() {
+	Timer() { 
 		// ¼±¾ð
 //		back=Toolkit.getDefaultToolkit().getImage("image\\time.gif");
 		back=Toolkit.getDefaultToolkit().getImage("image\\time.gif");

@@ -24,6 +24,7 @@ public class MyWindow extends JFrame implements ActionListener{
 	// 윈도우 설정
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
+	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
@@ -46,20 +47,15 @@ public class MyWindow extends JFrame implements ActionListener{
 		mv.b1.addActionListener(this);
 		cs.enter.addActionListener(this);
 		wr.b1.addActionListener(this);
-		
 	}
 	
 
-	public static void main(String[] args) {
-		
-		
+	public static void main(String[] args) {		
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
 		}catch(Exception ex) {}
-		//MyWindow a = new MyWindow();
-		
+		//MyWindow a = new MyWindow();		
 		new MyWindow().setLocationRelativeTo(null);
-
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -69,10 +65,10 @@ public class MyWindow extends JFrame implements ActionListener{
 		if(e.getSource()==cs.enter) {
 			card.show(getContentPane(), "WR");
 		}
-		if(e.getSource()==wr.b1) {
-			card.show(getContentPane(), "GR");
+		if (e.getSource() == wr.b1) { //대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
+			wrn.setLocationRelativeTo(null);
+			wrn.setVisible(true);
 		}
-		
 		
 		
 	}

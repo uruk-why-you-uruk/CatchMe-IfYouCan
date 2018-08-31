@@ -14,7 +14,7 @@ public class WaitRoom extends JPanel implements ActionListener {
    DefaultTableModel model1, model2;
    JTextArea ta;
    JTextField tf;
-   JButton b1;
+   JButton b1,b2;
    ImageIcon mb;
 
    WaitRoom() {
@@ -26,6 +26,7 @@ public class WaitRoom extends JPanel implements ActionListener {
       ta = new JTextArea();
       JScrollPane js3 = new JScrollPane(ta);
       tf = new JTextField();
+      b2 = new JButton("다음페이지");
       
       //방만들기 버튼
       mb=new ImageIcon("image\\newroombtn.png");
@@ -68,6 +69,8 @@ public class WaitRoom extends JPanel implements ActionListener {
       add(tf);
       
       b1.setBounds(930, 645, 120, 50); //방만들기 버튼
+      b2.setBounds(930, 600, 120, 30);
+      
       b1.setOpaque(false);
       //이미지 뒤에 버튼 라인 안보이게 하는것
       b1.setBorderPainted(false); 
@@ -75,6 +78,7 @@ public class WaitRoom extends JPanel implements ActionListener {
       b1.setContentAreaFilled(false);
       
       add(b1);
+      add(b2);
 
       setSize(1251, 750);
       setVisible(true);

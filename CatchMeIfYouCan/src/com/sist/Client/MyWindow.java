@@ -44,6 +44,7 @@ public class MyWindow extends JFrame implements ActionListener{
 		setResizable(false);// 크기변경 제한
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mv.b1.addActionListener(this);
+		mv.b2.addActionListener(this);
 		cs.enter.addActionListener(this);
 		wr.b1.addActionListener(this);
 		
@@ -69,7 +70,7 @@ public class MyWindow extends JFrame implements ActionListener{
 		if(e.getSource()==cs.enter) {
 			card.show(getContentPane(), "WR");
 		}
-		if(e.getSource()==wr.b1) {
+		if(e.getSource()==wr.b2) {
 			card.show(getContentPane(), "GR");
 		}
 		

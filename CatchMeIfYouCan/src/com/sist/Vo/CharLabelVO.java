@@ -11,7 +11,7 @@ public class CharLabelVO extends JPanel{
 	JPanel charinfo_Panel;
 	Color a = new Color(0,0,0,0);
 	MatteBorder b6 = new MatteBorder(10,0,0,30,a);
-	MatteBorder b7 = new MatteBorder(1,35,0,0,a);
+	MatteBorder b7 = new MatteBorder(1,23,0,0,a);
 	public CharLabelVO()
 	{
 		setLayout(new FlowLayout());

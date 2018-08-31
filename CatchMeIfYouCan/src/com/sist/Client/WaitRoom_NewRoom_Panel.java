@@ -53,11 +53,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		noButton.setBorderPainted(false); 
 		noButton.setFocusPainted(false); 
 		noButton.setContentAreaFilled(false);		
-		/*noButton.addActionListener(new ActionListener() {	
-			public void actionPerformed(ActionEvent e) {
-				MyWindow.wrn.setVisible(false);				
-			}
-		});*/
+
 		add(okButton);
 		add(noButton);			
 	}	
@@ -66,6 +62,4 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		g.drawImage(back, 0, 0, getWidth(), getHeight(), this);
 	}
-	
-	
 }

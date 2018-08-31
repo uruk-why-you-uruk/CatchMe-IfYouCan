@@ -1,5 +1,6 @@
 package com.sist.Client;
 import javax.swing.*;
+import com.sist.Vo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,8 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	Image back;
 	JPanel draw,timer;
 	JLabel room_grade,chat;
-	char_if[] player = new char_if[8];
-	JPanel[] char_group = new JPanel[8];
+	CharVO[] player = new CharVO[8];
+	CharLabelVO[] char_group = new CharLabelVO[8];
 	JTextArea ta;
 	JTextField tf;
 	JButton[] color = new JButton[8];
@@ -31,7 +32,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		
 		for(int i=0;i<8;i++)
 		{
-			player[i] = new char_if();
+			player[i] = new CharVO();
 		}
 		draw = new JPanel();
 		draw.setBackground(Color.BLACK);
@@ -46,8 +47,11 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		}
 		for(int i=0;i<8;i++)
 		{
-			char_group[i] = new JPanel();
-			char_group[i].setBackground(Color.blue);
+			//ImageIcon img2 = new ImageIcon("image\\nickname.png");
+			char_group[i] = new CharLabelVO();
+			char_group[i].setOpaque(false);
+			
+			
 		}
 		for(int i=0;i<8;i++)
 		{
@@ -60,7 +64,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		add(tf);
 		add(timer);
 		
-		char_group[0].setBounds(50, 110, 180, 110);
+		char_group[0].setBounds(50, 110, 180, 110); 
 		char_group[1].setBounds(50, 230, 180, 110);
 		char_group[2].setBounds(50, 350, 180, 110);
 		char_group[3].setBounds(50, 470, 180, 110);
@@ -68,6 +72,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    char_group[5].setBounds(1025, 230, 180, 110);
 	    char_group[6].setBounds(1025, 350, 180, 110);
 	    char_group[7].setBounds(1025, 470, 180, 110);
+	    
 	    draw.setBounds(265, 110, 725, 370);
 	    timer.setBounds(265, 600, 150, 50);
 	    js3.setBounds(700,500,290,100);

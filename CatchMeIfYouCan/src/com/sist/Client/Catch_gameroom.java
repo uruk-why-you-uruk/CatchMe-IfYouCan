@@ -16,6 +16,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];  
 	CharLabelVO[] char_group = new CharLabelVO[8];
+	JLabel lb1 = new JLabel("≈∏¿Ã∏”");
 	//JLabel[] char_group = new JLabel[8];
 	JTextArea ta;  
 	JTextField tf;

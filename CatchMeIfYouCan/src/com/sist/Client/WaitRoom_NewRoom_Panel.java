@@ -23,19 +23,19 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		back = Toolkit.getDefaultToolkit().getImage("C:\\javaDev\\newroom.png");
 		
 		roomName = new JTextField("");
-		roomName.setBounds(170, 95, 320, 20);
+		roomName.setBounds(170, 109, 320, 20);
 		add(roomName);
 		
 		visibility_Combo =new JComboBox(visibility);
-		visibility_Combo.setBounds(170, 133, 80, 20);
+		visibility_Combo.setBounds(170, 148, 80, 20);
 		add(visibility_Combo);
 		
 		roomPsw=new JTextField("");
-		roomPsw.setBounds(170, 164, 320, 20);
+		roomPsw.setBounds(170, 179, 320, 20);
 		add(roomPsw);
 		
 		personnel_Combo=new JComboBox(personnel);
-		personnel_Combo.setBounds(170, 196, 80, 20);
+		personnel_Combo.setBounds(170, 214, 80, 20);
 		add(personnel_Combo);
 		
 		okButtonIcon=new ImageIcon("C:\\javaDev\\newroom_ok_btn.png");
@@ -43,13 +43,13 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		okButton=new JButton("",okButtonIcon);
 		noButton=new JButton("",noButtonIcon);		
 		/////////////////////////////////////////////
-		okButton.setBounds(205, 270, 85, 40);
+		okButton.setBounds(205, 300, 85, 40);
 		okButton.setOpaque(false);
 		okButton.setBorderPainted(false); 
 		okButton.setFocusPainted(false); 
 		okButton.setContentAreaFilled(false);
 		/////////////////////////////////////////
-		noButton.setBounds(305, 268, 85, 40);
+		noButton.setBounds(305, 298, 85, 40);
 		noButton.setOpaque(false);
 		noButton.setBorderPainted(false); 
 		noButton.setFocusPainted(false); 

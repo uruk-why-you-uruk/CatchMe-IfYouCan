@@ -16,7 +16,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	static int k;
 	Image back;
 	JPanel draw,timer,color_Panel;  
-	JLabel room_grade,chat;
+	JLabel room_grade,chat,qus;
 	CharVO[] player = new CharVO[8];  
 	CharLabelVO[] char_group = new CharLabelVO[8];
 	JLabel timerLabel = new JLabel("0");
@@ -27,8 +27,16 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	ImageIcon out_img;
 	JButton out_btn;
 	JButton timer_btn = new JButton("타이머시작");
+	JButton qus_btn = new JButton("문제 끄기");
+	
 	  
 	Catch_gameroom(){
+		
+		qus=new JLabel(new ImageIcon("image\\question.png"));
+		qus.setBounds(265, 70, 197, 31);
+		add(qus);
+		
+		
 		setLayout(null);
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
 
@@ -39,6 +47,9 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	    out_btn.setBorderPainted(false);
 	    add(out_btn);
 		
+	    qus_btn.setBounds(50, 600, 115, 51);
+	    qus_btn.setBackground(Color.YELLOW);
+	    add(qus_btn);
 		
 		ta = new JTextArea();
 	    JScrollPane js3 = new JScrollPane(ta);
@@ -115,6 +126,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	    setLayout(null);
 		setVisible(true);
 		
+		qus_btn.addMouseListener(this);
 		timer_btn.addMouseListener(this);
 		tf.addActionListener(this);
 	}
@@ -144,8 +156,12 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 		if(e.getSource()==timer_btn)
 		{
 			new Thread(this).start();
+			qus.setVisible(false);
 		}
-		
+		if(e.getSource()==qus_btn)
+		{
+			qus.setVisible(true);
+		}
 	}
 	public void run()
 	{

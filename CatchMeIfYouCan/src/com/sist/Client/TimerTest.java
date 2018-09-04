@@ -3,7 +3,7 @@ package com.sist.Client;
 import javax.swing.*;
 import java.awt.*;
 
-public class TimerTest extends JFrame{}
+public class TimerTest extends JFrame{};
     /*Timer timerLabel = new Timer();
     
     public TimerTest()
@@ -42,6 +42,4 @@ public class TimerTest extends JFrame{}
 }
 
 */
-=======
-   }
->>>>>>> branch 'master' of https://github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git
+

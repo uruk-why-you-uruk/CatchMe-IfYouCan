@@ -92,7 +92,7 @@ public class Character_select extends JPanel{
 		
 		add(enter);
 		
-		result.setBounds(160,150,170,125);
+		result.setBounds(160,150,170,200);
 		enter.setBounds(320, 250, 200, 200);
 		enter.setRolloverIcon(img3);
 			

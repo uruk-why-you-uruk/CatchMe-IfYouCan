@@ -1,8 +1,7 @@
 package com.sist.Client;
-import java.awt.*;
-import javax.swing.*;
 
- 
+import javax.swing.*;
+import java.awt.*;
 
 public class TimerTest extends JFrame{}
     /*Timer timerLabel = new Timer();
@@ -21,7 +20,7 @@ public class TimerTest extends JFrame{}
         int k = 150;
         while(k!=-1)
         {
-        	int minutes = k / 60;
+           int minutes = k / 60;
             int seconds = k % 60;
             timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
             try {
@@ -31,13 +30,18 @@ public class TimerTest extends JFrame{}
             }
             k--;
         }
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
         new TimerTest();
 
     }
+<<<<<<< HEAD
 
 }
 
 */
+=======
+   }
+>>>>>>> branch 'master' of https://github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git

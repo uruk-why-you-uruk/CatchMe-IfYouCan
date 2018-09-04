@@ -32,10 +32,10 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 		setLayout(null);
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
 
-		out_img=new ImageIcon("image\\newroombtn.png");
+		out_img=new ImageIcon("image\\roomexit.png");
 	    out_btn=new JButton("",out_img);
 
-	    out_btn.setBounds(1030, 600, 130, 50);
+	    out_btn.setBounds(1020, 600, 130, 50);
 	    add(out_btn);
 		
 		

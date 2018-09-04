@@ -118,9 +118,9 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	    color_Panel.setBounds(265, 510, 220, 60);
 	    draw.setBounds(265, 110, 725, 370);
 	    timerLabel.setBounds(265, 580, 300, 150);
-	    js3.setBounds(700,500,290,100);
+	    js3.setBounds(700,500,290,112);
 	    add(js3);
-	    tf.setBounds(700, 620, 290, 30);
+	    tf.setBounds(700, 620, 290, 20);
 	    
 		
 	    setLayout(null);
@@ -168,15 +168,15 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 		k = 150;
         while(k!=-1)
         {
+        	
             try {
-                
-
             	int minutes = k / 60;
                 int seconds = k % 60;
                 timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
                 System.out.printf("%d\n",k);
                 Thread.sleep(1000);
                 //timerLabel.repaint();
+                if(k==0) break;
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }

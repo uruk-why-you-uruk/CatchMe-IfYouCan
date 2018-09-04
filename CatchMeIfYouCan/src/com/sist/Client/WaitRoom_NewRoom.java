@@ -16,6 +16,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 
 		setSize(600, 350);
 		card.show(getContentPane(), "WNP");
+		setUndecorated(true);
 		setResizable(false); // 화면 못 줄이게하기
 		wnp.noButton.addActionListener(this);
 	}

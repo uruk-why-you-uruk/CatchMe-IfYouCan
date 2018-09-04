@@ -4,15 +4,14 @@ import javax.swing.*;
 
  
 
-public class TimerTest extends JFrame{
-    JLabel timerLabel = null;
+public class TimerTest extends JFrame{}
+    /*Timer timerLabel = new Timer();
     
     public TimerTest()
     {
         this.setTitle("Timer Test");
         Container c = this.getContentPane();
         c.setLayout(new FlowLayout());
-        timerLabel = new JLabel("0");
         timerLabel.setFont(new Font("Gothic",Font.ITALIC,80));
 
         c.add(timerLabel);
@@ -41,3 +40,4 @@ public class TimerTest extends JFrame{
 
 }
 
+*/

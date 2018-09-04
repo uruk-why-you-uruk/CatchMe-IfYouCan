@@ -14,6 +14,8 @@ class char_if
 
 public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener,Runnable {
 	static int k;
+	static boolean flag;
+	
 	Image back;
 	JPanel draw,timer,color_Panel;  
 	JLabel room_grade,chat,qus;
@@ -166,13 +168,15 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	public void run()
 	{
 		k = 150;
+		
+		if(flag == false)
+		{
+			flag = true;
         while(k!=-1)
         {
             try {
-                
-
             	int minutes = k / 60;
-                int seconds = k % 60;
+        	    int seconds = k % 60;
                 timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
                 System.out.printf("%d\n",k);
                 Thread.sleep(1000);
@@ -182,6 +186,8 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
             }
             k--;
         }
+        flag = false;
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

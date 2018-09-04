@@ -4,25 +4,29 @@ import com.sist.Vo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 class char_if
 {
 	JLabel id,rank,score,icon;
 }
 
-public class Catch_gameroom extends JPanel implements ActionListener{
+public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener {
+	static int k;
 	Image back;
 	JPanel draw,timer,color_Panel;  
 	JLabel room_grade,chat;
 	CharVO[] player = new CharVO[8];  
 	CharLabelVO[] char_group = new CharLabelVO[8];
-	JLabel lb1 = new JLabel("타이머");
+	JLabel timerLabel = new JLabel("0");
 	//JLabel[] char_group = new JLabel[8];
 	JTextArea ta;  
 	JTextField tf;
 	JButton[] color = new JButton[6];
 	ImageIcon out_img;
 	JButton out_btn;
+	JButton timer_btn = new JButton("타이머시작");
 	  
 	Catch_gameroom(){
 		setLayout(null);
@@ -38,7 +42,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		ta = new JTextArea();
 	    JScrollPane js3 = new JScrollPane(ta);
 	    tf = new JTextField();
-		//초기값
+		//초기 값
 		
 		for(int i=0;i<8;i++)
 		{  
@@ -46,8 +50,6 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		}
 		draw = new JPanel();
 		draw.setBackground(Color.BLACK);
-		timer = new JPanel();
-		timer.setBackground(Color.yellow);
 		room_grade = new JLabel();
 		chat = new JLabel();
 		tf = new JTextField();
@@ -64,7 +66,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 			color[i].setFocusPainted(false); 
 			color[i].setContentAreaFilled(false);
 			color_Panel.add(color[i]);
-			//color_Panel.setOpaque(false);
+			color_Panel.setOpaque(false);
 		}
 		
 		for(int i=0;i<char_group.length;i++)
@@ -84,7 +86,12 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		add(color_Panel);
 		add(draw);
 		add(tf);
-		add(timer);
+		add(timerLabel);
+		add(timer_btn);
+		timerLabel.setText(String.valueOf(String.format("%02d:%02d",2, 30)));
+		timer_btn.setBounds(580, 580, 150, 150);
+        timerLabel.setFont(new Font("Gothic",Font.ITALIC,50));
+        
 		int y1= 112;
 		//int y= 110;
 		char_group[0].setBounds(45, y1, 180, 110); 
@@ -98,15 +105,16 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    
 	    color_Panel.setBounds(265, 510, 220, 60);
 	    draw.setBounds(265, 110, 725, 370);
-	    timer.setBounds(265, 600, 150, 50);
+	    timerLabel.setBounds(265, 580, 300, 150);
 	    js3.setBounds(700,500,290,100);
 	    add(js3);
 	    tf.setBounds(700, 620, 290, 30);
 	    
-		//
+		
 	    setLayout(null);
 		setVisible(true);
 		
+		timer_btn.addMouseListener(this);
 		tf.addActionListener(this);
 	}
 	 public Image getImageSizeChange(ImageIcon icon,int width,int height)
@@ -130,6 +138,46 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	         tf.setText("");
 	      }
 	   }
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource()==timer_btn)
+		{
+			k = 150;
+	        while(k!=-1)
+	        {
+	        	int minutes = k / 60;
+	            int seconds = k % 60;
+	            timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
+	            try {
+	                Thread.sleep(1000);
+	            } catch (InterruptedException e1) {
+	                e1.printStackTrace();
+	            }
+	            k--;
+	        }
+		}
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 

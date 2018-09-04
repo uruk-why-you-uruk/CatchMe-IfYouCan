@@ -28,6 +28,7 @@ public class MyWindow extends JFrame implements ActionListener {
 	CardLayout card = new CardLayout();
 
 	public MyWindow() {
+		System.out.println("mywindow 角青");
 		setLayout(card);
 		add("MV", mv);  
 		add("CS", cs);
@@ -51,12 +52,16 @@ public class MyWindow extends JFrame implements ActionListener {
 	}     
 
 	public static void main(String[] args) {
+		System.out.println("mywindow main 角青");
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+			//UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+			System.out.println("jtatto 角青");
 		} catch (Exception ex) {
+			System.out.println("jtatto 抗寇贸府");
 		}
-		// MyWindow a = new MyWindow();
-		new MyWindow().setLocationRelativeTo(null);
+		MyWindow a = new MyWindow();
+		System.out.println("mywindow 难咙");
+		a.setLocationRelativeTo(null);
 	}
 
 	@Override

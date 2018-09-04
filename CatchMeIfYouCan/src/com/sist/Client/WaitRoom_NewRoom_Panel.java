@@ -20,7 +20,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 	
 	public WaitRoom_NewRoom_Panel() {
 		setLayout(null);
-		back = Toolkit.getDefaultToolkit().getImage("C:\\javaDev\\newroom.png");
+		back = Toolkit.getDefaultToolkit().getImage("image\\newroom.png");
 		
 		roomName = new JTextField("");
 		roomName.setBounds(170, 109, 320, 20);
@@ -38,8 +38,8 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		personnel_Combo.setBounds(170, 214, 80, 20);
 		add(personnel_Combo);
 		
-		okButtonIcon=new ImageIcon("C:\\javaDev\\newroom_ok_btn.png");
-		noButtonIcon=new ImageIcon("C:\\javaDev\\newroom_no_btn.png");
+		okButtonIcon=new ImageIcon("image\\newroom_ok_btn.png");
+		noButtonIcon=new ImageIcon("image\\newroom_no_btn.png");
 		okButton=new JButton("",okButtonIcon);
 		noButton=new JButton("",noButtonIcon);		
 		/////////////////////////////////////////////

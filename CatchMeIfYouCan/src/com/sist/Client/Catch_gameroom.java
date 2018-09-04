@@ -12,7 +12,7 @@ class char_if
 	JLabel id,rank,score,icon;
 }
 
-public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener,Runnable {
+public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener {
 	static int k;
 	Image back;
 	JPanel draw,timer,color_Panel;  
@@ -28,8 +28,9 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	JButton out_btn;
 	JButton timer_btn = new JButton("타이머시작");
 	JButton qus_btn = new JButton("문제 끄기");
+	TimeThread t=new TimeThread();
 	
-	  
+	  static boolean bThread;
 	Catch_gameroom(){
 		
 		qus=new JLabel(new ImageIcon("image\\question.png"));
@@ -155,34 +156,19 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==timer_btn)
 		{
-			new Thread(this).start();
+			t=new TimeThread();
+			bThread=true;
+		    t.start();
 			qus.setVisible(false);
 		}
 		if(e.getSource()==qus_btn)
 		{
+			//t.interrupt();
+			bThread=false;
 			qus.setVisible(true);
 		}
 	}
-	public void run()
-	{
-		k = 150;
-        while(k!=-1)
-        {
-            try {
-                
-
-            	int minutes = k / 60;
-                int seconds = k % 60;
-                timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
-                System.out.printf("%d\n",k);
-                Thread.sleep(1000);
-                //timerLabel.repaint();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-            k--;
-        }
-	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -204,6 +190,29 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 		
 	}
 	
-
+   class TimeThread extends Thread
+   {
+	   public void run()
+		{
+			k = 150;
+	        while(bThread)
+	        {
+	        	 if(k<0)
+		            	interrupt();
+	            try {
+	            	int minutes = k / 60;
+	                int seconds = k % 60;
+	                timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
+	                System.out.printf("%d\n",k);
+	                Thread.sleep(1000);
+	                //timerLabel.repaint();
+	            } catch (InterruptedException e1) {
+	                e1.printStackTrace();
+	            }
+	           
+	            k--;
+	        }
+		}
+   }
 
 }

@@ -189,7 +189,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
             k--;
         }
         flag = false;
-		}
+		} 
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

@@ -26,7 +26,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	  
 	Catch_gameroom(){
 		setLayout(null);
-		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.jpg");
+		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
 
 		out_img=new ImageIcon("image\\newroombtn.png");
 	    out_btn=new JButton("",out_img);
@@ -56,12 +56,15 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		for(int i=0;i<color.length;i++)
 		{
 			ImageIcon img2 = new ImageIcon("image\\color\\"+(i+1)+".png");
-			color[i] = new JButton(img2);
+			Image img3 = getImageSizeChange(img2,25,28);
+			ImageIcon ii=new ImageIcon(img3);
+			color[i] = new JButton(ii);
+			color[i].setPreferredSize(new Dimension(25, 28));
 			color[i].setBorderPainted(false); 
 			color[i].setFocusPainted(false); 
 			color[i].setContentAreaFilled(false);
 			color_Panel.add(color[i]);
-			color_Panel.setOpaque(false);
+			//color_Panel.setOpaque(false);
 		}
 		
 		for(int i=0;i<char_group.length;i++)
@@ -93,7 +96,7 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 	    char_group[6].setBounds(1022, y1+240, 180, 110);
 	    char_group[7].setBounds(1022, y1+360, 180, 110);
 	    
-	    color_Panel.setBounds(235, 490, 450, 60);
+	    color_Panel.setBounds(265, 510, 220, 60);
 	    draw.setBounds(265, 110, 725, 370);
 	    timer.setBounds(265, 600, 150, 50);
 	    js3.setBounds(700,500,290,100);
@@ -106,6 +109,13 @@ public class Catch_gameroom extends JPanel implements ActionListener{
 		
 		tf.addActionListener(this);
 	}
+	 public Image getImageSizeChange(ImageIcon icon,int width,int height)
+	    {
+	          Image img=icon.getImage();
+	          Image change=img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	          return change;
+	    }
+	
 	 @Override
 	   protected void paintComponent(Graphics g) {
 	      g.drawImage(back, 0, 0, getWidth(), getHeight(), this);

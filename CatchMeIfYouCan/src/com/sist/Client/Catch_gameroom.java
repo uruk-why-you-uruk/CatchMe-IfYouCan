@@ -12,7 +12,7 @@ class char_if
 	JLabel id,rank,score,icon;
 }
 
-public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener {
+public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener,Runnable {
 	static int k;
 	Image back;
 	JPanel draw,timer,color_Panel;  
@@ -91,7 +91,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 		timerLabel.setText(String.valueOf(String.format("%02d:%02d",2, 30)));
 		timer_btn.setBounds(580, 580, 150, 150);
         timerLabel.setFont(new Font("Gothic",Font.ITALIC,50));
-        
+        timerLabel.setForeground(Color.WHITE);
 		int y1= 112;
 		//int y= 110;
 		char_group[0].setBounds(45, y1, 180, 110); 
@@ -142,21 +142,29 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==timer_btn)
 		{
-			k = 150;
-	        while(k!=-1)
-	        {
-	        	int minutes = k / 60;
-	            int seconds = k % 60;
-	            timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
-	            try {
-	                Thread.sleep(1000);
-	            } catch (InterruptedException e1) {
-	                e1.printStackTrace();
-	            }
-	            k--;
-	        }
+			new Thread(this).start();
 		}
 		
+	}
+	public void run()
+	{
+		k = 150;
+        while(k!=-1)
+        {
+            try {
+                
+
+            	int minutes = k / 60;
+                int seconds = k % 60;
+                timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
+                System.out.printf("%d\n",k);
+                Thread.sleep(1000);
+                //timerLabel.repaint();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            k--;
+        }
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

@@ -12,7 +12,7 @@ class char_if
    JLabel id,rank,score,icon;
 }
 
-public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener,Runnable {
+public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener {
    static int k;
    Image back;
    JPanel draw,timer,color_Panel;  
@@ -28,19 +28,20 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
    JButton out_btn;
    JButton timer_btn = new JButton("타이머시작");
    JButton qus_btn = new JButton("문제 끄기");
+   TimeThread t=new TimeThread();
    
-     
+     static boolean bThread;
    Catch_gameroom(){
-	   
-       qus=new JLabel(new ImageIcon("image\\question.png"));
-       qus.setBounds(265, 70, 197, 31);
-       add(qus);
+      
+      qus=new JLabel(new ImageIcon("image\\question.png"));
+      qus.setBounds(265, 70, 197, 31);
+      add(qus);
       
       
-       setLayout(null);
-       back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
+      setLayout(null);
+      back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
 
-       out_img=new ImageIcon("image\\roomexit.png");
+      out_img=new ImageIcon("image\\roomexit.png");
        out_btn=new JButton("",out_img);
 
        out_btn.setBounds(1060, 600, 115, 51);
@@ -51,7 +52,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
        qus_btn.setBackground(Color.YELLOW);
        add(qus_btn);
       
-       ta = new JTextArea();
+      ta = new JTextArea();
        JScrollPane js3 = new JScrollPane(ta);
        tf = new JTextField();
       //초기 값
@@ -126,6 +127,7 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
        setLayout(null);
       setVisible(true);
       
+      qus_btn.addMouseListener(this);
       timer_btn.addMouseListener(this);
       tf.addActionListener(this);
    }
@@ -154,36 +156,19 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
    public void mouseClicked(MouseEvent e) {
       if(e.getSource()==timer_btn)
       {
-         new Thread(this).start();
+         t=new TimeThread();
+         bThread=true;
+          t.start();
          qus.setVisible(false);
       }
       if(e.getSource()==qus_btn)
       {
-       
+         //t.interrupt();
+         bThread=false;
          qus.setVisible(true);
-         
       }
    }
-   public void run()
-   {
-      k = 150;
-        while(k!=-1)
-        {
-            try {
-                
-
-               int minutes = k / 60;
-                int seconds = k % 60;
-                timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
-                System.out.printf("%d\n",k);
-                Thread.sleep(1000);
-                //timerLabel.repaint();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-            k--;
-        }
-   }
+   
    @Override
    public void mousePressed(MouseEvent e) {
       // TODO Auto-generated method stub
@@ -205,6 +190,29 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
       
    }
    
-
+   class TimeThread extends Thread
+   {
+      public void run()
+      {
+         k = 150;
+           while(bThread)
+           {
+               if(k<0)
+                     interrupt();
+               try {
+                  int minutes = k / 60;
+                   int seconds = k % 60;
+                   timerLabel.setText(String.valueOf(String.format("%02d:%02d",minutes, seconds)));
+                   System.out.printf("%d\n",k);
+                   Thread.sleep(1000);
+                   //timerLabel.repaint();
+               } catch (InterruptedException e1) {
+                   e1.printStackTrace();
+               }
+              
+               k--;
+           }
+      }
+   }
 
 }

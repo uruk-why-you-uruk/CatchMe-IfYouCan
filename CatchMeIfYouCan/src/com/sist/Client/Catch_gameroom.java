@@ -14,6 +14,7 @@ class char_if
 
 public class Catch_gameroom  extends JPanel implements ActionListener,MouseListener {
    static int k;
+   boolean flag=false;
    Image back;
    JPanel draw,timer,color_Panel;  
    JLabel room_grade,chat,qus;
@@ -195,6 +196,9 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
       public void run()
       {
          k = 150;
+         if(flag == false)
+         {
+        	 flag = true;
            while(bThread)
            {
                if(k<0)
@@ -212,6 +216,8 @@ public class Catch_gameroom  extends JPanel implements ActionListener,MouseListe
               
                k--;
            }
+           flag = false;
+         }
       }
    }
 

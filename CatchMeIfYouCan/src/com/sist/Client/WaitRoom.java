@@ -21,18 +21,18 @@ public class WaitRoom extends JPanel implements ActionListener {
       setLayout(null); //사용자 지정 레이아웃으로 
       back = Toolkit.getDefaultToolkit().getImage("image\\waitingroom.png");//뒷배경화면
 
-      la1 = new JLabel("");
-      la2 = new JLabel("");
-      ta = new JTextArea();
-      JScrollPane js3 = new JScrollPane(ta);
-      tf = new JTextField();
+      la1 = new JLabel(""); 
+      la2 = new JLabel(""); 
+      ta = new JTextArea(); 
+      JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.
+      tf = new JTextField();      
+      b2 = new JButton("다음페이지");   
       
-      b2 = new JButton("다음페이지");      
-      //방만들기 버튼
-      mb=new ImageIcon("image\\newroombtn.png");
-      b1 = new JButton("",mb);      
+      
+      mb=new ImageIcon("image\\newroombtn.png");//방만들기 버튼 이미지
+      b1 = new JButton("",mb); //방만들기 버튼에 이미지 입히면서 초기화.
 
-      // table
+      // 방개설 테이블 
       String[] col1 = {"No", "방이름", "공개/비공개", "방인원" };
       String[][] row1 = new String[0][4];
       model1 = new DefaultTableModel(row1, col1);
@@ -45,7 +45,7 @@ public class WaitRoom extends JPanel implements ActionListener {
       table1.getTableHeader().setResizingAllowed(false); //크기변경불가
       JScrollPane js1 = new JScrollPane(table1);
       
-      
+      // 접속자 테이블 
       String[] col2 = { "닉네임", "방위치" };
       String[][] row2 = new String[0][2];
       model2 = new DefaultTableModel(row2, col2);
@@ -54,31 +54,32 @@ public class WaitRoom extends JPanel implements ActionListener {
       table2.getTableHeader().setResizingAllowed(false); //크기변경불가
       JScrollPane js2 = new JScrollPane(table2);
 
-      // 배치
+      // 방개설 테이블 배치
       la1.setBounds(30, 70, 100, 30);
       js1.setBounds(30, 95, 700, 300);
       js1.setOpaque(false);
       js1.getViewport().setOpaque(false);
-      //add(la1);
       add(js1);
 
+      // 접속자 테이블 배치
       la2.setBounds(820, 70, 130, 30);
       js2.setBounds(820, 95, 340, 350);
       js2.setOpaque(false);
       js2.getViewport().setOpaque(false);
-      //add(la2);
       add(js2);
       
-      
-      js3.setBounds(30, 450, 700, 225); // 채팅창
+      // 채팅창 뷰 배치
+      js3.setBounds(30, 450, 700, 225); 
       js3.setOpaque(true);
       add(js3);
-      tf.setBounds(30, 685, 700, 20); // 채팅치는곳
+      // 채팅치는곳 배치
+      tf.setBounds(30, 685, 700, 20); 
       tf.setOpaque(true);
       add(tf);
       
-      b1.setBounds(930, 645, 120, 50); //방만들기 버튼
-      b2.setBounds(930, 600, 120, 30);
+      
+      b1.setBounds(930, 645, 120, 50); //방만들기 버튼 위치
+      b2.setBounds(930, 600, 120, 30); //다음페이지 버튼 위치 //곧 사라질애
       
       b1.setOpaque(false);
       //이미지 뒤에 버튼 라인 안보이게 하는것
@@ -86,21 +87,18 @@ public class WaitRoom extends JPanel implements ActionListener {
       b1.setFocusPainted(false); 
       b1.setContentAreaFilled(false);
       
+      //버튼배치
       add(b1);
       add(b2);
 
       setSize(1251, 750);
       setVisible(true);
 
-      tf.addActionListener(this);
+      tf.addActionListener(this); //채팅치는곳 액션리스너
    }
 
    public static void main(String[] args) {
       WaitRoom wr = new WaitRoom();
-      try {
-         UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
-      } catch (Exception ex) {
-      } // 예외처리
    }
 
    @Override

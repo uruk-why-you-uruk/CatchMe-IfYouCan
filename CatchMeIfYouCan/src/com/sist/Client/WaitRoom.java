@@ -8,21 +8,21 @@ import java.io.File;
 import javax.swing.table.*;
 
 public class WaitRoom extends JPanel implements ActionListener {
-   Image back;
-   JLabel la1, la2;
-   JTable table1, table2;
-   DefaultTableModel model1, model2;
-   JTextArea ta;
-   JTextField tf;
-   JButton b1,b2;
-   ImageIcon mb;
+   Image back; //배경화면
+   JLabel la1, la2; //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨
+   JTable table1, table2; //table1 = 방개설 테이블 뷰,  table2 = 접속자 테이블 뷰
+   DefaultTableModel model1, model2; //테이블들의 row col설정 
+   JTextArea ta; //채팅창 뷰
+   JTextField tf; //채팅치는 곳
+   JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
+   ImageIcon mb; //방만들기버튼 이미지
 
    WaitRoom() {
-      setLayout(null);
-      back = Toolkit.getDefaultToolkit().getImage("image\\waitingroom.png");
+      setLayout(null); //사용자 지정 레이아웃으로 
+      back = Toolkit.getDefaultToolkit().getImage("image\\waitingroom.png");//뒷배경화면
 
-      la1 = new JLabel("방개설 정보");
-      la2 = new JLabel("접속자 정보");
+      la1 = new JLabel("");
+      la2 = new JLabel("");
       ta = new JTextArea();
       JScrollPane js3 = new JScrollPane(ta);
       tf = new JTextField();
@@ -33,16 +33,25 @@ public class WaitRoom extends JPanel implements ActionListener {
       b1 = new JButton("",mb);      
 
       // table
-      String[] col1 = { "방이름", "공개/비공개", "방인원" };
-      String[][] row1 = new String[0][3];
+      String[] col1 = {"No", "방이름", "공개/비공개", "방인원" };
+      String[][] row1 = new String[0][4];
       model1 = new DefaultTableModel(row1, col1);
       table1 = new JTable(model1);
+      table1.getColumn("No").setPreferredWidth(60);
+      table1.getColumn("방이름").setPreferredWidth(440); 
+      table1.getColumn("공개/비공개").setPreferredWidth(120);
+      table1.getColumn("방인원").setPreferredWidth(80);
+      table1.getTableHeader().setReorderingAllowed(false); // 이동 불가 
+      table1.getTableHeader().setResizingAllowed(false); //크기변경불가
       JScrollPane js1 = new JScrollPane(table1);
-
-      String[] col2 = { "아이디", "방위치" };
+      
+      
+      String[] col2 = { "닉네임", "방위치" };
       String[][] row2 = new String[0][2];
       model2 = new DefaultTableModel(row2, col2);
       table2 = new JTable(model2);
+      table2.getTableHeader().setReorderingAllowed(false); // 이동 불가 
+      table2.getTableHeader().setResizingAllowed(false); //크기변경불가
       JScrollPane js2 = new JScrollPane(table2);
 
       // 배치

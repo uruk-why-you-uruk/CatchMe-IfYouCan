@@ -13,7 +13,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 	public WaitRoom_NewRoom() {
 		setLayout(card);
 		add("WNP", wnp);
-
+		
 		setSize(600, 350);
 		card.show(getContentPane(), "WNP");
 		setUndecorated(true);

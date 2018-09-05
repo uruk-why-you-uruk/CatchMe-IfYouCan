@@ -52,7 +52,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		noButton.setBounds(305, 298, 85, 40);
 		noButton.setOpaque(false);
 		noButton.setBorderPainted(false); 
-		noButton.setFocusPainted(false); 
+		noButton.setFocusPainted(false);
 		noButton.setContentAreaFilled(false);		
 
 		add(okButton);

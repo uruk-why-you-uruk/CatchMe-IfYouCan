@@ -16,7 +16,7 @@ public class TimerTest extends JFrame{};
         c.add(timerLabel);
         this.setSize(300,150);
         this.setVisible(true);
-
+ 
         int k = 150;
         while(k!=-1)
         {

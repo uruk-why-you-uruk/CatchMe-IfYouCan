@@ -35,21 +35,23 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
 	Catch_gameroom() {
 
-		
+		// 출제자에게 보이는 문제 
 		qus = new JLabel(new ImageIcon("image\\question.png"));
 		qus.setBounds(265, 70, 197, 31);
 		add(qus);
 
 		setLayout(null);
+		// 배경이미지 출력
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
-
+		
+		// 나가기 버튼
 		out_img = new ImageIcon("image\\roomexit.png");
 		out_btn = new JButton("", out_img);
-
 		out_btn.setBounds(1060, 600, 115, 51);
 		out_btn.setBorderPainted(false);
 		add(out_btn);
-
+		
+		
 		qus_btn.setBounds(50, 600, 115, 51);
 		qus_btn.setBackground(Color.YELLOW);
 		add(qus_btn);
@@ -68,6 +70,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		chat = new JLabel();
 		tf = new JTextField();
 		color_Panel = new JPanel();
+		color_Panel.setOpaque(false);
 		color_Panel.setLayout(new FlowLayout());
 		for (int i = 0; i < color.length; i++) {
 			ImageIcon img2 = new ImageIcon("image\\color\\" + (i + 1) + ".png");
@@ -79,7 +82,6 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 			color[i].setFocusPainted(false);
 			color[i].setContentAreaFilled(false);
 			color_Panel.add(color[i]);
-			color_Panel.setOpaque(false);
 		}
 
 		for (int i = 0; i < char_group.length; i++) {

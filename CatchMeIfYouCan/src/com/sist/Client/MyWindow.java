@@ -69,7 +69,7 @@ public class MyWindow extends JFrame implements ActionListener {
 		if (e.getSource() == mv.b1) {
 			card.show(getContentPane(), "CS");
 		}
-		if (e.getSource() == cs.enter) {
+		if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
 			card.show(getContentPane(), "WR");
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.

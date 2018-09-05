@@ -25,8 +25,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	JTextArea ta;
 	JTextField tf;
 	JButton[] color = new JButton[6];
-	ImageIcon out_img;
-	JButton out_btn;
+	ImageIcon out_img, giveup, eraser;
+	JButton out_btn,giveup_btn, eraser_btn;
 	JButton timer_btn = new JButton("타이머시작");
 	JButton qus_btn = new JButton("문제 끄기");
 	TimeThread t = new TimeThread();
@@ -51,10 +51,27 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		out_btn.setBorderPainted(false);
 		add(out_btn);
 		
+		// 포기 버튼
+		giveup = new ImageIcon("image\\giveup_btn.png");
+		giveup_btn = new JButton(giveup);
+		giveup_btn.setBounds(790, 45, 67, 66);
+		giveup_btn.setBorderPainted(false);
+		giveup_btn.setContentAreaFilled(false);
+		add(giveup_btn);
+		
+		// 전체지우기 버튼
+		eraser = new ImageIcon("image\\eraser_btn.png");
+		eraser_btn = new JButton(eraser);
+		eraser_btn.setBounds(930, 50, 64, 70);
+		eraser_btn.setBorderPainted(false);
+		eraser_btn.setContentAreaFilled(false);
+		add(eraser_btn);
+		
 		
 		qus_btn.setBounds(50, 600, 115, 51);
 		qus_btn.setBackground(Color.YELLOW);
 		add(qus_btn);
+		
 
 		ta = new JTextArea();
 		JScrollPane js3 = new JScrollPane(ta);

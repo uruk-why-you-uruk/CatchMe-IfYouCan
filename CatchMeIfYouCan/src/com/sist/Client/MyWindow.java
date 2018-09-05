@@ -49,7 +49,7 @@ public class MyWindow extends JFrame implements ActionListener {
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
-	}     
+	}  
 
 	public static void main(String[] args) {
 		System.out.println("mywindow main ½ÇÇà");

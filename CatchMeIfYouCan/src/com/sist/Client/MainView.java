@@ -17,7 +17,7 @@ public class MainView extends JPanel implements MouseListener{
 	  // 
       back=Toolkit.getDefaultToolkit().getImage("image\\back.png");
  
-      la1=new JLabel("아이디");
+      la1=new JLabel("닉네임");
       la2=new JLabel("비밀번호");
       
       tf=new JTextField();

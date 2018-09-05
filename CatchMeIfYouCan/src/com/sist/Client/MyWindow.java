@@ -35,8 +35,6 @@ public class MyWindow extends JFrame implements ActionListener {
 		add("GR", gr);
 		add("WR", wr);
 
-		// add("MF",mf);
-
 		// 윈도우 크기
 		setSize(1251, 750);
 

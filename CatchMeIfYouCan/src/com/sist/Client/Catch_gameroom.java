@@ -239,7 +239,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 				flag = true;
 				while (bThread) {
 					if (k < 0)
-						interrupt();
+						break;
 					try {
 						int minutes = k / 60;
 						int seconds = k % 60;

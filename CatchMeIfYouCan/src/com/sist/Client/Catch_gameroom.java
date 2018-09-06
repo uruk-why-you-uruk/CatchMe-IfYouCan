@@ -16,15 +16,22 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	static int k;
 	boolean flag = false;
 	Image back;
+	// 버튼 및 컴포넌트를 담는 패널들
 	JPanel draw, timer, color_Panel;
+	// 라벨 선언
 	JLabel room_grade, chat, qus;
+	// 캐릭터 정보를 담는 클래스 배열
 	CharVO[] player = new CharVO[8];
+	// 캐릭터 정보를 출력해줄 라벨을 담는 클래스 배열
 	CharLabelVO[] char_group = new CharLabelVO[8];
+	
 	JLabel timerLabel = new JLabel("0");
-	// JLabel[] char_group = new JLabel[8];
+	// 채팅창을 위한 택스트필드 선언
 	JTextArea ta;
 	JTextField tf;
+	// 팔레트 버튼을 위한 버튼
 	JButton[] color = new JButton[6];
+	
 	ImageIcon out_img;
 	JButton out_btn;
 	JButton timer_btn = new JButton("타이머시작");
@@ -48,42 +55,54 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		out_img = new ImageIcon("image\\roomexit.png");
 		out_btn = new JButton("", out_img);
 		out_btn.setBounds(1060, 600, 115, 51);
-		out_btn.setBorderPainted(false);
+		out_btn.setBorderPainted(false); // 테두리 출력 없애기
 		add(out_btn);
 		
-		
+		// 
 		qus_btn.setBounds(50, 600, 115, 51);
 		qus_btn.setBackground(Color.YELLOW);
 		add(qus_btn);
-
+		
+		// 채팅창 선언
 		ta = new JTextArea();
-		JScrollPane js3 = new JScrollPane(ta);
+		JScrollPane js3 = new JScrollPane(ta); // 스크롤을 위해 감싸주는 컴포넌트
 		tf = new JTextField();
-		// 초기 값
-
+		
+		// 플레이어들의 정보를 담을 클래스 선언하기
 		for (int i = 0; i < 8; i++) {
 			player[i] = new CharVO();
 		}
+		
+		// 캐치마인드 그리는 부분
 		draw = new JPanel();
 		draw.setBackground(Color.BLACK);
+		
+		// 방장 표시하는 라벨
 		room_grade = new JLabel();
+		
+		// 채팅창 표시하는  부분
 		chat = new JLabel();
-		tf = new JTextField();
+		
+		// 팔레트 표현하는 부분
 		color_Panel = new JPanel();
-		color_Panel.setOpaque(false);
-		color_Panel.setLayout(new FlowLayout());
+		color_Panel.setOpaque(false); // 패널의 뒷배경 제거 
+		color_Panel.setLayout(new FlowLayout()); // 버튼을 옆으로 표시하기 위한 레이아웃 선언
+		
 		for (int i = 0; i < color.length; i++) {
+			// 버튼의 이미지 가져오기
 			ImageIcon img2 = new ImageIcon("image\\color\\" + (i + 1) + ".png");
 			Image img3 = getImageSizeChange(img2, 25, 28);
 			ImageIcon ii = new ImageIcon(img3);
+			//////////////////////////////////////////
 			color[i] = new JButton(ii);
-			color[i].setPreferredSize(new Dimension(25, 28));
+			color[i].setPreferredSize(new Dimension(25, 28)); // 이미지 크기 조절  
+			// 이미지 
 			color[i].setBorderPainted(false);
 			color[i].setFocusPainted(false);
 			color[i].setContentAreaFilled(false);
 			color_Panel.add(color[i]);
 		}
-
+		
 		for (int i = 0; i < char_group.length; i++) {
 			// ImageIcon img2 = new ImageIcon("image\\nickname.png");
 			char_group[i] = new CharLabelVO();
@@ -164,7 +183,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 			bThread = false;
 			qus.setVisible(true);
 		}
-	}
+	} 
 
 	@Override
 	public void mousePressed(MouseEvent e) {

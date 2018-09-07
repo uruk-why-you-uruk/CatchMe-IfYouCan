@@ -1,12 +1,20 @@
 package com.sist.Client;
 
 import javax.swing.*;
+
+import com.sist.Client.Client2.MyPanel;
 import com.sist.Vo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.io.OutputStream;
+import java.util.Vector;
 
 class char_if {
 	JLabel id, rank, score, icon;
@@ -17,7 +25,11 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	boolean flag = false;
 	Image back;
 	// 버튼 및 컴포넌트를 담는 패널들
-	JPanel draw, timer, color_Panel;
+	JPanel  draw,timer, color_Panel;
+	
+	// 그림판 부분
+	MyPanel draw_panel;
+	OutputStream out;
 	// 라벨 선언
 	JLabel room_grade, chat, qus;
 	// 캐릭터 정보를 담는 클래스 배열
@@ -31,6 +43,9 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	JTextField tf;
 	// 팔레트 버튼을 위한 버튼
 	JButton[] color = new JButton[6];
+	
+	// 그림그리는 포인트를 저장하는 컬랙션(Vector)
+	Vector<Point> vStart = new Vector<Point>();
 
 	ImageIcon out_img, giveup, eraser;
 	JButton out_btn,giveup_btn, eraser_btn;
@@ -40,6 +55,94 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	TimeThread t = new TimeThread();
 
 	static boolean bThread;
+	class MyPanel extends JPanel {
+
+		public MyPanel() {
+
+			addKeyListener(new KeyListener() {
+
+				@Override
+
+				public void keyTyped(KeyEvent e) {
+
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+
+					// TODO Auto-generated method stub
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					switch (e.getKeyCode()) {
+					case KeyEvent.VK_ENTER:
+						vStart.removeAllElements();
+						repaint();
+						break;
+					}
+				}
+			});
+
+			addMouseMotionListener(new MouseMotionAdapter() {
+				public void mouseDragged(MouseEvent e) {
+					vStart.add(e.getPoint());
+					try {
+						out.write(("200|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+					} catch (Exception ex) {
+					}
+					repaint();
+				}
+			});
+
+			// 마우스 이벤트 처리
+			addMouseListener(new MouseAdapter() {
+				// 마우스를 누르면 호출된다.
+				public void mousePressed(MouseEvent e) {
+					vStart.add(null);
+					vStart.add(e.getPoint());
+					try {
+						out.write(("100|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+					} catch (Exception ex) {
+					}
+					System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
+				}
+			});
+		}
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.BLUE); // 파란색을 선택한다.
+			for (int i = 1; i < vStart.size(); i++) {
+				if (vStart.get(i - 1) == null)
+					continue;
+				else if (vStart.get(i) == null)
+					continue;
+				else {
+					/*
+					 * System.out.println("x="+(int) vStart.get(i - 1).getX());
+					 * System.out.println("x="+(int) vStart.get(i - 1).getY());
+					 * System.out.println("x="+(int) vStart.get(i).getX());
+					 * System.out.println("x="+(int) vStart.get(i).getY());
+					 */
+
+					/*
+					 * try { out.write(((int) vStart.get(i - 1).getX()+"|" +(int) vStart.get(i -
+					 * 1).getY()+"|" +(int) vStart.get(i).getX()+"|" +(int)
+					 * vStart.get(i).getY()+"\n").getBytes()); }catch(Exception ex){
+					 * System.out.println(ex.getMessage()); }
+					 */
+
+					g.drawLine((int) vStart.get(i - 1).getX(), (int) vStart.get(i - 1).getY(),
+							(int) vStart.get(i).getX(), (int) vStart.get(i).getY());
+				}
+			}
+		}
+
+	}
 
 	Catch_gameroom() {
 
@@ -98,7 +201,10 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		
 		// 캐치마인드 그리는 부분
 		draw = new JPanel();
-		draw.setBackground(Color.BLACK);
+		draw_panel = new MyPanel();
+		draw_panel.setFocusable(true);
+		draw.add(draw_panel);
+
 		
 		// 방장 표시하는 라벨
 		room_grade = new JLabel();

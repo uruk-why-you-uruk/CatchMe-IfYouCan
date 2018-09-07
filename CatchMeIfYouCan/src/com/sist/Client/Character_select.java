@@ -74,9 +74,9 @@ public class Character_select extends JPanel {
 			jb[i].addMouseListener(a);
 		}
 
-		firstline.setBounds(250, 250, 1000, 125);
-		secondline.setBounds(250, 390, 1000, 125);
-		thirdline.setBounds(250, 530, 1000, 125);
+		firstline.setBounds(300, 250, 1000, 125);
+		secondline.setBounds(300, 390, 1000, 125);
+		thirdline.setBounds(300, 530, 1000, 125);
 
 		add(enter);
 

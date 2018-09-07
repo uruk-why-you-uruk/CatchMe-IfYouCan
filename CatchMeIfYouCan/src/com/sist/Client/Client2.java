@@ -7,34 +7,6 @@ import java.awt.event.*;
 import java.net.*;
 import java.io.*;
 
-public class Client2 extends JFrame implements ActionListener,Runnable{
-  JButton b1,b2;
-  int start=0;
-  Socket s;
-  BufferedReader in;
-  OutputStream out;
-  Vector<Point> vStart = new Vector<Point>();
-  Client2() {
-  b1=new JButton("접속");
-  b2=new JButton("취소");
-  
-  JPanel p=new JPanel();
-  p.add(b1);
-  p.add(b2);
-  add("North",p);
-  setTitle("마우스로 곡선 그리기");
-  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  MyPanel t = new MyPanel();
-  //setContentPane(t);
-  add("Center",t);
-  t.setFocusable(true);
-  setSize(742, 405);
-  setVisible(true);
-  
-  b1.addActionListener(this);
-  b2.addActionListener(this);
- }
-
 public class Client2 extends JFrame implements ActionListener, Runnable {
 	JButton b1, b2;
 	int start = 0;

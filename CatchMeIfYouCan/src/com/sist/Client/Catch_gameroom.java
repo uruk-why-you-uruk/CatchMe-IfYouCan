@@ -1,30 +1,43 @@
 package com.sist.Client;
 
 import javax.swing.*;
+
+import com.sist.Client.Client2.MyPanel;
 import com.sist.Vo.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.io.OutputStream;
+import java.util.Vector;
 
 class char_if {
 	JLabel id, rank, score, icon;
 }
 
-public class Catch_gameroom extends JPanel implements ActionListener, MouseListener {
+public class Catch_gameroom extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 	static int k;
 	boolean flag = false;
 	Image back;
 	// 버튼 및 컴포넌트를 담는 패널들
 	JPanel draw, timer, color_Panel;
+
+	// 그림판 부분
+	MyPanel draw_panel;
+	OutputStream out;
 	// 라벨 선언
 	JLabel room_grade, chat, qus;
 	// 캐릭터 정보를 담는 클래스 배열
 	CharVO[] player = new CharVO[8];
 	// 캐릭터 정보를 출력해줄 라벨을 담는 클래스 배열
 	CharLabelVO[] char_group = new CharLabelVO[8];
-	
+
 	JLabel timerLabel = new JLabel("0");
 	// 채팅창을 위한 택스트필드 선언
 	JTextArea ta;
@@ -32,8 +45,11 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	// 팔레트 버튼을 위한 버튼
 	JButton[] color = new JButton[6];
 
+	// 그림그리는 포인트를 저장하는 컬랙션(Vector)
+	Vector<Point> vStart = new Vector<Point>();
+
 	ImageIcon out_img, giveup, eraser;
-	JButton out_btn,giveup_btn, eraser_btn;
+	JButton out_btn, giveup_btn, eraser_btn;
 
 	JButton timer_btn = new JButton("타이머시작");
 	JButton qus_btn = new JButton("문제 끄기");
@@ -41,9 +57,43 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
 	static boolean bThread;
 
+	class MyPanel extends JPanel {
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.BLUE); // 파란색을 선택한다.
+			for (int i = 1; i < vStart.size(); i++) {
+				if (vStart.get(i - 1) == null)
+					continue;
+				else if (vStart.get(i) == null)
+					continue;
+				else {
+					/*
+					 * System.out.println("x="+(int) vStart.get(i - 1).getX());
+					 * System.out.println("x="+(int) vStart.get(i - 1).getY());
+					 * System.out.println("x="+(int) vStart.get(i).getX());
+					 * System.out.println("x="+(int) vStart.get(i).getY());
+					 */
+
+					/*
+					 * try { out.write(((int) vStart.get(i - 1).getX()+"|" +(int) vStart.get(i -
+					 * 1).getY()+"|" +(int) vStart.get(i).getX()+"|" +(int)
+					 * vStart.get(i).getY()+"\n").getBytes()); }catch(Exception ex){
+					 * System.out.println(ex.getMessage()); }
+					 */
+
+					g.drawLine((int) vStart.get(i - 1).getX(), (int) vStart.get(i - 1).getY(),
+							(int) vStart.get(i).getX(), (int) vStart.get(i).getY());
+				}
+			}
+		}
+		
+
+	}
+
 	Catch_gameroom() {
 
-		// 출제자에게 보이는 문제 
+		// 출제자에게 보이는 문제
 		qus = new JLabel(new ImageIcon("image\\question.png"));
 		qus.setBounds(265, 70, 197, 31);
 		add(qus);
@@ -51,14 +101,13 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		setLayout(null);
 		// 배경이미지 출력
 		back = Toolkit.getDefaultToolkit().getImage("image\\gamm.png");
-		
+
 		// 나가기 버튼
 		out_img = new ImageIcon("image\\roomexit.png");
 		out_btn = new JButton("", out_img);
 		out_btn.setBounds(1060, 600, 115, 51);
 		out_btn.setBorderPainted(false); // 테두리 출력 없애기
 		add(out_btn);
-		
 
 		// 포기 버튼
 		giveup = new ImageIcon("image\\giveup_btn.png");
@@ -67,7 +116,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		giveup_btn.setBorderPainted(false);
 		giveup_btn.setContentAreaFilled(false);
 		add(giveup_btn);
-		
+
 		// 전체지우기 버튼
 		eraser = new ImageIcon("image\\eraser_btn.png");
 		eraser_btn = new JButton(eraser);
@@ -75,42 +124,39 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		eraser_btn.setBorderPainted(false);
 		eraser_btn.setContentAreaFilled(false);
 		add(eraser_btn);
-		
-		
 
 		qus_btn.setBounds(50, 600, 115, 51);
 		qus_btn.setBackground(Color.YELLOW);
 		add(qus_btn);
-		
 
 		// 채팅창 선언
-
-
 
 		ta = new JTextArea();
 		JScrollPane js3 = new JScrollPane(ta); // 스크롤을 위해 감싸주는 컴포넌트
 		tf = new JTextField();
-		
+
 		// 플레이어들의 정보를 담을 클래스 선언하기
 		for (int i = 0; i < 8; i++) {
 			player[i] = new CharVO();
 		}
-		
+
 		// 캐치마인드 그리는 부분
 		draw = new JPanel();
-		draw.setBackground(Color.BLACK);
-		
+		draw_panel = new MyPanel();
+		draw_panel.setFocusable(true);
+		draw.add(draw_panel);
+
 		// 방장 표시하는 라벨
 		room_grade = new JLabel();
-		
-		// 채팅창 표시하는  부분
+
+		// 채팅창 표시하는 부분
 		chat = new JLabel();
-		
+
 		// 팔레트 표현하는 부분
 		color_Panel = new JPanel();
-		color_Panel.setOpaque(false); // 패널의 뒷배경 제거 
+		color_Panel.setOpaque(false); // 패널의 뒷배경 제거
 		color_Panel.setLayout(new FlowLayout()); // 버튼을 옆으로 표시하기 위한 레이아웃 선언
-		
+
 		for (int i = 0; i < color.length; i++) {
 			// 버튼의 이미지 가져오기
 			ImageIcon img2 = new ImageIcon("image\\color\\" + (i + 1) + ".png");
@@ -118,14 +164,14 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 			ImageIcon ii = new ImageIcon(img3);
 			//////////////////////////////////////////
 			color[i] = new JButton(ii);
-			color[i].setPreferredSize(new Dimension(25, 28)); // 이미지 크기 조절  
-			// 이미지 
+			color[i].setPreferredSize(new Dimension(25, 28)); // 이미지 크기 조절
+			// 이미지
 			color[i].setBorderPainted(false);
 			color[i].setFocusPainted(false);
 			color[i].setContentAreaFilled(false);
 			color_Panel.add(color[i]);
 		}
-		
+
 		for (int i = 0; i < char_group.length; i++) {
 			// ImageIcon img2 = new ImageIcon("image\\nickname.png");
 			char_group[i] = new CharLabelVO();
@@ -170,6 +216,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 		qus_btn.addMouseListener(this);
 		timer_btn.addMouseListener(this);
 		tf.addActionListener(this);
+		draw_panel.addMouseListener(this);
+		draw_panel.addMouseMotionListener(this);
 	}
 
 	public Image getImageSizeChange(ImageIcon icon, int width, int height) {
@@ -206,11 +254,20 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 			bThread = false;
 			qus.setVisible(true);
 		}
-	} 
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == draw_panel) {
+			vStart.add(null);
+			vStart.add(e.getPoint());
+			try {
+				out.write(("100|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+			} catch (Exception ex) {
+			}
+			draw_panel.repaint();
+			System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
+		}
 
 	}
 
@@ -235,6 +292,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	class TimeThread extends Thread {
 		public void run() {
 			k = 150;
+			draw_panel.repaint();
 			if (flag == false) {
 				flag = true;
 				while (bThread) {
@@ -256,6 +314,26 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 				flag = false;
 			}
 		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(e.getSource()==draw_panel)
+		{
+		vStart.add(e.getPoint());
+		try {
+			out.write(("200|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+		} catch (Exception ex) {
+		}
+		draw_panel.repaint();
+	}
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -66,7 +66,7 @@ public class WaitRoom extends JPanel implements ActionListener {
 
       // 방개설 테이블 배치
       la1.setBounds(30, 70, 100, 30);
-      js1.setBounds(30, 95, 700, 300);
+      js1.setBounds(30, 95, 700, 307);
       js1.setOpaque(false);
       js1.getViewport().setOpaque(false);
       add(js1);
@@ -79,7 +79,7 @@ public class WaitRoom extends JPanel implements ActionListener {
       add(js2);
       
       // 채팅창 뷰 배치
-      js3.setBounds(30, 450, 700, 225); 
+      js3.setBounds(30, 440, 700, 237); 
       js3.setOpaque(true);
       add(js3);
       // 채팅치는곳 배치

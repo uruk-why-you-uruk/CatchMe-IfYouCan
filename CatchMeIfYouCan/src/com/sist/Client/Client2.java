@@ -136,7 +136,7 @@ public void actionPerformed(ActionEvent e) {
 	{
 		try
 		{
-			s=new Socket("211.238.142.46",3355);
+			s=new Socket("211.238.142.66",3955);
 			in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out=s.getOutputStream();
 			b1.setEnabled(false);

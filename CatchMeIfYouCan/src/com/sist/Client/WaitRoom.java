@@ -8,14 +8,15 @@ import java.io.File;
 import javax.swing.table.*;
 
 public class WaitRoom extends JPanel implements ActionListener {
-   Image back; //배경화면
-   JLabel la1, la2; //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨
-   JTable table1, table2; //table1 = 방개설 테이블 뷰,  table2 = 접속자 테이블 뷰
-   DefaultTableModel model1, model2; //테이블들의 row col설정 
-   JTextArea ta; //채팅창 뷰
-   JTextField tf; //채팅치는 곳
-   JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
-   ImageIcon mb; //방만들기버튼 이미지
+	   Image back; //배경화면
+	   JLabel la1, la2, mc, nickName, rank; 
+	   //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨,  mc=내 캐릭터이미지,  nickName =닉네임,    rank=등급
+	   JTable table1, table2; //table1 = 방개설 테이블 뷰,  table2 = 접속자 테이블 뷰
+	   DefaultTableModel model1, model2; //테이블들의 row col설정 
+	   JTextArea ta; //채팅창 뷰
+	   JTextField tf; //채팅치는 곳
+	   JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
+	   ImageIcon mb, ci, rankI; //방만들기버튼 이미지, 대기실 캐릭터 이미지. , 등급이미지
 
    WaitRoom() {
       setLayout(null); //사용자 지정 레이아웃으로 
@@ -26,11 +27,20 @@ public class WaitRoom extends JPanel implements ActionListener {
       ta = new JTextArea(); 
       JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.
       tf = new JTextField();      
-      b2 = new JButton("다음페이지");   
+      b2 = new JButton("다음페이지"); 
+      mc = new JLabel("");
+      nickName = new JLabel("닉네임");
+      rank = new JLabel("");
       
       
       mb=new ImageIcon("image\\newroombtn.png");//방만들기 버튼 이미지
       b1 = new JButton("",mb); //방만들기 버튼에 이미지 입히면서 초기화.
+      ci=new ImageIcon("image\\jam.png");
+      rankI=new ImageIcon("image\\RANK\\FF.png");
+      Image  img = getImageSizeChange(ci, 90, 90);
+      mc.setIcon(new ImageIcon(img));
+      img = getImageSizeChange(rankI, 20, 20);
+      rank.setIcon(new ImageIcon(img));
 
       // 방개설 테이블 
       String[] col1 = {"No", "방이름", "공개/비공개", "방인원" };
@@ -90,6 +100,17 @@ public class WaitRoom extends JPanel implements ActionListener {
       //버튼배치
       add(b1);
       add(b2);
+      
+    //My Info~
+      mc.setBounds(876, 510, 90, 90);
+      mc.setOpaque(false);
+      nickName.setBounds(1025, 540, 40, 14);
+      nickName.setOpaque(false);
+      rank.setBounds(1035, 570, 20, 20);
+      rank.setOpaque(false);
+      add(mc);
+      add(nickName);
+      add(rank);
 
       setSize(1251, 750);
       setVisible(true);
@@ -99,6 +120,13 @@ public class WaitRoom extends JPanel implements ActionListener {
 
    public static void main(String[] args) {
       WaitRoom wr = new WaitRoom();
+   }
+   
+   public Image getImageSizeChange(ImageIcon icon,int width,int height)
+   {
+         Image img=icon.getImage();
+         Image change=img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+         return change;
    }
 
    @Override

@@ -64,7 +64,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
 		noButton.setContentAreaFilled(false);	
 		add(noButton);			
 	}	
-	//백그라운드 배경화면 : 클래스파일 오른쪽 클릭 -> Source->Override어찌고 ->paincomponent
+	//백그라운드 배경화면 : 클래스파일 오른쪽 클릭 -> Source->Override어찌고 ->paintComponent
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(back, 0, 0, getWidth(), getHeight(), this);

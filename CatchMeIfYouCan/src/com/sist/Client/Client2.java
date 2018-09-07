@@ -26,7 +26,7 @@ public class Client2 extends JFrame implements ActionListener,Runnable{
   //setContentPane(t);
   add("Center",t);
   t.setFocusable(true);
-  setSize(300, 300);
+  setSize(742, 405);
   setVisible(true);
   
   b1.addActionListener(this);

@@ -107,12 +107,12 @@ public class Client2 extends JFrame implements ActionListener, Runnable {
 				else if (vStart.get(i) == null)
 					continue;
 				else {
-					/*
-					 * System.out.println("x="+(int) vStart.get(i - 1).getX());
-					 * System.out.println("x="+(int) vStart.get(i - 1).getY());
-					 * System.out.println("x="+(int) vStart.get(i).getX());
-					 * System.out.println("x="+(int) vStart.get(i).getY());
-					 */
+					
+					 System.out.println("x="+(int) vStart.get(i - 1).getX());
+					 System.out.println("x="+(int) vStart.get(i - 1).getY());
+					 System.out.println("x="+(int) vStart.get(i).getX());
+					 System.out.println("x="+(int) vStart.get(i).getY());
+					 
 
 					/*
 					 * try { out.write(((int) vStart.get(i - 1).getX()+"|" +(int) vStart.get(i -

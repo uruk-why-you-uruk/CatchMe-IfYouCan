@@ -1,5 +1,6 @@
 package com.sist.Server;
 import java.util.*;
+import com.sist.common.*;
 import java.io.*;
 import java.net.*;
 public class Server implements Runnable{
@@ -9,7 +10,7 @@ public class Server implements Runnable{
 	{
 		try
 		{
-			ss=new ServerSocket(3355);
+			ss=new ServerSocket(7339);
 			System.out.println("서버 가동...");
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
@@ -60,8 +61,18 @@ public class Server implements Runnable{
     			{
     				
     				String msg=in.readLine();
-    				System.out.println(msg);
-    				
+    				StringTokenizer st=new StringTokenizer(msg, "|");
+    	            int no=Integer.parseInt(st.nextToken());
+
+    	            switch(no)
+    	               {
+    	                 case Function.LOGIN:
+    	                 {
+    	                  
+    	                 }break;
+    	                 
+    	               }
+
     				for(int i=0;i<waitVc.size();i++)
     				{
     					Client user=waitVc.elementAt(i);

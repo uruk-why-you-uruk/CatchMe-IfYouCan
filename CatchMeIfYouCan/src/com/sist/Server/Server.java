@@ -18,7 +18,6 @@ public class Server implements Runnable{
    }
    public void run()
    {
-	   //접속자 정보 저장!
       try
       {
          while(true)
@@ -39,10 +38,10 @@ public class Server implements Runnable{
    
     class Client extends Thread
     {
-    	//클라이언트의 통신
        Socket s;
-       OutputStream out;  //클라이언트 송신
-       BufferedReader in; //클라이언트 수신
+       OutputStream out;
+       
+       BufferedReader in;
        public Client(Socket s)
        {
           try
@@ -56,11 +55,11 @@ public class Server implements Runnable{
        }
        public void run()
        {
-    	   //통신
           try
           {
              while(true)
-             {           
+             {
+                
                 String msg=in.readLine();
                 StringTokenizer st=new StringTokenizer(msg, "|");
                    int no=Integer.parseInt(st.nextToken());
@@ -76,7 +75,7 @@ public class Server implements Runnable{
 
                 for(int i=0;i<waitVc.size();i++)
                 {
-                   Client user=waitVc.elementAt(i);
+                   Client user=waitVc.elementAt(i);  
                    if(user!=this)
                    {
                      user.out.write((msg+"\n").getBytes());

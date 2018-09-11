@@ -269,90 +269,90 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
    class MyPanel extends JPanel {
 
-		public MyPanel() {
+      public MyPanel() {
 
-			addKeyListener(new KeyListener() {
+         addKeyListener(new KeyListener() {
 
-				@Override
+            @Override
 
-				public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e) {
 
-					// TODO Auto-generated method stub
+               // TODO Auto-generated method stub
 
-				}
+            }
 
-				@Override
-				public void keyReleased(KeyEvent e) {
+            @Override
+            public void keyReleased(KeyEvent e) {
 
-					// TODO Auto-generated method stub
-				}
+               // TODO Auto-generated method stub
+            }
 
-				@Override
-				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					switch (e.getKeyCode()) {
-					case KeyEvent.VK_ENTER:
-						vStart.removeAllElements();
-						repaint();
-						break;
-					}
-				}
-			});
+            @Override
+            public void keyPressed(KeyEvent e) {
+               // TODO Auto-generated method stub
+               switch (e.getKeyCode()) {
+               case KeyEvent.VK_ENTER:
+                  vStart.removeAllElements();
+                  repaint();
+                  break;
+               }
+            }
+         });
 
-			addMouseMotionListener(new MouseMotionAdapter() {
-				public void mouseDragged(MouseEvent e) {
-					vStart.add(e.getPoint());
-					try {
-						out.write(("200|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
-					} catch (Exception ex) {
-					}
-					repaint();
-				}
-			});
+         addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+               vStart.add(e.getPoint());
+               try {
+                  out.write(("200|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+               } catch (Exception ex) {
+               }
+               repaint();
+            }
+         });
 
-			// 마우스 이벤트 처리
-			addMouseListener(new MouseAdapter() {
-				// 마우스를 누르면 호출된다.
-				public void mousePressed(MouseEvent e) {
-					vStart.add(null);
-					vStart.add(e.getPoint());
-					try {
-						out.write(("100|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
-					} catch (Exception ex) {
-					}
-					System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
-				}
-			});
-		}
+         // 마우스 이벤트 처리
+         addMouseListener(new MouseAdapter() {
+            // 마우스를 누르면 호출된다.
+            public void mousePressed(MouseEvent e) {
+               vStart.add(null);
+               vStart.add(e.getPoint());
+               try {
+                  out.write(("100|" + e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+               } catch (Exception ex) {
+               }
+               System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
+            }
+         });
+      }
 
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.setColor(Color.BLUE); // 파란색을 선택한다.
-			for (int i = 1; i < vStart.size(); i++) {
-				if (vStart.get(i - 1) == null)
-					continue;
-				else if (vStart.get(i) == null)
-					continue;
-				else {
-					
-					 System.out.println("x="+(int) vStart.get(i - 1).getX());
-					 System.out.println("x="+(int) vStart.get(i - 1).getY());
-					 System.out.println("x="+(int) vStart.get(i).getX());
-					 System.out.println("x="+(int) vStart.get(i).getY());
-					 
+      public void paintComponent(Graphics g) {
+         super.paintComponent(g);
+         g.setColor(Color.BLUE); // 파란색을 선택한다.
+         for (int i = 1; i < vStart.size(); i++) {
+            if (vStart.get(i - 1) == null)
+               continue;
+            else if (vStart.get(i) == null)
+               continue;
+            else {
+               
+                System.out.println("x="+(int) vStart.get(i - 1).getX());
+                System.out.println("x="+(int) vStart.get(i - 1).getY());
+                System.out.println("x="+(int) vStart.get(i).getX());
+                System.out.println("x="+(int) vStart.get(i).getY());
+                
 
-					/*
-					 * try { out.write(((int) vStart.get(i - 1).getX()+"|" +(int) vStart.get(i -
-					 * 1).getY()+"|" +(int) vStart.get(i).getX()+"|" +(int)
-					 * vStart.get(i).getY()+"\n").getBytes()); }catch(Exception ex){
-					 * System.out.println(ex.getMessage()); }
-					 */
+               /*
+                * try { out.write(((int) vStart.get(i - 1).getX()+"|" +(int) vStart.get(i -
+                * 1).getY()+"|" +(int) vStart.get(i).getX()+"|" +(int)
+                * vStart.get(i).getY()+"\n").getBytes()); }catch(Exception ex){
+                * System.out.println(ex.getMessage()); }
+                */
 
-					g.drawLine((int) vStart.get(i - 1).getX(), (int) vStart.get(i - 1).getY(),
-							(int) vStart.get(i).getX(), (int) vStart.get(i).getY());
-				}
-			}
-		}
+               g.drawLine((int) vStart.get(i - 1).getX(), (int) vStart.get(i - 1).getY(),
+                     (int) vStart.get(i).getX(), (int) vStart.get(i).getY());
+            }
+         }
+      }
 
-	}
+   }
 }

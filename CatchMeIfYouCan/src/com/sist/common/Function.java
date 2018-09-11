@@ -39,6 +39,6 @@ public class Function {
     public static final int GAMEEND=540;//(모든 라운드 끝)
     // 채팅 관련
     public static final int CHAT=700;//채팅하기
-    public static final int LOGOUT=900;//클라이언트종료???
+    public static final int LOGOUT=900;//클라이언트종료??
     
 }

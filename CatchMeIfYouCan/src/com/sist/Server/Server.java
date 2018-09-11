@@ -75,7 +75,7 @@ public class Server implements Runnable{
 
     				for(int i=0;i<waitVc.size();i++)
     				{
-    					Client user=waitVc.elementAt(i);
+    					Client user=waitVc.elementAt(i);  
     					if(user!=this)
     					{
     					  user.out.write((msg+"\n").getBytes());

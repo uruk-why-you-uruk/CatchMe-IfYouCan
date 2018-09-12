@@ -23,6 +23,8 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
+import com.sist.common.Function;
+
 public class MyWindow extends JFrame implements ActionListener, Runnable{
 	// 윈도우 설정
 	MainView mv = new MainView();
@@ -54,11 +56,15 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		setVisible(true);
 		setResizable(false);// 크기변경 제한
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		// 리스너와 쓰래드 시작
+		new Thread(this).start();
 		mv.b1.addActionListener(this);		
 		cs.enter.addActionListener(this); 
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
+		
 	}  
 
 	public static void main(String[] args) {
@@ -84,8 +90,10 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 	               // byte ==> 2byte
 	            out=s.getOutputStream();
+	            System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
+	            out.write((Function.LOGIN+"|"+mv.tf.getText()+"\n").getBytes());
 	         }catch(Exception ex) {}
-	         new Thread(this).start();
+			 
 
 			card.show(getContentPane(), "CS");
 		}
@@ -112,6 +120,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		 while(true)
          {
             String msg=in.readLine();
+            System.out.println(msg);
             StringTokenizer st=new StringTokenizer(msg, "|");
             int no=Integer.parseInt(st.nextToken());
             switch(no)

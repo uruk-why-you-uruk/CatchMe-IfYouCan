@@ -8,16 +8,16 @@ import java.io.File;
 import javax.swing.table.*;
 
 public class WaitRoom extends JPanel {
-	   Image back; //배경화면
-	   JLabel la1, la2, mc, nickName, rank; 
-	   //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨,  mc=내 캐릭터이미지,  nickName =닉네임,    rank=등급
-	   JTable table1, table2; //table1 = 방개설 테이블 뷰,  table2 = 접속자 테이블 뷰
-	   DefaultTableModel model1, model2; //테이블들의 row col설정 
-	   JTextArea ta; //채팅창 뷰
-	   JTextField tf; //채팅치는 곳
-	   JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
-	   ImageIcon mb, ci, rankI; //방만들기버튼 이미지, 대기실 캐릭터 이미지. , 등급이미지
-	   JScrollBar bar;
+      Image back; //배경화면
+      JLabel la1, la2, mc, nickName, rank; 
+      //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨,  mc=내 캐릭터이미지,  nickName =닉네임,    rank=등급
+      JTable table1, table2; //table1 = 방개설 테이블 뷰,  table2 = 접속자 테이블 뷰
+      DefaultTableModel model1, model2; //테이블들의 row col설정 
+      JTextArea ta; //채팅창 뷰
+      JTextField tf; //채팅치는 곳
+      JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
+      ImageIcon mb, ci, rankI; //방만들기버튼 이미지, 대기실 캐릭터 이미지. , 등급이미지
+      JScrollBar bar;
 
    WaitRoom() {
       setLayout(null); //사용자 지정 레이아웃으로 
@@ -26,13 +26,13 @@ public class WaitRoom extends JPanel {
       la1 = new JLabel(""); 
       la2 = new JLabel(""); 
       ta=new JTextArea();
-  	  ta.setEditable(false);
-  	  
+       ta.setEditable(false);
+       
       ta = new JTextArea();  
       ta.setEditable(false); //편집 못하게 하기!!! 왜안돼   
       JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.   
       
-  	  bar=js3.getVerticalScrollBar();
+       bar=js3.getVerticalScrollBar();
       tf = new JTextField();      
       b2 = new JButton("다음페이지"); 
       mc = new JLabel("");

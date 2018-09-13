@@ -1,15 +1,11 @@
 package com.sist.Client;
 
-// 윈도우가 위치하는 위치
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
-import java.net.Socket;
-import java.util.Vector;
+// 윈도우가 위치하는 위치
+import java.awt.*;
 
 // JDK 1.2 이전에 개발된 라이브러리(java), 이후에 개발된 라이브러리(javax => xml,sql)
 // 윈도우 기능을 전체 사용하고 싶다. : 상속
@@ -21,17 +17,19 @@ import java.util.Vector;
  *      JDialog : 닫기버튼만 있을때
  *      JWindow : 타이틀바가 없는 것 => 홍보할때 
  */
-import javax.swing.JFrame;
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.net.Socket;
+import java.util.Vector;
 
 import com.sist.common.Function;
 
 public class MyWindow extends JFrame implements ActionListener, Runnable{
 	// 윈도우 설정
+	static int charno=0;
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
-	WaitRoom_NewRoom_Panel wrnp=new WaitRoom_NewRoom_Panel();
+	WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
@@ -59,12 +57,14 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		setResizable(false);// 크기변경 제한
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-
+		// 리스너와 쓰래드 시작
+		//new Thread(this).start();
 		mv.b1.addActionListener(this);		
 		cs.enter.addActionListener(this); 
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
+		
 	}  
 
 	public static void main(String[] args) {
@@ -86,31 +86,33 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 			// 버튼 누르면 
 			 try
 	         {
-	            s=new Socket("211.238.142.65", 7339);
+	            s=new Socket("211.238.142.66", 7339);
 	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 	               // byte ==> 2byte
 	            out=s.getOutputStream();
-	            System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
+	            //System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
 	            out.write((Function.LOGIN+"|"+mv.tf.getText()+"\n").getBytes());
-	            
 	         }catch(Exception ex) {}
 			 new Thread(this).start();
+			 
 
-			card.show(getContentPane(), "CS");
+			
 		}
 		if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
+			
+			
 			card.show(getContentPane(), "WR");
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
 			wrn.wnp.roomName.setText("");
-			wrn.wnp.roomPsw.setText("");
-			wrn.wnp.open.setSelected(true);
-			wrn.wnp.roomPsw.setBackground(Color.GRAY);
-			wrn.wnp.roomPsw.setEditable(true);
-			wrn.setLocationRelativeTo(null);
-			wrn.setVisible(true);
+	         wrn.wnp.roomPsw.setText("");
+	         wrn.wnp.open.setSelected(true);
+	         wrn.wnp.roomPsw.setBackground(Color.GRAY);
+	         wrn.wnp.roomPsw.setEditable(true);
+	         wrn.setLocationRelativeTo(null);
+	         wrn.setVisible(true);
 		}
-		if (e.getSource() == wr.b2) {//게임룸입장
+		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
 		}
 		if(e.getSource() == gr.out_btn) {
@@ -125,15 +127,30 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		{
 		 while(true)
          {
+			System.out.println("mywindow run() 작동함");
             String msg=in.readLine();
-            System.out.println(msg);
+            System.out.println("Mywindow:"+msg);
             StringTokenizer st=new StringTokenizer(msg, "|");
             int no=Integer.parseInt(st.nextToken());
             switch(no)
             {
             case Function.DUPLICATE:
+            	mv.tf.setText("아이디 중복");
+            	mv.tf.requestFocus();
+            	break;
+            case Function.CHARACTERROOM:
+            	card.show(getContentPane(), "CS");
+            	break;
+            case Function.CHARACTERCHOICE:
+            {
+            	wr.nickName.setText(st.nextToken());
+            	ImageIcon temp = new ImageIcon("image\\char_mini"+Integer.parseInt(st.nextToken())+".png");
+            	wr.mc.setIcon(temp);
             	
             }
+            }
+            
+            
          }
       }catch(Exception ex) {}
    }

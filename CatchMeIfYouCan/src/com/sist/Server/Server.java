@@ -1,6 +1,7 @@
 package com.sist.Server;
 import java.util.*;
 
+import com.sist.Vo.CharVO;
 import com.sist.common.Function;
 
 import java.net.*;
@@ -81,9 +82,7 @@ public class Server implements Runnable{
    public class Client extends Thread
    {
       //로그인시 전송하는 데이터 id, name
-      String id;
-      //String name;
-      //String str;
+      CharVO charvo ;
       String pos;
       Socket s; //연결
       BufferedReader in;
@@ -99,6 +98,7 @@ public class Server implements Runnable{
          } catch (Exception e) {
             System.out.println("Server.Client.run()에러: "+e.getMessage());
          }
+         charvo = new CharVO();
       }
       //통신
       /*
@@ -130,12 +130,21 @@ public class Server implements Runnable{
                   {
                      //name = st.nextToken();
                      //location = "캐릭터선택";
-                     id=st.nextToken();
+                     String id=st.nextToken();
                     // name=st.nextToken();
-                     pos="대기실";
+                     charvo.setpos("대기실");
+                     for(Client ss:waitList)
+                     {
+                    	 if(id.equals(ss.getId()))
+                    	 {
+                    		 System.out.println(charvo.getId()+": 존재");
+ 							out.write((Function.DUPLICATE+"|\n").getBytes());
+                    	 }
+                     }
                      
+                     charvo.setId(id);
                      // (*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
-                     messageAll(Function.LOGIN+"|"+id+"|"/*+name+"|"*/+pos);//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
+                     messageAll(Function.LOGIN+"|"+id+"|"/*+name+"|"*/+charvo.getpos());//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
                      
                      //(*2*)이후에 자신을 접속 시킨다.         
                      waitList.add(this);
@@ -147,8 +156,8 @@ public class Server implements Runnable{
                      for(Client client:waitList)
                      {
                         messageTo(Function.LOGIN+"|"
-                                   +client.id+"|"
-                                +/*client.name+"|"+*/client.pos);
+                                   +charvo.getId()+"|"
+                                +/*client.name+"|"+*/charvo.getpos());
                      }
                      
                      //개설된 방 전송!

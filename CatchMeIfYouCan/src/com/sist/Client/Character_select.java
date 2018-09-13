@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 public class Character_select extends JPanel {
-
+	
 	JLabel venu, result;
 	int char_cnt = 15;
 	JButton[] jb = new JButton[char_cnt];
@@ -97,9 +97,9 @@ public class Character_select extends JPanel {
 			for (int i = 0; i < 15; i++) {
 				if (e.getSource() == jb[i]) {
 					result.setIcon(img4[i]);
+					MyWindow.charno=i;
 				}
 			}
-
 		}
 
 		@Override

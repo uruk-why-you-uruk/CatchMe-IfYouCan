@@ -3,18 +3,18 @@ package com.sist.Vo;
 public class CharVO { 
 	private int rank=1,score=0;
 	private String id,icon;
-	private String location;
+	private String pos;
 	public int getRank() {
 		return rank;
 	}
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	public String getLocation() {
-		return location;
+	public String getpos() {
+		return pos;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setpos(String location) {
+		this.pos = location;
 	}
 	public int getScore() {
 		return score;

@@ -7,7 +7,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.table.*;
 
-public class WaitRoom extends JPanel{
+
+
+public class WaitRoom extends JPanel {
 	   Image back; //배경화면
 	   JLabel la1, la2, mc, nickName, rank; 
 	   //la1 = 방개설 테이블을 붙이는 라벨,  la2 = 접속자 테이블을 붙이는라벨,  mc=내 캐릭터이미지,  nickName =닉네임,    rank=등급
@@ -23,7 +25,6 @@ public class WaitRoom extends JPanel{
       setLayout(null); //사용자 지정 레이아웃으로 
       back = Toolkit.getDefaultToolkit().getImage("image\\waitingroom.png");//뒷배경화면
 
-      la1 = new JLabel(""); 
       la2 = new JLabel(""); 
       ta=new JTextArea();
   	  ta.setEditable(false);
@@ -118,10 +119,12 @@ public class WaitRoom extends JPanel{
       add(nickName);
       add(rank);
 
+
       setSize(1251, 750);
       setVisible(true);
 
        //채팅치는곳 액션리스너
+
    }
 
 
@@ -133,14 +136,6 @@ public class WaitRoom extends JPanel{
          return change;
    }
 
-   /*@Override
-   public void actionPerformed(ActionEvent e) { // 채팅을치면 채팅창에 입력된게 올라가는고
-      if (e.getSource() == tf) {
-         String s = tf.getText();
-         ta.append(s + "\n");
-         tf.setText("");
-      }
-   }*/
 
    //백그라운드 배경화면 : 클래스파일 오른쪽 클릭 -> Source->Override어찌고 ->paintComponent
    @Override

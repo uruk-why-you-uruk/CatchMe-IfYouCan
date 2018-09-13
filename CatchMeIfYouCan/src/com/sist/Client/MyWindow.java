@@ -1,4 +1,15 @@
 package com.sist.Client;
+<<<<<<< HEAD
+=======
+
+// 윈도우가 위치하는 위치
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+>>>>>>> branch 'master' of https://github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -27,6 +38,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
+	WaitRoom_NewRoom_Panel wrnp=new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	
@@ -65,7 +77,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
-		
 	}  
 
 	public static void main(String[] args) {
@@ -100,17 +111,37 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면 
+<<<<<<< HEAD
 			String ID=mv.tf.getText();
 			connection(ID);
+=======
+			 try
+	         {
+	            s=new Socket("211.238.142.65", 7339);
+	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+	               // byte ==> 2byte
+	            out=s.getOutputStream();
+	            System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
+	            out.write((Function.LOGIN+"|"+mv.tf.getText()+"\n").getBytes());
+	         }catch(Exception ex) {}
+			 
+
+			card.show(getContentPane(), "CS");
+>>>>>>> branch 'master' of https://github.com/uruk-why-you-uruk/CatchMe-IfYouCan.git
 		}
 		/*if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
 			card.show(getContentPane(), "WR");
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
+			wrn.wnp.roomName.setText("");
+			wrn.wnp.roomPsw.setText("");
+			wrn.wnp.open.setSelected(true);
+			wrn.wnp.roomPsw.setBackground(Color.WHITE);
+			wrn.wnp.roomPsw.setEditable(true);
 			wrn.setLocationRelativeTo(null);
 			wrn.setVisible(true);
 		}
-		if (e.getSource() == wr.b2) {
+		if (e.getSource() == wr.b2) {//게임룸입장
 			card.show(getContentPane(), "GR");
 		}
 		if(e.getSource() == gr.out_btn) {

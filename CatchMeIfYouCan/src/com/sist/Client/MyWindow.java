@@ -125,7 +125,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
             int no=Integer.parseInt(st.nextToken());
             switch(no)
             {
-            
+            case Function.DUPLICATE:
+            	
             }
          }
       }catch(Exception ex) {}

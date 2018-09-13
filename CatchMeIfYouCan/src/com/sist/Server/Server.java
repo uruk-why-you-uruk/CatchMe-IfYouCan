@@ -39,8 +39,7 @@ public class Server implements Runnable{
     class Client extends Thread
     {
        Socket s;
-       OutputStream out;
-       
+       OutputStream out;       
        BufferedReader in;
        public Client(Socket s)
        {

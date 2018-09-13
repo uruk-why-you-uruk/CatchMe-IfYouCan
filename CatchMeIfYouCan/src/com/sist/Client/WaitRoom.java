@@ -17,6 +17,7 @@ public class WaitRoom extends JPanel implements ActionListener {
 	   JTextField tf; //채팅치는 곳
 	   JButton b1,b2; //b1 = 방만들기 버튼,   b2= 다음페이지버튼(게임룸이동) ※ 잠시 쓰는것.
 	   ImageIcon mb, ci, rankI; //방만들기버튼 이미지, 대기실 캐릭터 이미지. , 등급이미지
+	   JScrollBar bar;
 
    WaitRoom() {
       setLayout(null); //사용자 지정 레이아웃으로 
@@ -24,8 +25,13 @@ public class WaitRoom extends JPanel implements ActionListener {
 
       la1 = new JLabel(""); 
       la2 = new JLabel(""); 
-      ta = new JTextArea(); 
-      JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.
+      ta=new JTextArea();
+  	  ta.setEditable(false);
+  	  JScrollPane js3=new JScrollPane(ta);
+      /*ta = new JTextArea();  
+      ta.setEditable(false); //편집 못하게 하기!!! 왜안돼   
+      JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.  */    
+  	  bar=js3.getVerticalScrollBar();
       tf = new JTextField();      
       b2 = new JButton("다음페이지"); 
       mc = new JLabel("");
@@ -56,8 +62,8 @@ public class WaitRoom extends JPanel implements ActionListener {
       JScrollPane js1 = new JScrollPane(table1);
       
       // 접속자 테이블 
-      String[] col2 = { "닉네임", "방위치" };
-      String[][] row2 = new String[0][2];
+      String[] col2 = {"아이디", "닉네임", "방위치" };
+      String[][] row2 = new String[0][3];
       model2 = new DefaultTableModel(row2, col2);
       table2 = new JTable(model2);
       table2.getTableHeader().setReorderingAllowed(false); // 이동 불가 

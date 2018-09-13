@@ -6,7 +6,7 @@ public class Function {
 	//public static final 데이터형 변수명 = 상수; // 설명
 	public static final int LOGIN=100;// 로그인 안된 사람들  
 	public static final int DUPLICATE=110; //중복처리
-	public static final int SEMILOG=120; //캐릭터선택창에 있는 사람들 
+	//public static final int SEMILOG=120; //캐릭터선택창에 있는 사람들 
     //캐릭터창 (각각의 화면)
     public static final int CHARACTERROOM=200;//캐릭터선택창 (각각)
     public static final int CHARACTERCHOICE=210;//선택된 캐릭터 엔터!!!선택한 캐릭터의 번호가 전송

@@ -29,14 +29,15 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 			this.dispose();
 		}
 		if (e.getSource() == wnp.notopen) {//비공개가 눌리면 변화되는 것들.
+			wnp.roomPsw.setBackground(Color.WHITE);
+			wnp.roomPsw.setEditable(true);
+			
+		}
+		if (e.getSource() == wnp.open) {//공개시 변화되는것.
 			wnp.roomPsw.setBackground(Color.GRAY);
 			wnp.roomPsw.setText("");
 			wnp.roomPsw.setEditable(false);
 			wnp.roomPsw.requestFocus();
-		}
-		if (e.getSource() == wnp.open) {//공개시 변화되는것.
-			wnp.roomPsw.setBackground(Color.WHITE);
-			wnp.roomPsw.setEditable(true);
 			
 		}
 	}

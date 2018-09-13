@@ -7,8 +7,6 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.table.*;
 
-
-
 public class WaitRoom extends JPanel {
 	   Image back; //배경화면
 	   JLabel la1, la2, mc, nickName, rank; 
@@ -25,13 +23,15 @@ public class WaitRoom extends JPanel {
       setLayout(null); //사용자 지정 레이아웃으로 
       back = Toolkit.getDefaultToolkit().getImage("image\\waitingroom.png");//뒷배경화면
 
+      la1 = new JLabel(""); 
       la2 = new JLabel(""); 
       ta=new JTextArea();
   	  ta.setEditable(false);
-  	  JScrollPane js3=new JScrollPane(ta);
-      /*ta = new JTextArea();  
+  	  
+      ta = new JTextArea();  
       ta.setEditable(false); //편집 못하게 하기!!! 왜안돼   
-      JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.  */    
+      JScrollPane js3 = new JScrollPane(ta); //채팅뷰에 스크롤팬 넣어주기.   
+      
   	  bar=js3.getVerticalScrollBar();
       tf = new JTextField();      
       b2 = new JButton("다음페이지"); 
@@ -63,13 +63,13 @@ public class WaitRoom extends JPanel {
       JScrollPane js1 = new JScrollPane(table1);
       
       // 접속자 테이블 
-      String[] col2 = {"아이디", "방위치" };
-      String[][] row2 = new String[0][2];
+      String[] col2 = {"아이디", "닉네임", "방위치" };
+      String[][] row2 = new String[0][3];
       model2 = new DefaultTableModel(row2, col2);
       table2 = new JTable(model2);
-      /*table2.getTableHeader().setReorderingAllowed(false); // 이동 불가 
+      table2.getTableHeader().setReorderingAllowed(false); // 이동 불가 
       table2.getTableHeader().setResizingAllowed(false); //크기변경불가
-*/   JScrollPane js2 = new JScrollPane(table2);
+      JScrollPane js2 = new JScrollPane(table2);
 
       // 방개설 테이블 배치
       la1.setBounds(30, 70, 100, 30);
@@ -118,16 +118,11 @@ public class WaitRoom extends JPanel {
       add(mc);
       add(nickName);
       add(rank);
-
-
-      setSize(1251, 750);
-      setVisible(true);
-
-       //채팅치는곳 액션리스너
-
    }
 
-
+   public static void main(String[] args) {
+      WaitRoom wr = new WaitRoom();
+   }
    
    public Image getImageSizeChange(ImageIcon icon,int width,int height)
    {
@@ -135,7 +130,6 @@ public class WaitRoom extends JPanel {
          Image change=img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
          return change;
    }
-
 
    //백그라운드 배경화면 : 클래스파일 오른쪽 클릭 -> Source->Override어찌고 ->paintComponent
    @Override

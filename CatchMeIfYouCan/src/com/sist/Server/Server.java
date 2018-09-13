@@ -84,6 +84,7 @@ public class Server implements Runnable{
       //로그인시 전송하는 데이터 id, name
       CharVO charvo ;
       String pos;
+      String id;
       Socket s; //연결
       BufferedReader in;
       OutputStream out;
@@ -130,34 +131,34 @@ public class Server implements Runnable{
                   {
                      //name = st.nextToken();
                      //location = "캐릭터선택";
-                     String id=st.nextToken();
+                     id=st.nextToken();
                     // name=st.nextToken();
-                     charvo.setpos("대기실");
-                     for(Client ss:waitList)
+                     pos="대기실";
+                     /*for(Client ss:waitList)
                      {
                     	 if(id.equals(ss.getId()))
                     	 {
                     		 System.out.println(charvo.getId()+": 존재");
  							out.write((Function.DUPLICATE+"|\n").getBytes());
                     	 }
-                     }
+                     }*/
                      
-                     charvo.setId(id);
                      // (*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
-                     messageAll(Function.LOGIN+"|"+id+"|"/*+name+"|"*/+charvo.getpos());//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
+                     messageAll(Function.LOGIN+"|"+id+"|"+pos);//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
                      
-                     //(*2*)이후에 자신을 접속 시킨다.         
+                     //(*2*)이후에 자신을 접속 시킨다.
                      waitList.add(this);
                      
                      // (*3*) 로그인 ==> 대기실로 화면을 변경시킨다.
-                     messageTo(Function.MYLOG+"|"+(id+"님이 접속하셨습니다"));
+                     messageTo(Function.MYLOG+"|"+id+"님이 접속하셨습니다");
+                     messageAll(Function.WAITCHAT+"|"+id+"님이 접속하셨습니다");
                      
                      // (*4*) 자신에게만 접속한 사람들의 정보를 뿌린다.
                      for(Client client:waitList)
                      {
                         messageTo(Function.LOGIN+"|"
-                                   +charvo.getId()+"|"
-                                +/*client.name+"|"+*/charvo.getpos());
+                                   +client.id+"|"
+                                +client.pos);
                      }
                      
                      //개설된 방 전송!
@@ -175,7 +176,7 @@ public class Server implements Runnable{
                   case Function.WAITCHAT:
                      {
                         String data=st.nextToken();
-                        messageAll(Function.WAITCHAT+data);
+                        messageAll(Function.WAITCHAT+"|["+id+"]"+data);
                      }
                      break;
                }

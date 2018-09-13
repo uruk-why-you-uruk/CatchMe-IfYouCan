@@ -52,7 +52,13 @@ public class WaitRoom extends JPanel {
       // 방개설 테이블 
       String[] col1 = {"No", "방이름", "공개/비공개", "방인원" };
       String[][] row1 = new String[0][4];
-      model1 = new DefaultTableModel(row1, col1);
+      model1 = new DefaultTableModel(row1, col1) {
+          @Override
+           public boolean isCellEditable(int row, int column)      // 테이블의 편집 가능 여부를 알려주는 메소드
+           {
+               return false;       // 편집이 안되도록 한다.
+           }
+       };
       table1 = new JTable(model1);
       table1.getColumn("No").setPreferredWidth(60);
       table1.getColumn("방이름").setPreferredWidth(440); 
@@ -63,9 +69,15 @@ public class WaitRoom extends JPanel {
       JScrollPane js1 = new JScrollPane(table1);
       
       // 접속자 테이블 
-      String[] col2 = {"아이디", "닉네임", "방위치" };
-      String[][] row2 = new String[0][3];
-      model2 = new DefaultTableModel(row2, col2);
+      String[] col2 = {"닉네임", "방위치" };
+      String[][] row2 = new String[0][2];
+      model2 = new DefaultTableModel(row2, col2) {
+          @Override
+          public boolean isCellEditable(int row, int column)      // 테이블의 편집 가능 여부를 알려주는 메소드
+          {
+              return false;       // 편집이 안되도록 한다.
+          }
+      };
       table2 = new JTable(model2);
       table2.getTableHeader().setReorderingAllowed(false); // 이동 불가 
       table2.getTableHeader().setResizingAllowed(false); //크기변경불가

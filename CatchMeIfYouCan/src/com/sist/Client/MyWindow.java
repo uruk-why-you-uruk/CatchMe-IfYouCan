@@ -36,15 +36,15 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	Socket s;
 	BufferedReader in;
 	OutputStream out;
-	Vector<Point> vStart = new Vector<Point>();
+	//Vector<Point> vStart = new Vector<Point>();
 
 	public MyWindow() {
 		System.out.println("mywindow 실행");
 		setLayout(card);
 		add("MV", mv);  
 		add("CS", cs);
-		add("GR", gr);
 		add("WR", wr);
+		add("GR", gr);
 		
 		// 소켓통신부분
 		
@@ -59,6 +59,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		
 		// 리스너와 쓰래드 시작
 		//new Thread(this).start();
+		wr.tf.addActionListener(this);//actionPerformed
 		mv.b1.addActionListener(this);		
 		cs.enter.addActionListener(this); 
 		wr.b1.addActionListener(this);
@@ -86,7 +87,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 			// 버튼 누르면 
 			 try
 	         {
-	            s=new Socket("211.238.142.66", 7339);
+	            s=new Socket("211.238.142.62", 7339);
 	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 	               // byte ==> 2byte
 	            out=s.getOutputStream();
@@ -94,14 +95,27 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	            out.write((Function.LOGIN+"|"+mv.tf.getText()+"\n").getBytes());
 	         }catch(Exception ex) {}
 			 new Thread(this).start();
-			 
-
-			
+			 card.show(getContentPane(), "CS");
 		}
 		if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
 			
 			
 			card.show(getContentPane(), "WR");
+		}
+		if(e.getSource()==wr.tf)
+		{
+			// 채팅 요청
+			try
+			{
+				// 입력값 읽기 
+				String msg=wr.tf.getText();
+				if(msg.length()<1)
+					return;
+				out.write((Function.WAITCHAT+"|"+msg+"\n").getBytes());
+				// 처리 ==> 서버 
+				wr.tf.setText("");
+				wr.tf.requestFocus();// focus
+			}catch(Exception ex){}
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
 			wrn.wnp.roomName.setText("");
@@ -134,13 +148,33 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
             int no=Integer.parseInt(st.nextToken());
             switch(no)
             {
-            case Function.DUPLICATE:
+            case Function.LOGIN:// login.jsp
+			  {
+				 String[] data={
+					st.nextToken(),//ID
+					st.nextToken()//POS
+				 };
+				 wr.model2.addRow(data);
+     }break;
+            case Function.DUPLICATE: // 아이디 중
             	mv.tf.setText("아이디 중복");
             	mv.tf.requestFocus();
             	break;
-            case Function.CHARACTERROOM:
+            
+            /*case Function.CHARACTERROOM:
             	card.show(getContentPane(), "CS");
-            	break;
+            	break;*/
+            case Function.MYLOG:
+			  {
+				  card.show(getContentPane(), "CS");
+			  }
+			  break;
+            case Function.WAITCHAT:
+			  {
+				  wr.bar.setValue(wr.bar.getMaximum());
+				  wr.ta.append(st.nextToken()+"\n");
+			  }
+			  break;
             case Function.CHARACTERCHOICE:
             {
             	wr.nickName.setText(st.nextToken());

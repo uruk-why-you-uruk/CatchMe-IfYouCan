@@ -2,6 +2,7 @@ package com.sist.Client;
 
 // 윈도우가 위치하는 위치
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
+	WaitRoom_NewRoom_Panel wrnp=new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
@@ -64,7 +66,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
-		
 	}  
 
 	public static void main(String[] args) {
@@ -86,7 +87,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 			// 버튼 누르면 
 			 try
 	         {
-	            s=new Socket("211.238.142.66", 7339);
+	            s=new Socket("211.238.142.65", 7339);
 	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 	               // byte ==> 2byte
 	            out=s.getOutputStream();
@@ -101,10 +102,15 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 			card.show(getContentPane(), "WR");
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
+			wrn.wnp.roomName.setText("");
+			wrn.wnp.roomPsw.setText("");
+			wrn.wnp.open.setSelected(true);
+			wrn.wnp.roomPsw.setBackground(Color.WHITE);
+			wrn.wnp.roomPsw.setEditable(true);
 			wrn.setLocationRelativeTo(null);
 			wrn.setVisible(true);
 		}
-		if (e.getSource() == wr.b2) {
+		if (e.getSource() == wr.b2) {//게임룸입장
 			card.show(getContentPane(), "GR");
 		}
 		if(e.getSource() == gr.out_btn) {

@@ -1,4 +1,4 @@
-package com.sist.Client; 
+package com.sist.Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,11 +21,13 @@ import javax.swing.*;
 import java.net.Socket;
 import java.util.Vector;
 
+import com.sist.Server.Server.Client;
 import com.sist.common.Function;
 
-public class MyWindow extends JFrame implements ActionListener, Runnable{
+public class MyWindow extends JFrame implements ActionListener, Runnable {
 	// 윈도우 설정
-	static int charno=0;
+	static int charno = 0;
+	static String temp;
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
@@ -36,18 +38,17 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	Socket s;
 	BufferedReader in;
 	OutputStream out;
-	//Vector<Point> vStart = new Vector<Point>();
+	// Vector<Point> vStart = new Vector<Point>();
 
 	public MyWindow() {
 		System.out.println("mywindow 실행");
 		setLayout(card);
-		add("MV", mv);  
+		add("MV", mv);
 		add("CS", cs);
 		add("WR", wr);
 		add("GR", gr);
-		
+
 		// 소켓통신부분
-		
 
 		// 윈도우 크기
 		setSize(1251, 750);
@@ -56,22 +57,22 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 		setVisible(true);
 		setResizable(false);// 크기변경 제한
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		// 리스너와 쓰래드 시작
-		//new Thread(this).start();
-		wr.tf.addActionListener(this);//actionPerformed
-		mv.b1.addActionListener(this);		
-		cs.enter.addActionListener(this); 
+		// new Thread(this).start();
+		wr.tf.addActionListener(this);// actionPerformed
+		mv.b1.addActionListener(this);
+		cs.enter.addActionListener(this);
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
-		
-	}  
+
+	}
 
 	public static void main(String[] args) {
 		System.out.println("mywindow main 실행");
 		try {
-			//UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+			// UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
 			System.out.println("jtatto 실행");
 		} catch (Exception ex) {
 			System.out.println("jtatto 예외처리");
@@ -84,52 +85,58 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mv.b1) {
-			// 버튼 누르면 
-			 try
-	         {
-	            s=new Socket("211.238.142.62", 7339);
-	            in=new BufferedReader(new InputStreamReader(s.getInputStream()));
-	               // byte ==> 2byte
-	            out=s.getOutputStream();
-	            //System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
-	            out.write((Function.LOGIN+"|"+mv.tf.getText()+"\n").getBytes());
-	         }catch(Exception ex) {}
-			 new Thread(this).start();
-			 card.show(getContentPane(), "CS");
+			// 버튼 누르면
+			try {
+				s = new Socket("211.238.142.66", 7334);
+				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+				// byte ==> 2byte
+				out = s.getOutputStream();
+				// System.out.println((Function.LOGIN+"|"+mv.tf.getText()));
+				out.write((Function.LOGIN + "|" + mv.tf.getText() + "\n").getBytes());
+			} catch (Exception ex) {
+			}
+			new Thread(this).start();
+			card.show(getContentPane(), "CS");
 		}
 		if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
-			
-			
-			card.show(getContentPane(), "WR");
+
+			try {
+				out.write(
+						(Function.CHARACTERCHOICE + "|" + temp + "|" + charno + "|" + (int) (Math.random() * 5) + "\n")
+								.getBytes());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		}
-		if(e.getSource()==wr.tf)
-		{
+		if (e.getSource() == wr.tf) {
 			// 채팅 요청
-			try
-			{
-				// 입력값 읽기 
-				String msg=wr.tf.getText();
-				if(msg.length()<1)
+			try {
+				// 입력값 읽기
+				String msg = wr.tf.getText();
+				if (msg.length() < 1)
 					return;
-				out.write((Function.WAITCHAT+"|"+msg+"\n").getBytes());
-				// 처리 ==> 서버 
+				out.write((Function.WAITCHAT + "|" + msg + "\n").getBytes());
+				// 처리 ==> 서버
 				wr.tf.setText("");
 				wr.tf.requestFocus();// focus
-			}catch(Exception ex){}
+			} catch (Exception ex) {
+			}
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
 			wrn.wnp.roomName.setText("");
-	         wrn.wnp.roomPsw.setText("");
-	         wrn.wnp.open.setSelected(true);
-	         wrn.wnp.roomPsw.setBackground(Color.GRAY);
-	         wrn.wnp.roomPsw.setEditable(true);
-	         wrn.setLocationRelativeTo(null);
-	         wrn.setVisible(true);
+			wrn.wnp.roomPsw.setText("");
+			wrn.wnp.open.setSelected(true);
+			wrn.wnp.roomPsw.setBackground(Color.GRAY);
+			wrn.wnp.roomPsw.setEditable(true);
+			wrn.setLocationRelativeTo(null);
+			wrn.setVisible(true);
 		}
 		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
 		}
-		if(e.getSource() == gr.out_btn) {
+		if (e.getSource() == gr.out_btn) {
 			card.show(getContentPane(), "WR");
 		}
 	}
@@ -137,56 +144,56 @@ public class MyWindow extends JFrame implements ActionListener, Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try
-		{
-		 while(true)
-         {
-			System.out.println("mywindow run() 작동함");
-            String msg=in.readLine();
-            System.out.println("Mywindow:"+msg);
-            StringTokenizer st=new StringTokenizer(msg, "|");
-            int no=Integer.parseInt(st.nextToken());
-            switch(no)
-            {
-            case Function.LOGIN:// login.jsp
-			  {
-				 String[] data={
-					st.nextToken(),//ID
-					st.nextToken()//POS
-				 };
-				 wr.model2.addRow(data);
-     }break;
-            case Function.DUPLICATE: // 아이디 중
-            	mv.tf.setText("아이디 중복");
-            	mv.tf.requestFocus();
-            	break;
-            
-            /*case Function.CHARACTERROOM:
-            	card.show(getContentPane(), "CS");
-            	break;*/
-            case Function.MYLOG:
-			  {
-				  card.show(getContentPane(), "CS");
-			  }
-			  break;
-            case Function.WAITCHAT:
-			  {
-				  wr.bar.setValue(wr.bar.getMaximum());
-				  wr.ta.append(st.nextToken()+"\n");
-			  }
-			  break;
-            case Function.CHARACTERCHOICE:
-            {
-            	wr.nickName.setText(st.nextToken());
-            	ImageIcon temp = new ImageIcon("image\\char_mini"+Integer.parseInt(st.nextToken())+".png");
-            	wr.mc.setIcon(temp);
-            	
-            }
-            }
-            
-            
-         }
-      }catch(Exception ex) {}
-   }
+		try {
+			while (true) {
+				String msg = in.readLine().trim();
+				System.out.println("Mywindow:" + msg);
+				StringTokenizer st = new StringTokenizer(msg, "|");
+				int no = Integer.parseInt(st.nextToken());
+				switch (no) {
+				case Function.LOGIN:// login.jsp
+				{
+					String[] data = { st.nextToken(), // ID
+							st.nextToken()// POS
+					};
+					wr.model2.addRow(data);
+				}
+					break;
+				case Function.DUPLICATE: // 아이디 중
+					mv.tf.setText("아이디 중복");
+					mv.tf.requestFocus();
+					break;
+
+				case Function.CHARACTERROOM:
+					temp = st.nextToken();
+					System.out.println("window CR :" + temp);
+					card.show(getContentPane(), "CS");
+					break;
+
+				case Function.MYLOG: {
+					System.out.println("WR 보여주기");
+					card.show(getContentPane(), "WR");
+				}
+					break;
+				case Function.WAITCHAT: {
+					wr.bar.setValue(wr.bar.getMaximum());
+					wr.ta.append(st.nextToken() + "\n");
+				}
+					break;
+				case Function.CHARACTERCHOICE: {
+					System.out.println("CHARACTERCHOICE 작동");
+					wr.nickName.setText(st.nextToken());
+					ImageIcon temp = new ImageIcon("image\\char_mini\\" + Integer.parseInt(st.nextToken()) + ".png");
+					wr.mc.setIcon(temp);
+					temp = new ImageIcon("image\\RANK\\" + Integer.parseInt(st.nextToken()) + ".png");
+					wr.rank.setIcon(temp);
+				}
+				break;
+				}
+
+			}
+		} catch (Exception ex) {
+		}
+	}
 
 }

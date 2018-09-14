@@ -29,7 +29,7 @@ import java.io.*;
 public class Server implements Runnable{
    // 서버 소켓 생성
    private ServerSocket ss;
-   private final int PORT=7339;
+   private final int PORT=7334;
    //private String name;
    private String location;
    
@@ -130,36 +130,28 @@ public class Server implements Runnable{
                   case Function.LOGIN:
                   {
                      //name = st.nextToken();
-                     //location = "캐릭터선택";
+                     boolean idcheck=false;
                      id=st.nextToken();
                     // name=st.nextToken();
                      pos="대기실";
-                     /*for(Client ss:waitList)
+                     for(Client ss:waitList)
                      {
+                    	 System.out.println("로그인 id:"+ss.getId());
                     	 if(id.equals(ss.getId()))
                     	 {
                     		 System.out.println(charvo.getId()+": 존재");
  							out.write((Function.DUPLICATE+"|\n").getBytes());
+ 							idcheck = true;
                     	 }
-                     }*/
-                     
-                     // (*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
-                     messageAll(Function.LOGIN+"|"+id+"|"+pos);//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
-                     
-                     //(*2*)이후에 자신을 접속 시킨다.
-                     waitList.add(this);
-                     
-                     // (*3*) 로그인 ==> 대기실로 화면을 변경시킨다.
-                     messageTo(Function.MYLOG+"|"+id+"님이 접속하셨습니다");
-                     messageAll(Function.WAITCHAT+"|"+id+"님이 접속하셨습니다");
-                     
-                     // (*4*) 자신에게만 접속한 사람들의 정보를 뿌린다.
-                     for(Client client:waitList)
-                     {
-                        messageTo(Function.LOGIN+"|"
-                                   +client.id+"|"
-                                +client.pos);
                      }
+                     if(idcheck == false)
+                     {
+                    	 charvo.setId(id);
+                    	 charvo.setpos(pos);
+                    	 //(*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
+                    	 out.write((Function.CHARACTERROOM+"|"+charvo.getId()+"\n").getBytes());                    	 
+                     }
+                     
                      
                      //개설된 방 전송!
                      /*
@@ -172,6 +164,39 @@ public class Server implements Runnable{
                       */
                   }
                   break;
+                	  
+                  case Function.CHARACTERCHOICE:
+                  {
+                	  System.out.println("CHARACTERCHOICE 작동");
+                	  charvo.setId(st.nextToken());
+                	  charvo.setIcon(st.nextToken());
+              		  charvo.setRank(Integer.parseInt(st.nextToken()));
+              		  
+                	// (*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
+                      messageAll(Function.LOGIN+"|"+charvo.getId()+"|"+pos);//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
+                      
+                      //(*2*)이후에 자신을 접속 시킨다.
+                      waitList.add(this);
+                      //(*3*)아이콘 바꿔주기
+                      messageTo(Function.CHARACTERCHOICE+"|"+charvo.getId()+"|"+charvo.getIcon()+"|"+charvo.getRank());
+                      
+                      // (*4*) 로그인 ==> 대기실로 화면을 변경시킨다.
+                      System.out.println("server : 화면 바꾸기");
+                      messageTo(Function.MYLOG+"|");
+                      System.out.println("server : 접속명단 뿌리기");
+                      messageAll(Function.WAITCHAT+"|"+charvo.getId()+"님이 접속하셨습니다");
+                      
+                      // (*5*) 자신에게만 접속한 사람들의 정보를 뿌린다.
+                      System.out.println("server : 나에게 접속명단 뿌리기");
+                      for(Client client:waitList)
+                      {
+                         messageTo(Function.LOGIN+"|"
+                                    +client.id+"|"
+                                 +client.pos);
+                      }
+                  }
+                  break;
+                	  
                   //채팅 요청 처리
                   case Function.WAITCHAT:
                      {

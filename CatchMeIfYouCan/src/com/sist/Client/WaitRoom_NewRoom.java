@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class WaitRoom_NewRoom extends JFrame implements ActionListener {
-	// WaitRoom_NewRoom_Panel wnp = new WaitRoom_NewRoom_Panel();
-	// CardLayout card = new CardLayout();
 	BufferedImage img = null;
 	Image back; // 백그라운드 배경
 	JTextField roomName;
@@ -23,11 +21,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 	JButton okButton;// 만들기 버튼
 	JButton noButton;// 취소버튼
 	ImageIcon okButtonIcon, noButtonIcon;// 각버튼 이미지
-	CardLayout card = new CardLayout();
 	public WaitRoom_NewRoom() {
-		setLayout(card);
-	
-		setLayout(new BorderLayout());
 		setContentPane(new JLabel(new ImageIcon("image\\newroom.png")));
         setLayout(null);
 
@@ -36,10 +30,6 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		roomName.setBounds(170, 109, 320, 20);
 		add(roomName);
 
-		/*
-		 * //공개 비공개 콤보박스 설정 visibility_Combo =new JComboBox(visibility);
-		 * visibility_Combo.setBounds(170, 148, 80, 20); add(visibility_Combo);
-		 */
 		open = new JRadioButton("공개");
 		open.setOpaque(false);
 		open.setSelected(true);
@@ -72,20 +62,30 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		/////////////////////////////////////////////
 		// 방만들기버튼 설정
 		okButton.setBounds(205, 300, 85, 40);
-		okButton.setOpaque(false);
+		/*okButton.setOpaque(false);
 		okButton.setBorderPainted(false);
 		okButton.setFocusPainted(false);
-		okButton.setContentAreaFilled(false);
+		okButton.setContentAreaFilled(false);*/
 		add(okButton);
 		/////////////////////////////////////////
 		// 취소버튼 설정
 		noButton.setBounds(305, 298, 85, 40);
-		noButton.setOpaque(false);
+		/*noButton.setOpaque(false);
 		noButton.setBorderPainted(false);
 		noButton.setFocusPainted(false);
-		noButton.setContentAreaFilled(false);
+		noButton.setContentAreaFilled(false);*/
 		add(noButton);
-
+		
+		
+		/*JPanel p1=new JPanel();
+		p1.add(okButton);
+		p1.setBounds(205, 300, 85, 40);
+		add(p1);
+		JPanel p2=new JPanel();
+		p2.add(noButton);
+		p2.setBounds(305, 298, 85, 40);				
+		add(p2);*/
+		
 		setSize(600, 350);
 		setUndecorated(true);
 		setResizable(false); // 화면 못 줄이게하기
@@ -102,10 +102,12 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) { // 방만들기 창 닫기.
 		if (e.getSource() == notopen) {// 비공개가 눌리면 변화되는 것들.
+			System.out.println("비공개");
 			roomPsw.setBackground(Color.WHITE);
 			roomPsw.setEditable(true);
 		}
 		if (e.getSource() == open) {// 공개시 변화되는것.
+			System.out.println("공개");
 			roomPsw.setBackground(Color.GRAY);
 			roomPsw.setText("");
 			roomPsw.setEditable(false);

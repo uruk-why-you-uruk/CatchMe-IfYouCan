@@ -137,7 +137,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			wrn.setVisible(true);
 		}
 		// 실제 방만들기.
-		if (e.getSource() == wrn.okButton) { //아 왜 안눌려
+		if (e.getSource() == wrn.okButtonIcon) { //아 왜 안눌려
 			System.out.println("방생성!!!");
 			// 입력된 방정보 읽기
 			String rname = wrn.roomName.getText();
@@ -186,13 +186,16 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			}
 			wrn.setVisible(false);
 		}
+		
 		if (e.getSource() == wrn.noButton)
 		{
 			wrn.setVisible(false);
 		}
+		
 		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
 		}
+		
 		if (e.getSource() == gr.out_btn) {
 			card.show(getContentPane(), "WR");
 		}

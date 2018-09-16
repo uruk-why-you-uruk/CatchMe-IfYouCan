@@ -31,7 +31,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
-	WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
+	//WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
 	CardLayout card = new CardLayout();
@@ -87,7 +87,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.66", 7334);
+				//s = new Socket("211.238.142.66", 7334); 
+				s = new Socket("192.168.0.7", 7334);
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
 				out = s.getOutputStream();
@@ -125,13 +126,69 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			}
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
-			wrn.wnp.roomName.setText("");
-			wrn.wnp.roomPsw.setText("");
-			wrn.wnp.open.setSelected(true);
-			wrn.wnp.roomPsw.setBackground(Color.GRAY);
-			wrn.wnp.roomPsw.setEditable(true);
+			System.out.println("방만들기 버튼 클릭");
+			//wrn.roomName.setText("방제목을 입력해주세요"); //된다.
+			wrn.roomName.setText("");
+			wrn.roomPsw.setText("");
+			wrn.open.setSelected(true);
+			wrn.roomPsw.setBackground(Color.GRAY);
+			wrn.roomPsw.setEditable(true);
 			wrn.setLocationRelativeTo(null);
 			wrn.setVisible(true);
+		}
+		// 실제 방만들기.
+		if (e.getSource() == wrn.okButton) { //아 왜 안눌려
+			System.out.println("방생성!!!");
+			// 입력된 방정보 읽기
+			String rname = wrn.roomName.getText();
+			if (rname.trim().length() < 1) // 공백을 제거한 상태에서 입력이 안된 상태
+			{
+				JOptionPane.showMessageDialog(this, "방이름을 입력하세요");
+				wrn.roomName.requestFocus();
+				return;
+			}
+
+			// 방 이름 중복 찾고, 다시만들라하기
+			String temp = "";
+			for (int i = 0; i < wr.model1.getRowCount(); i++) {
+				temp = wr.model1.getValueAt(i, 0).toString();
+				if (temp.equals(rname)) {
+					JOptionPane.showMessageDialog(this, "이미 존재하는 방입니다.\n다시 입력하세요");
+					wrn.roomName.setText("");
+					wrn.roomName.requestFocus();
+					return;
+				}
+			}
+
+			String state = "";
+			String pwd = "";
+			if (wrn.open.isSelected()) // 공개버튼이 선택됐다.
+			{
+				state = "공개";
+				pwd = "";
+			} else {
+				state = "비공개";
+				pwd = new String(wrn.roomPsw.getPassword());
+				// 또는 pwd=String.valueOf(mr.pf.getPassword());
+			}
+			int inwon = wrn.personnel_Combo.getSelectedIndex();
+			try {
+				//Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
+				if(state.equals("비공개")) {
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd.trim() + "|" + (inwon + 4) + "\n")
+						.getBytes());
+				}else {
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + null +"|"+ (inwon + 4)+"\n")
+							.getBytes());
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			wrn.setVisible(false);
+		}
+		if (e.getSource() == wrn.noButton)
+		{
+			wrn.setVisible(false);
 		}
 		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
@@ -159,7 +216,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 					wr.model2.addRow(data);
 				}
 					break;
-				case Function.DUPLICATE: // 아이디 중
+				case Function.DUPLICATE: // 아이디 중복
 					mv.tf.setText("아이디 중복");
 					mv.tf.requestFocus();
 					break;
@@ -173,13 +230,13 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 				case Function.MYLOG: {
 					System.out.println("WR 보여주기");
 					card.show(getContentPane(), "WR");
-				}
-					break;
+				}break;
+				
 				case Function.WAITCHAT: {
 					wr.bar.setValue(wr.bar.getMaximum());
 					wr.ta.append(st.nextToken() + "\n");
-				}
-					break;
+				}break;
+				
 				case Function.CHARACTERCHOICE: {
 					System.out.println("CHARACTERCHOICE 작동");
 					wr.nickName.setText(st.nextToken());
@@ -187,11 +244,21 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 					wr.mc.setIcon(temp);
 					temp = new ImageIcon("image\\RANK\\" + Integer.parseInt(st.nextToken()) + ".png");
 					wr.rank.setIcon(temp);
+				}break;
+				
+				case Function.MAKEROOM: {
+					String roomNumber=st.nextToken();
+					String rname=st.nextToken();
+					String state=st.nextToken();
+					String pwd=st.nextToken();
+					String inwon=st.nextToken();
+					String[] data = {roomNumber,rname,state,(inwon+"명"),pwd};
+					wr.model1.addRow(data);
+					}break;	
+					
 				}
-				break;
-				}
-
-			}
+			}//swith문 끝
+			
 		} catch (Exception ex) {
 		}
 	}

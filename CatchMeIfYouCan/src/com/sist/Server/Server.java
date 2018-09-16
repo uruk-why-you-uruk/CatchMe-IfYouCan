@@ -36,6 +36,8 @@ public class Server implements Runnable{
    
    //클라이언트의 정보를 저장
    private ArrayList<Client> waitList =new ArrayList<Client>();
+   
+   private Vector<Room> roomVc=new Vector<Room>(); // table1 
    //클라이언트의 IP, id....
    
    public Server() { //프로그램에서 시작과 동시 수행: 생선자, main
@@ -204,7 +206,157 @@ public class Server implements Runnable{
                         messageAll(Function.WAITCHAT+"|["+id+"]"+data);
                      }
                      break;
-               }
+                  
+                   //방만들기
+                  case Function.MAKEROOM:
+                  {
+                	  //Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
+                	  Room room=new Room(
+								st.nextToken(),
+								st.nextToken(), 
+								st.nextToken(), 
+								Integer.parseInt(st.nextToken()));
+						room.userVc.addElement(this);
+						pos=room.roomName;
+						roomVc.addElement(room);
+						messageAll(Function.MAKEROOM+"|"
+						           +room.roomName+"|"
+						           +room.roomState+"|"
+						           +room.current+"/"+room.maxcount);
+						/*// 2/6
+						// 명령(방들어가기)
+						messageTo(Function.MYROOMIN+"|"
+								+id+"|"+name+"|"
+								+sex+"|"+avata+"|"+room.roomName);
+						*/
+						// 출력 ==> client
+						messageAll(Function.ROOMNAMEUPDATE+"|"
+								+id+"|"+pos);
+                  }break;
+
+					/*case Function.MYROOMIN:
+					{
+						
+						 *   방찾는다
+						 *   현재인원 증가
+						 *   위치 변경
+						 *   ==========
+						 *   방에 있는 사람 
+						 *     => 방에 들어가는 사람의 정보 전송
+						 *     => 입장메세지 
+						 *   방에 들어가는 사람 처리
+						 *     => 방으로 변경
+						 *     => 방에 있는 사람의 모든 정보를 받는다 
+						 *   대기실 처리
+						 *     => 1) 인원 (table1)
+						 *        2) 위치 (table2)
+						 *        
+						 *   강퇴 , 초대 , 게임 
+						 
+						String rn=st.nextToken();
+						for(int i=0;i<roomVc.size();i++)
+						{
+							Room room=roomVc.elementAt(i);
+							if(rn.equals(room.roomName))
+							{
+								room.current++;
+								pos=room.roomName;
+								// 방에 있는 사람 처리
+								for(int j=0;j<room.userVc.size();j++)
+								{
+									Client user=room.userVc.elementAt(j);
+									user.messageTo(Function.ROOMIN+"|"
+										+id+"|"+name+"|"+sex+"|"+avata);
+									user.messageTo(Function.ROOMCHAT
+											+"|[알림 ☞]"+name+"님이 입장하셨습니다");
+								}
+								// 방에 들어가는 사람 처리
+								room.userVc.addElement(this);
+								messageTo(Function.MYROOMIN+"|"
+										+id+"|"+name+"|"
+										+sex+"|"+avata+"|"+room.roomName);
+								for(int k=0;k<room.userVc.size();k++)
+								{
+									Client user=room.userVc.elementAt(k);
+									if(!id.equals(user.id))
+									{
+									  messageTo(Function.ROOMIN+"|"
+										+user.id+"|"+user.name+"|"
+										+user.sex+"|"+user.avata);
+									}
+								}
+								// 대기실 
+								messageAll(Function.WAITUPDATE+"|"
+										+id+"|"+pos+"|"+room.roomName+"|"
+										+room.current+"|"+room.maxcount);
+							}
+						}
+					}
+					break;
+					case Function.ROOMOUT:
+					{
+						
+						 *   방찾는다
+						 *   현재인원 증가
+						 *   위치 변경
+						 *   ==========
+						 *   방에 있는 사람 
+						 *     => 방에 들어가는 사람의 정보 전송
+						 *     => 입장메세지 
+						 *   방에 들어가는 사람 처리
+						 *     => 방으로 변경
+						 *     => 방에 있는 사람의 모든 정보를 받는다 
+						 *   대기실 처리
+						 *     => 1) 인원 (table1)
+						 *        2) 위치 (table2)
+						 *        
+						 *   강퇴 , 초대 , 게임 
+						 
+						String rn=st.nextToken();
+						for(int i=0;i<roomVc.size();i++)
+						{
+							Room room=roomVc.elementAt(i);
+							if(rn.equals(room.roomName))
+							{
+								room.current--;
+								pos="대기실";
+								// 방에 있는 사람 처리
+								for(int j=0;j<room.userVc.size();j++)
+								{
+									Client user=room.userVc.elementAt(j);
+									user.messageTo(Function.ROOMOUT+"|"+id+"|"+name);
+									user.messageTo(Function.ROOMCHAT
+											+"|[알림 ☞]"+name+"님이 퇴장하셨습니다");
+								}
+								// 방에 들어가는 사람 처리
+								//room.userVc.addElement(this);
+								messageTo(Function.MYROOMOUT+"|");
+								for(int k=0;k<room.userVc.size();k++)
+								{
+									Client user=room.userVc.elementAt(k);
+									if(id.equals(user.id))
+									{
+									   room.userVc.removeElementAt(k);
+									   break;
+									}
+								}
+								// 대기실 
+								messageAll(Function.WAITUPDATE+"|"
+										+id+"|"+pos+"|"+room.roomName+"|"
+										+room.current+"|"+room.maxcount);
+								if(room.current<1)
+								{
+									roomVc.removeElementAt(i);
+									break;
+								}
+							}
+						}
+					}
+					break;*/
+                  
+                  
+                     
+               }//swith문 끝
                
             }
          } catch (Exception e) {}

@@ -8,7 +8,8 @@ import javax.swing.*;
 
 public class WaitRoom_NewRoom_Panel extends JPanel{
    Image back; //백그라운드 배경
-   JTextField roomName, roomPsw; //방이름, 패스워드 입력필드 
+  /* JTextField roomName;
+   JPasswordField roomPsw; //방이름, 패스워드 입력필드 
    JRadioButton open, notopen;
    String[] personnel= {"4","5","6","7","8"}; //인원수 콤보박스에 붙이기 위한 문자열 배열
    JComboBox personnel_Combo; //인원수 콤보박스
@@ -16,20 +17,19 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
    JButton okButton;//만들기 버튼
    JButton noButton;//취소버튼
    ImageIcon okButtonIcon, noButtonIcon;//각버튼 이미지
-   
+*/   
    public WaitRoom_NewRoom_Panel() {
-      setLayout(null);
       back = Toolkit.getDefaultToolkit().getImage("image\\newroom.png"); //백그라운드
       
-      //방이름 설정
+      /*//방이름 설정
       roomName = new JTextField("");
       roomName.setBounds(170, 109, 320, 20);
       add(roomName);
       
-      /*//공개 비공개 콤보박스 설정
+      //공개 비공개 콤보박스 설정
       visibility_Combo =new JComboBox(visibility);
       visibility_Combo.setBounds(170, 148, 80, 20);
-      add(visibility_Combo);*/
+      add(visibility_Combo);
       open=new JRadioButton("공개");
       open.setOpaque(false);
       open.setSelected(true);
@@ -45,7 +45,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
       add(notopen);
       
       //패스워드 설정
-      roomPsw=new JTextField("");
+      roomPsw=new JPasswordField("");
       roomPsw.setBounds(170, 179, 320, 20);
       add(roomPsw);
       
@@ -74,7 +74,7 @@ public class WaitRoom_NewRoom_Panel extends JPanel{
       noButton.setBorderPainted(false); 
       noButton.setFocusPainted(false);
       noButton.setContentAreaFilled(false);   
-      add(noButton);         
+      add(noButton);      */   
    }   
    //백그라운드 배경화면 : 클래스파일 오른쪽 클릭 -> Source->Override어찌고 ->paintComponent
    @Override

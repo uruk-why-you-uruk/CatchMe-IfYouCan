@@ -87,8 +87,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				//s = new Socket("211.238.142.66", 7334); 
-				s = new Socket("192.168.0.7", 7334);
+				s = new Socket("211.238.142.65", 7334); 
+				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
 				out = s.getOutputStream();

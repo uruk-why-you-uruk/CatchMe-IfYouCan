@@ -17,10 +17,12 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 	JRadioButton open, notopen;
 	String[] personnel = { "4", "5", "6", "7", "8" }; // 인원수 콤보박스에 붙이기 위한 문자열 배열
 	JComboBox personnel_Combo; // 인원수 콤보박스
-
+	
+	ImageIcon okButtonIcon, noButtonIcon;// 각버튼 이미지
 	JButton okButton;// 만들기 버튼
 	JButton noButton;// 취소버튼
-	ImageIcon okButtonIcon, noButtonIcon;// 각버튼 이미지
+
+	
 	public WaitRoom_NewRoom() {
 		setContentPane(new JLabel(new ImageIcon("image\\newroom.png")));
         setLayout(null);
@@ -35,14 +37,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		open.setSelected(true);
 		notopen = new JRadioButton("비공개");
 		notopen.setOpaque(false);
-		// 그룹으로 묶어야 하나만 선택된다.
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(open);
-		bg.add(notopen);
-		open.setBounds(170, 148, 60, 20);
-		notopen.setBounds(235, 148, 80, 20);
-		add(open);
-		add(notopen);
+		
 
 		// 패스워드 설정
 		roomPsw = new JPasswordField("");
@@ -85,6 +80,15 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		p2.add(noButton);
 		p2.setBounds(305, 298, 85, 40);				
 		add(p2);*/
+		
+		// 그룹으로 묶어야 하나만 선택된다.
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(open);
+		bg.add(notopen);
+		open.setBounds(170, 148, 60, 20);
+		notopen.setBounds(235, 148, 80, 20);
+		add(open);
+		add(notopen);
 		
 		setSize(600, 350);
 		setUndecorated(true);

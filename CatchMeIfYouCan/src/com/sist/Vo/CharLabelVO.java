@@ -55,9 +55,9 @@ public class CharLabelVO extends JPanel{
 		charinfo_Panel = new JPanel();
 		state = new JLabel();
 		this.id = new JLabel(char_if.getId());
-		this.rank = new JLabel(new ImageIcon("image\\rank\\"+rank+".png"));
+		this.rank = new JLabel(new ImageIcon("image\\rank\\"+char_if.getRank()+".png"));
 		this.score = new JLabel("0");
-		this.img = new ImageIcon("image\\"+img+"\\"+rank+".png");
+		this.img = new ImageIcon("image\\char_mini\\"+char_if.getIcon()+".png");
 		this.img_la = new JLabel(this.img);
 		charinfo_Panel.setLayout(new GridLayout(1, 4));
 		charinfo_Panel.add(state);

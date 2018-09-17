@@ -66,6 +66,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		gr.out_btn.addActionListener(this);
+		wrn.okButton.addActionListener(this);
+		wrn.noButton.addActionListener(this);
 
 	}
 
@@ -87,7 +89,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.65", 7334); 
+				s = new Socket("211.238.142.62", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -137,7 +139,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			wrn.setVisible(true);
 		}
 		// 실제 방만들기.
-		if (e.getSource() == wrn.okButtonIcon) { //아 왜 안눌려
+		if (e.getSource() == wrn.okButton) { //아 왜 안눌려
 			System.out.println("방생성!!!");
 			// 입력된 방정보 읽기
 			String rname = wrn.roomName.getText();

@@ -29,7 +29,7 @@ import java.io.*;
 public class Server implements Runnable{
    // 辑滚 家南 积己
    private ServerSocket ss;
-   private final int PORT=7334;
+   private final int PORT=7339;
    //private String name;
    private String location;
    

@@ -352,7 +352,7 @@ public class Server implements Runnable{
 									user.messageTo(Function.ROOMCHAT
 											+"|[알림 ☞]"+name+"님이 퇴장하셨습니다");
 								}
-								// 방에 들어가는 사람 처리
+								// 방에 있는 사람 처리??
 								//room.userVc.addElement(this);
 								messageTo(Function.MYROOMOUT+"|");
 								for(int k=0;k<room.userVc.size();k++)

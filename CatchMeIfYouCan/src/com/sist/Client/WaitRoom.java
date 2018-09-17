@@ -25,8 +25,7 @@ public class WaitRoom extends JPanel {
 
       la1 = new JLabel(""); 
       la2 = new JLabel(""); 
-      ta=new JTextArea();
-       ta.setEditable(false);
+    
        
       ta = new JTextArea();  
       ta.setEditable(false); //편집 못하게 하기!!! 왜안돼   

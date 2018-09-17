@@ -17,9 +17,13 @@ public class Room {
 	String roomName, roomState, roomPwd;
 	int current; //현재인원
 	int maxcount; //설정된 인원
+	int roomNumber; //방번호
+	
+	public Room() {};
 
 	public Room(String roomName, String roomState, String roomPwd, int maxcount) {
 		current=1;
+		roomNumber=1;
 		this.roomName = roomName;
 		this.roomState = roomState;
 		this.roomPwd = roomPwd;

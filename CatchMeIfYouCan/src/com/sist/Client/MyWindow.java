@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.net.Socket;
 import java.util.Vector;
 
+import com.sist.Server.Room;
 import com.sist.Server.Server.Client;
 import com.sist.common.Function;
 
@@ -89,7 +90,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.62", 7339); 
+				s = new Socket("211.238.142.65", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -139,7 +140,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			wrn.setVisible(true);
 		}
 		// 실제 방만들기.
-		if (e.getSource() == wrn.okButton) { //아 왜 안눌려
+		if (e.getSource() == wrn.okButton) { 
 			System.out.println("방생성!!!");
 			// 입력된 방정보 읽기
 			String rname = wrn.roomName.getText();
@@ -153,7 +154,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			// 방 이름 중복 찾고, 다시만들라하기
 			String temp = "";
 			for (int i = 0; i < wr.model1.getRowCount(); i++) {
-				temp = wr.model1.getValueAt(i, 0).toString();
+				temp = wr.model1.getValueAt(i, 1).toString();
 				if (temp.equals(rname)) {
 					JOptionPane.showMessageDialog(this, "이미 존재하는 방입니다.\n다시 입력하세요");
 					wrn.roomName.setText("");
@@ -167,7 +168,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			if (wrn.open.isSelected()) // 공개버튼이 선택됐다.
 			{
 				state = "공개";
-				pwd = "";
+				pwd = " ";
 			} else {
 				state = "비공개";
 				pwd = new String(wrn.roomPsw.getPassword());
@@ -180,7 +181,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd.trim() + "|" + (inwon + 4) + "\n")
 						.getBytes());
 				}else {
-					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + null +"|"+ (inwon + 4)+"\n")
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd +"|"+ (inwon + 4)+"\n")
 							.getBytes());
 				}
 			} catch (Exception e2) {
@@ -215,6 +216,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 				switch (no) {
 				case Function.LOGIN:// login.jsp
 				{
+					System.out.println("로그인 목록 뿌린다~");
 					String[] data = { st.nextToken(), // ID
 							st.nextToken()// POS
 					};
@@ -252,19 +254,46 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 				}break;
 				
 				case Function.MAKEROOM: {
+					System.out.println("MAKEROOM작동~");
 					String roomNumber=st.nextToken();
 					String rname=st.nextToken();
-					String state=st.nextToken();
-					String pwd=st.nextToken();
+					String state=st.nextToken();					
 					String inwon=st.nextToken();
-					String[] data = {roomNumber,rname,state,(inwon+"명"),pwd};
+					//String pwd=st.nextToken();
+					String[] data = {roomNumber,rname,state,inwon};
 					wr.model1.addRow(data);
 					}break;	
 					
+				case Function.ROOMNAMEUPDATE: { //사용자 방위지 업데이트
+					String id=st.nextToken();
+			    	String pos=st.nextToken();
+			    	String temp="";
+			    	for(int i=0;i<wr.model2.getRowCount();i++)
+			    	{
+			    		temp=wr.model2.getValueAt(i, 0).toString();
+			    		if(id.equals(temp))
+			    		{
+			    			wr.model2.setValueAt(pos, i, 1);
+			    			break;
+			    		}
+			    	}
+					}break;	
+				
+				case Function.ROOMUPDATE:{
+					String[] data = {};
+				}break;
+				
+				case Function.ROOMIN: {
+					
 				}
-			}//swith문 끝
+					
+				}//switch문끝
+				
+			}//while문 끝
 			
 		} catch (Exception ex) {
+			System.out.println("Clinet:"+ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 

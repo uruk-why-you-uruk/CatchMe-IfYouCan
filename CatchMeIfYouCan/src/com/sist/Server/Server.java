@@ -33,7 +33,6 @@ public class Server implements Runnable{
    //private String name;
    private String location;
    
-   
    //클라이언트의 정보를 저장
    private ArrayList<Client> waitList =new ArrayList<Client>();
    
@@ -151,6 +150,7 @@ public class Server implements Runnable{
                     	 charvo.setId(id);
                     	 charvo.setpos(pos);
                     	 //(*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
+                    	 System.out.println("중복된 값 없음");
                     	 out.write((Function.CHARACTERROOM+"|"+charvo.getId()+"\n").getBytes());                    	 
                      }
                      
@@ -175,7 +175,7 @@ public class Server implements Runnable{
               		  charvo.setRank(Integer.parseInt(st.nextToken()));
               		  
                 	// (*1*)제일 먼저 접속한 사람들에게 자신이 접속했다는 것을 알린다.
-                      messageAll(Function.LOGIN+"|"+charvo.getId()+"|"+pos);//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
+                      messageAll(Function.LOGIN+"|"+charvo.getId()+"|"+charvo.getpos());//접속한 모든 사람에게 로그인을 알려준다~(테이블에 출력)
                       
                       //(*2*)이후에 자신을 접속 시킨다.
                       waitList.add(this);
@@ -185,6 +185,7 @@ public class Server implements Runnable{
                       // (*4*) 로그인 ==> 대기실로 화면을 변경시킨다.
                       System.out.println("server : 화면 바꾸기");
                       messageTo(Function.MYLOG+"|");
+                      
                       System.out.println("server : 접속명단 뿌리기");
                       messageAll(Function.WAITCHAT+"|"+charvo.getId()+"님이 접속하셨습니다");
                       
@@ -196,8 +197,27 @@ public class Server implements Runnable{
                                     +client.id+"|"
                                  +client.pos);
                       }
-                  }
-                  break;
+                      
+                      // 방정보 전송 (캐릭터선택후 대기실로 넘어가는 부분)
+                      
+                      
+                      
+                      /// 정일이형 ver
+                      for(Room room:roomVc)
+                      {
+                    	  if(!room.equals(null)) {
+                    		  System.out.println("룸벡터가 널이 아닙니다!");
+                    		 messageTo(Function.MAKEROOM+"|"
+									+(room.roomNumber)+"|"
+						           +room.roomName+"|"
+						           +room.roomState+"|"
+						           +room.current+"/"+room.maxcount+"|"
+						           +room.roomPwd); 
+                    	  }
+                    	  
+	                  }
+                  } break;
+                 
                 	  
                   //채팅 요청 처리
                   case Function.WAITCHAT:
@@ -210,7 +230,9 @@ public class Server implements Runnable{
                    //방만들기
                   case Function.MAKEROOM:
                   {
+                	  //out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd.trim() + "|" + (inwon + 4) + "\n")
                 	  //Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
+                	  int roomN=0;
                 	  Room room=new Room(
 								st.nextToken(),
 								st.nextToken(), 
@@ -220,18 +242,20 @@ public class Server implements Runnable{
 						pos=room.roomName;
 						roomVc.addElement(room);
 						messageAll(Function.MAKEROOM+"|"
+									+(room.roomNumber=(room.roomNumber+(roomN++)))+"|"
 						           +room.roomName+"|"
 						           +room.roomState+"|"
-						           +room.current+"/"+room.maxcount);
-						/*// 2/6
+						           +room.current+"/"+room.maxcount+"|"
+						           +room.roomPwd);
+						// 2/6
 						// 명령(방들어가기)
 						messageTo(Function.MYROOMIN+"|"
-								+id+"|"+name+"|"
-								+sex+"|"+avata+"|"+room.roomName);
-						*/
-						// 출력 ==> client
+								+charvo.getId()+"|"+charvo.getIcon()+"|"
+								+charvo.getpos()+"|"+room.roomName);
+						
+						// 출력 ==> client 
 						messageAll(Function.ROOMNAMEUPDATE+"|"
-								+id+"|"+pos);
+								+id+"|"+pos+"방");
                   }break;
 
 					/*case Function.MYROOMIN:
@@ -359,7 +383,7 @@ public class Server implements Runnable{
                }//swith문 끝
                
             }
-         } catch (Exception e) {}
+         } catch (Exception e) {System.out.println(e.getMessage());}
             // TODO: handle exception
       }
       

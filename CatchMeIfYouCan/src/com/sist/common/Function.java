@@ -21,6 +21,7 @@ public class Function {
     public static final int WAITUPDATE=350;//대기실 수정 
     public static final int WAITCHAT=360;//대기실 채팅
     public static final int ROOMNAMEUPDATE=370;//방이름 변경
+    public static final int ROOMUPDATE=380;
 
     //GAME 메세지
     public static final int GAMEREADY=400;//게임 준비 인원 3명 미만
@@ -42,5 +43,6 @@ public class Function {
     // 채팅 관련
     public static final int CHAT=700;//채팅하기
     public static final int LOGOUT=900;//클라이언트종료??
+
     
 }

@@ -16,9 +16,11 @@ public class Function {
     public static final int MAKEROOM=300;// 방만들기
     public static final int ROOMIN=310;//방들어가기
     public static final int ROOMOUT=320;//방나가기(남아있는 사람)
-    public static final int MYROOMOUT=330;//방나가는 사람 처리
-    public static final int WAITUPDATE=340;//대기실 수정 
-    public static final int WAITCHAT=350;//대기실 채팅
+    public static final int MYROOMIN=330;//방들어가는 사람 처리
+    public static final int MYROOMOUT=340;//방나가는 사람 처리
+    public static final int WAITUPDATE=350;//대기실 수정 
+    public static final int WAITCHAT=360;//대기실 채팅
+    public static final int ROOMNAMEUPDATE=370;//방이름 변경
 
     //GAME 메세지
     public static final int GAMEREADY=400;//게임 준비 인원 3명 미만
@@ -31,7 +33,7 @@ public class Function {
     public static final int GAMEGIVEUP=460; //게임포기
     public static final int GAMECLEANALL=470;//스케치화면 초기화
     public static final int GAMECOLOR=480;//색선택
-    public static final int GAMECHAT=490;//게임방 채팅
+    public static final int ROOMCHAT=490;//게임방 채팅
     public static final int GAMEDOMANG=500;//게임 도망(대기실로나감)
     public static final int GAMEANDOMANG=510; //게임 도망(남아있는사람)
     public static final int GAMETIMEOVER=520; //시간이 끝날때까지 맞춘 사람이 없는 거 처리

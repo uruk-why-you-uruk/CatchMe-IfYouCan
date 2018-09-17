@@ -41,7 +41,7 @@ public class WaitRoom extends JPanel {
       
       mb=new ImageIcon("image\\newroombtn.png");//방만들기 버튼 이미지
       b1 = new JButton("",mb); //방만들기 버튼에 이미지 입히면서 초기화.
-      ci=new ImageIcon("image\\jam.png");
+      ci=new ImageIcon("image\\char_mini\\"+MyWindow.charno+".png");
       rankI=new ImageIcon("image\\RANK\\FF.png");
       Image  img = getImageSizeChange(ci, 90, 90);
       mc.setIcon(new ImageIcon(img));
@@ -122,9 +122,9 @@ public class WaitRoom extends JPanel {
     //My Info~
       mc.setBounds(876, 510, 90, 90);
       mc.setOpaque(false);
-      nickName.setBounds(1025, 540, 40, 14);
+      nickName.setBounds(995, 540, 120, 14);
       nickName.setOpaque(false);
-      rank.setBounds(1035, 570, 20, 20);
+      rank.setBounds(1025, 566, 50, 30);
       rank.setOpaque(false);
       add(mc);
       add(nickName);

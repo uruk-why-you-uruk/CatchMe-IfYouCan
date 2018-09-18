@@ -32,7 +32,7 @@ public class Server implements Runnable{
    private final int PORT=7339;
    //private String name;
    private String location;
-   
+   public static int roomN=1;
    //클라이언트의 정보를 저장
    private ArrayList<Client> waitList =new ArrayList<Client>();
    
@@ -208,7 +208,7 @@ public class Server implements Runnable{
                     	  if(!room.equals(null)) {
                     		  System.out.println("룸벡터가 널이 아닙니다!");
                     		 messageTo(Function.MAKEROOM+"|"
-									+(room.roomNumber)+"|"
+									+room.roomNumber+"|"
 						           +room.roomName+"|"
 						           +room.roomState+"|"
 						           +room.current+"/"+room.maxcount+"|"
@@ -231,57 +231,56 @@ public class Server implements Runnable{
                   case Function.MAKEROOM:
                   {
                 	  //out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd.trim() + "|" + (inwon + 4) + "\n")
-                	  //Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
-                	  int roomN=0;
+                	  //Room.java = public Room(int roomNumber,String roomName, String roomState, String roomPwd, int maxcount)
                 	  Room room=new Room(
+                			  	(roomN++),
 								st.nextToken(),
 								st.nextToken(), 
 								st.nextToken(), 
 								Integer.parseInt(st.nextToken()));
-						room.userVc.addElement(this);
+						//room.userVc.addElement(this);
+                	    room.userVc.addElement(this);
 						pos=room.roomName;
 						roomVc.addElement(room);
 						messageAll(Function.MAKEROOM+"|"
-									+(room.roomNumber=(room.roomNumber+(roomN++)))+"|"
+									+room.roomNumber+"|"
 						           +room.roomName+"|"
 						           +room.roomState+"|"
 						           +room.current+"/"+room.maxcount+"|"
 						           +room.roomPwd);
 						// 2/6
 						// 명령(방들어가기)
+						System.out.println("MAKEROOM :"+room.current);
 						messageTo(Function.MYROOMIN+"|"
-								+charvo.getId()+"|"+charvo.getIcon()+"|"
-								+charvo.getpos()+"|"+room.roomName);
+								+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
 						
 						// 출력 ==> client 
 						messageAll(Function.ROOMNAMEUPDATE+"|"
-								+id+"|"+pos+"방");
+								+charvo.getId()+"|"+pos+"방");
                   }break;
+                  /*   방찾는다
+					 *   현재인원 증가
+					 *   위치 변경
+					 *   ==========
+					 *   방에 있는 사람 
+					 *     => 방에 들어가는 사람의 정보 전송
+					 *     => 입장메세지 
+					 *   방에 들어가는 사람 처리
+					 *     => 방으로 변경
+					 *     => 방에 있는 사람의 모든 정보를 받는다 
+					 *   대기실 처리
+					 *     => 1) 인원 (table1)
+					 *        2) 위치 (table2)
+					 *        
+					 *   강퇴 , 초대 , 게임 */
 
-					/*case Function.MYROOMIN:
+					case Function.MYROOMIN:
 					{
-						
-						 *   방찾는다
-						 *   현재인원 증가
-						 *   위치 변경
-						 *   ==========
-						 *   방에 있는 사람 
-						 *     => 방에 들어가는 사람의 정보 전송
-						 *     => 입장메세지 
-						 *   방에 들어가는 사람 처리
-						 *     => 방으로 변경
-						 *     => 방에 있는 사람의 모든 정보를 받는다 
-						 *   대기실 처리
-						 *     => 1) 인원 (table1)
-						 *        2) 위치 (table2)
-						 *        
-						 *   강퇴 , 초대 , 게임 
-						 
-						String rn=st.nextToken();
+						int rn=Integer.parseInt(st.nextToken());
 						for(int i=0;i<roomVc.size();i++)
 						{
 							Room room=roomVc.elementAt(i);
-							if(rn.equals(room.roomName))
+							if(rn==room.roomNumber)
 							{
 								room.current++;
 								pos=room.roomName;
@@ -289,24 +288,81 @@ public class Server implements Runnable{
 								for(int j=0;j<room.userVc.size();j++)
 								{
 									Client user=room.userVc.elementAt(j);
-									user.messageTo(Function.ROOMIN+"|"
-										+id+"|"+name+"|"+sex+"|"+avata);
+									System.out.println("Server current:"+room.current);
+									user.messageTo(Function.ROOMIN+
+											"|"+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
 									user.messageTo(Function.ROOMCHAT
-											+"|[알림 ☞]"+name+"님이 입장하셨습니다");
+											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
 								}
 								// 방에 들어가는 사람 처리
 								room.userVc.addElement(this);
 								messageTo(Function.MYROOMIN+"|"
-										+id+"|"+name+"|"
-										+sex+"|"+avata+"|"+room.roomName);
+										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
+								for(int k=0;k<room.userVc.size();k++)
+								{
+									Client user=room.userVc.elementAt(k);
+									if(!charvo.getId().equals(user.charvo.getId()))
+									{
+										
+										System.out.println((k+1)+"번째 사람 :"+user.charvo.getId());
+									  messageTo(Function.ROOMIN+"|"
+											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+(k+1));
+									}
+								}
+								// 대기실 
+								/*messageAll(Function.WAITUPDATE+"|"
+										+id+"|"+pos+"|"+room.roomName+"|"
+										+room.current+"|"+room.maxcount);*/
+							}
+						}
+					}
+					break;
+					 /*   방찾는다
+					 *   현재인원 증가
+					 *   위치 변경
+					 *   ==========
+					 *   방에 있는 사람 
+					 *     => 방에 들어가는 사람의 정보 전송
+					 *     => 입장메세지 
+					 *   방에 들어가는 사람 처리
+					 *     => 방으로 변경
+					 *     => 방에 있는 사람의 모든 정보를 받는다 
+					 *   대기실 처리
+					 *     => 1) 인원 (table1)
+					 *        2) 위치 (table2)
+					 *        
+					 *   강퇴 , 초대 , 게임 */
+					case Function.ROOMIN:
+					{
+					
+						String rn=st.nextToken();
+						for(int i=0;i<roomVc.size();i++)
+						{
+							Room room=roomVc.elementAt(i);
+							if(rn.equals(room.roomNumber))
+							{
+								room.current++;
+								pos=room.roomName;
+								// 방에 있는 사람 처리
+								for(int j=0;j<room.userVc.size();j++)
+								{
+									Client user=room.userVc.elementAt(j);
+									user.messageTo(Function.ROOMIN+
+											"|"+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.current);
+									user.messageTo(Function.ROOMCHAT
+											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
+								}
+								// 방에 들어가는 사람 처리
+								room.userVc.addElement(this);
+								messageTo(Function.MYROOMIN+"|"
+										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
 								for(int k=0;k<room.userVc.size();k++)
 								{
 									Client user=room.userVc.elementAt(k);
 									if(!id.equals(user.id))
 									{
 									  messageTo(Function.ROOMIN+"|"
-										+user.id+"|"+user.name+"|"
-										+user.sex+"|"+user.avata);
+											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+(k+1));
 									}
 								}
 								// 대기실 
@@ -317,25 +373,26 @@ public class Server implements Runnable{
 						}
 					}
 					break;
-					case Function.ROOMOUT:
+					/*
+					 *   방찾는다
+					 *   현재인원 증가
+					 *   위치 변경
+					 *   ==========
+					 *   방에 있는 사람 
+					 *     => 방에 들어가는 사람의 정보 전송
+					 *     => 입장메세지 
+					 *   방에 들어가는 사람 처리
+					 *     => 방으로 변경
+					 *     => 방에 있는 사람의 모든 정보를 받는다 
+					 *   대기실 처리
+					 *     => 1) 인원 (table1)
+					 *        2) 위치 (table2)
+					 *        
+					 *   강퇴 , 초대 , 게임 
+					 */
+					/*case Function.ROOMOUT:
 					{
-						
-						 *   방찾는다
-						 *   현재인원 증가
-						 *   위치 변경
-						 *   ==========
-						 *   방에 있는 사람 
-						 *     => 방에 들어가는 사람의 정보 전송
-						 *     => 입장메세지 
-						 *   방에 들어가는 사람 처리
-						 *     => 방으로 변경
-						 *     => 방에 있는 사람의 모든 정보를 받는다 
-						 *   대기실 처리
-						 *     => 1) 인원 (table1)
-						 *        2) 위치 (table2)
-						 *        
-						 *   강퇴 , 초대 , 게임 
-						 
+					
 						String rn=st.nextToken();
 						for(int i=0;i<roomVc.size();i++)
 						{
@@ -376,8 +433,8 @@ public class Server implements Runnable{
 							}
 						}
 					}
-					break;*/
-                  
+					break;
+                  */
                   
                      
                }//swith문 끝

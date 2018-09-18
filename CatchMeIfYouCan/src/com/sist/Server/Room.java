@@ -21,9 +21,9 @@ public class Room {
 	
 	public Room() {};
 
-	public Room(String roomName, String roomState, String roomPwd, int maxcount) {
+	public Room(int roomNumber, String roomName, String roomState, String roomPwd, int maxcount) {
 		current=1;
-		roomNumber=1;
+		this.roomNumber=roomNumber;
 		this.roomName = roomName;
 		this.roomState = roomState;
 		this.roomPwd = roomPwd;

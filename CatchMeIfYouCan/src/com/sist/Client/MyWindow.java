@@ -2,6 +2,8 @@ package com.sist.Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.*;
 // 윈도우가 위치하는 위치
@@ -18,14 +20,19 @@ import java.awt.*;
  *      JWindow : 타이틀바가 없는 것 => 홍보할때 
  */
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.net.Socket;
 import java.util.Vector;
 
 import com.sist.Server.Room;
 import com.sist.Server.Server.Client;
+import com.sist.Vo.CharLabelVO;
+import com.sist.Vo.CharVO;
 import com.sist.common.Function;
 
-public class MyWindow extends JFrame implements ActionListener, Runnable {
+public class MyWindow extends JFrame implements ActionListener, Runnable,MouseListener {
 	// 윈도우 설정
 	static int charno = 0;
 	static String temp;
@@ -69,6 +76,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 		gr.out_btn.addActionListener(this);
 		wrn.okButton.addActionListener(this);
 		wrn.noButton.addActionListener(this);
+		wr.table1.addMouseListener(this);
 
 	}
 
@@ -284,8 +292,28 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 				}break;
 				
 				case Function.ROOMIN: {
+					CharVO temp = new CharVO();
+					temp.setId(st.nextToken());
+					temp.setRank(Integer.parseInt(st.nextToken()));
+					temp.setIcon(st.nextToken());
 					
-				}
+					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
+					int num_temp = Integer.parseInt(st.nextToken());
+					
+					gr.char_group[num_temp-1].setCharVO(temp);
+				}break;
+				
+				case Function.MYROOMIN: {
+					CharVO temp = new CharVO();
+					temp.setId(st.nextToken());
+					temp.setRank(Integer.parseInt(st.nextToken()));
+					temp.setIcon(st.nextToken());
+					
+					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
+					int num_temp = Integer.parseInt(st.nextToken());
+					gr.char_group[num_temp-1].setCharVO(temp);
+					card.show(getContentPane(), "GR");
+				}break;
 					
 				}//switch문끝
 				
@@ -295,6 +323,50 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 			System.out.println("Clinet:"+ex.getMessage());
 			ex.printStackTrace();
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource()==wr.table1)
+		{
+			if(e.getClickCount()==2)
+			{
+				//Room.java = public Room(int roomNumber,String roomName, String roomState, String roomPwd, int maxcount)
+				//System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 0))
+          	    try {
+          	    	//                                       누른 방의 번호를 가져온다. 
+					out.write((Function.MYROOMIN+"|"+wr.table1.getValueAt(wr.table1.getSelectedRow(), 0)+"\n").getBytes());
+					card.show(getContentPane(), "GR");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

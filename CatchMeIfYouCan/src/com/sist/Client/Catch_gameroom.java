@@ -39,6 +39,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
    JTextField tf;
    // 팔레트 버튼을 위한 버튼
    JButton[] color = new JButton[6];
+   Color[] c = {Color.BLACK, Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.WHITE};
+   
 
    ImageIcon out_img, giveup, eraser;
    JButton out_btn,giveup_btn, eraser_btn;
@@ -46,9 +48,10 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
    JButton timer_btn = new JButton("타이머시작");
    JButton qus_btn = new JButton("문제 끄기");
    TimeThread t = new TimeThread();
-
+   Color col=Color.BLACK;
+   
    static boolean bThread;
-
+   MyPanel draw = new MyPanel();
    Catch_gameroom() {
 
       // 출제자에게 보이는 문제 
@@ -65,6 +68,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       out_btn = new JButton("", out_img);
       out_btn.setBounds(1060, 600, 115, 51);
       out_btn.setBorderPainted(false); // 테두리 출력 없애기
+      out_btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
       add(out_btn);
       
 
@@ -74,6 +78,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       giveup_btn.setBounds(790, 45, 67, 66);
       giveup_btn.setBorderPainted(false);
       giveup_btn.setContentAreaFilled(false);
+      giveup_btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
       add(giveup_btn);
       
       // 전체지우기 버튼
@@ -82,6 +87,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       eraser_btn.setBounds(930, 50, 64, 70);
       eraser_btn.setBorderPainted(false);
       eraser_btn.setContentAreaFilled(false);
+      eraser_btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
       add(eraser_btn);
       
       
@@ -105,8 +111,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       }
       
       // 캐치마인드 그리는 부분
-      MyPanel draw = new MyPanel();
-      draw.setBackground(Color.BLACK);
+      
+      draw.setBackground(Color.GRAY);
       
       // 방장 표시하는 라벨
       room_grade = new JLabel();
@@ -131,6 +137,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
          color[i].setBorderPainted(false);
          color[i].setFocusPainted(false);
          color[i].setContentAreaFilled(false);
+         color[i].addActionListener(this);
+         color[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
          color_Panel.add(color[i]);
       }
       
@@ -176,9 +184,10 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       setLayout(null);
       setVisible(true);
 
-      qus_btn.addMouseListener(this);
+      qus_btn.addActionListener(this);
       timer_btn.addMouseListener(this);
       tf.addActionListener(this);
+      eraser_btn.addActionListener(this);
    }
 
    public Image getImageSizeChange(ImageIcon icon, int width, int height) {
@@ -195,11 +204,37 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
    @Override
    public void actionPerformed(ActionEvent e) { // 채팅을치면 채팅창에 입력된게 올라가는고
-      if (e.getSource() == tf) {
+	   for(int i=0;i<c.length;i++) // 펜 색상 변경
+	      {
+	    	  if(e.getSource()==color[i])
+	    	  {
+	    		  col=c[i];
+	    	  }
+	      }
+	      if(e.getSource()==eraser_btn) //전체지우기
+	      {
+	    	  vStart.clear();//선을 모두 삭제
+	          draw.repaint(); // 캔버스를 repaint해라
+	      }
+	   
+	   if (e.getSource() == tf) {
          String s = tf.getText();
          ta.append(s + "\n");
          tf.setText("");
       }
+      if (e.getSource() == qus_btn) {
+          // t.interrupt();
+          bThread = false;
+          //qus.setVisible(true);
+          //char_group[0].removeAll();
+          System.out.println("name1:"+char_group[0].id.getText());
+          char_group[0].id.setText("홍길동");
+          //char_group[0].repaint();
+          char_group[0].validate();
+          System.out.println("name2:"+char_group[0].id.getText());
+          System.out.println("aaa");
+          
+       }
    }
 
    @Override
@@ -210,11 +245,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
          t.start();
          qus.setVisible(false);
       }
-      if (e.getSource() == qus_btn) {
-         // t.interrupt();
-         bThread = false;
-         qus.setVisible(true);
-      }
+      
    } 
 
    @Override
@@ -327,7 +358,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
       public void paintComponent(Graphics g) {
          super.paintComponent(g);
-         g.setColor(Color.BLUE); // 파란색을 선택한다.
+         g.setColor(col); // 파란색을 선택한다.
          for (int i = 1; i < vStart.size(); i++) {
             if (vStart.get(i - 1) == null)
                continue;

@@ -61,6 +61,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		okButton.setBorderPainted(false);
 		okButton.setFocusPainted(false);
 		okButton.setContentAreaFilled(false);*/
+		okButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
 		add(okButton);
 		/////////////////////////////////////////
 		// 취소버튼 설정
@@ -69,6 +70,7 @@ public class WaitRoom_NewRoom extends JFrame implements ActionListener {
 		noButton.setBorderPainted(false);
 		noButton.setFocusPainted(false);
 		noButton.setContentAreaFilled(false);*/
+		noButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
 		add(noButton);
 		
 		

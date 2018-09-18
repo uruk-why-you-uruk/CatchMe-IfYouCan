@@ -23,7 +23,9 @@ public class MainView extends JPanel implements MouseListener{
       pf=new JPasswordField();
       
       b1=new JButton("로그인");
+      b1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
       b2=new JButton("취소");
+      b2.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
       
       
       

@@ -98,7 +98,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.66", 7339); 
+				s = new Socket("211.238.142.62", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte

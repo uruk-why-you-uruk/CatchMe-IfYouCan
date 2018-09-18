@@ -87,6 +87,7 @@ public class WaitRoom extends JPanel {
       js1.setBounds(30, 95, 700, 307);
       js1.setOpaque(false);
       js1.getViewport().setOpaque(false);
+      js1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
       add(js1);
 
       // 접속자 테이블 배치
@@ -114,6 +115,7 @@ public class WaitRoom extends JPanel {
       b1.setBorderPainted(false); 
       b1.setFocusPainted(false); 
       b1.setContentAreaFilled(false);
+      b1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 모양
       
       //버튼배치
       add(b1);

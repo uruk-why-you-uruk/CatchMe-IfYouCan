@@ -114,7 +114,10 @@ public class Server implements Runnable{
        *        ex) 로그인  : id, pwd
        *     (3)결과값을 받아서 화면을 출력!
        */
-      public void run()
+      /* (non-Javadoc)
+     * @see java.lang.Thread#run()
+     */
+    public void run()
       {
          try {
             // 100|id|name 이런식으로 받는다
@@ -461,12 +464,15 @@ public class Server implements Runnable{
 						for(int i=0;i<roomVc.size();i++)
 						{
 							Room room=roomVc.elementAt(i);
-	                        for(int k=0;k<room.userVc.size();k++)
+							if(Integer.parseInt(rn)==room.roomNumber)
 							{
-								Client user=room.userVc.get(k);
-								// get(i)=elements
-								user.messageTo(Function.ROOMCHAT+"|["+id+"]"+data);
-								
+		                        for(int k=0;k<room.userVc.size();k++)
+								{
+									Client user=room.userVc.get(k);
+									// get(i)=elements
+									user.messageTo(Function.ROOMCHAT+"|["+charvo.getId()+"]"+data);
+									
+								}
 							}
                        }break;
                      }//swith문 끝

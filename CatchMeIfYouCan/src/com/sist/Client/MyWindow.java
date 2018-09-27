@@ -36,27 +36,29 @@ import com.sist.Vo.CharLabelVO;
 import com.sist.Vo.CharVO;
 import com.sist.common.Function;
 
-public class MyWindow extends JFrame implements ActionListener, Runnable,MouseListener,MouseMotionListener,KeyListener {
+public class MyWindow extends JFrame
+		implements ActionListener, Runnable, MouseListener, MouseMotionListener, KeyListener {
 	// 윈도우 설정
-	static int charno = 0,roomno=0;
+	static int charno = 0, roomno = 0;
 	static String temp;
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
 	WaitRoom_NewRoom wrn = new WaitRoom_NewRoom();
-	//WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
+	// WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
-	////////////////////////////////////////////////한정일 추가
-	PwdDialog dialog=new PwdDialog(this, "비공개방 비밀번호 입력");
+	//////////////////////////////////////////////// 한정일 추가
+	PwdDialog dialog = new PwdDialog(this, "비공개방 비밀번호 입력");
 	String pwdStr, pwdStrCheck;
 	////////////////////////////////////////////////////////
-	
+
 	CardLayout card = new CardLayout();
 	Socket s;
 	BufferedReader in;
 	OutputStream out;
 	// Vector<Point> vStart = new Vector<Point>();
-    int roomNumber;
+	int roomNumber;
+
 	public MyWindow() {
 		System.out.println("mywindow 실행");
 		setLayout(card);
@@ -87,18 +89,16 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		wrn.okButton.addActionListener(this);
 		wrn.noButton.addActionListener(this);
 		wr.table1.addMouseListener(this);
-		dialog.okButton.addActionListener(this); //한정일 추가
-		
-		
-		  
-		// 추가 부분 
-		  gr.qus_btn.addActionListener(this);
-		  gr.timer_btn.addMouseListener(this);
-		  gr.tf.addActionListener(this);
-		  gr.eraser_btn.addActionListener(this);
-		  gr.draw.addMouseListener(this);
-		  gr.draw.addMouseMotionListener(this);
-		  gr.addKeyListener(this);
+		dialog.okButton.addActionListener(this); // 한정일 추가
+
+		// 추가 부분
+		gr.qus_btn.addActionListener(this);
+		gr.timer_btn.addMouseListener(this);
+		gr.tf.addActionListener(this);
+		gr.eraser_btn.addActionListener(this);
+		gr.draw.addMouseListener(this);
+		gr.draw.addMouseMotionListener(this);
+		gr.addKeyListener(this);
 	}
 
 	public static void main(String[] args) {
@@ -119,8 +119,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.66", 7339); 
-				
+				s = new Socket("211.238.142.66", 7339);
+
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
 				out = s.getOutputStream();
@@ -158,7 +158,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		}
 		if (e.getSource() == wr.b1) { // 대기화면에서 방만들기 버튼을 누르면 방만들기 프레임이 보여진다.
 			System.out.println("방만들기 버튼 클릭");
-			//wrn.roomName.setText("방제목을 입력해주세요"); //된다.
+			// wrn.roomName.setText("방제목을 입력해주세요"); //된다.
 			wrn.roomName.setText("");
 			wrn.roomPsw.setText("");
 			wrn.open.setSelected(true);
@@ -168,7 +168,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			wrn.setVisible(true);
 		}
 		// 실제 방만들기.
-		if (e.getSource() == wrn.okButton) { 
+		if (e.getSource() == wrn.okButton) {
 			System.out.println("방생성!!!");
 			// 입력된 방정보 읽기
 			String rname = wrn.roomName.getText();
@@ -204,32 +204,32 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			}
 			int inwon = wrn.personnel_Combo.getSelectedIndex();
 			try {
-				//Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
-				if(state.equals("비공개")) {
-					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd + "|" + (inwon + 4) + "\n")
-						.getBytes());
-				}else {
-					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd +"|"+ (inwon + 4)+"\n")
-							.getBytes());
+				// Room.java = public Room(String roomName, String roomState, String roomPwd,
+				// int maxcount)
+				if (state.equals("비공개")) {
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd + "|" + (inwon + 4)
+							+ "\n").getBytes());
+				} else {
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd + "|" + (inwon + 4)
+							+ "\n").getBytes());
 				}
 			} catch (Exception e2) {
 				// TODO: handle exception
 			}
 			wrn.setVisible(false);
 		}
-		
-		if (e.getSource() == wrn.noButton)
-		{
+
+		if (e.getSource() == wrn.noButton) {
 			wrn.setVisible(false);
 		}
-		
+
 		if (e.getSource() == wr.b2) {
 			card.show(getContentPane(), "GR");
 		}
-		
+
 		if (e.getSource() == gr.out_btn) {
 			try {
-				out.write((Function.ROOMOUT+"|"+roomNumber+"\n").getBytes());
+				out.write((Function.ROOMOUT + "|" + roomNumber + "\n").getBytes());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -238,66 +238,76 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		}
 		if (e.getSource() == gr.tf) {
 			// 채팅 요청
+			// 만약 타이머가 돌고 있다면 
+			if(gr.bThread==true)
+			{
+				String msg = gr.tf.getText().trim();
+				try {
+					out.write((Function.GAMEYESNO + "|" +roomno + "|" + msg + "\n").getBytes());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			try {
 				String msg = gr.tf.getText().trim();
 				// 입력값 읽기
 				if (msg.length() < 1)
 					return;
-				out.write((Function.ROOMCHAT+ "|" +roomNumber+"|"+ msg + "\n").getBytes());
+				out.write((Function.ROOMCHAT + "|" + roomNumber + "|" + msg + "\n").getBytes());
 				// 처리 ==> 서버
 				gr.tf.setText("");
 				gr.tf.requestFocus();// focus
 			} catch (Exception ex) {
 			}
 		}
-		////////////////////////////////////////////////////한정일 추가
-		if(e.getSource() ==dialog.okButton) { //방 비번 다이얼로그 확인버튼
-	         pwdStrCheck=dialog.tf.getText();
-	         if(pwdStrCheck.equals(pwdStr)) {
-	            try {
-	               // 누른 방의 번호를 가져온다.
-	               out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0) + "\n")
-	                     .getBytes());
-	               card.show(getContentPane(), "GR");
-	            } catch (IOException e1) {
-	               // TODO Auto-generated catch block
-	               e1.printStackTrace();
-	            }
-	         }else {
-	            dialog.tf.setText("");
-	            dialog.setVisible(false);
-	            JOptionPane.showMessageDialog(null, "틀렸습니다!.");
-	         }
-	         dialog.tf.setText("");
-	         dialog.setVisible(false);
-	      }
+		//////////////////////////////////////////////////// 한정일 추가
+		if (e.getSource() == dialog.okButton) { // 방 비번 다이얼로그 확인버튼
+			pwdStrCheck = dialog.tf.getText();
+			if (pwdStrCheck.equals(pwdStr)) {
+				try {
+					// 누른 방의 번호를 가져온다.
+					out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0) + "\n")
+							.getBytes());
+					card.show(getContentPane(), "GR");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				dialog.tf.setText("");
+				dialog.setVisible(false);
+				JOptionPane.showMessageDialog(null, "틀렸습니다!.");
+			}
+			dialog.tf.setText("");
+			dialog.setVisible(false);
+		}
 		///////////////////////////////////////////////////////
-		  for(int i=0;i<gr.c.length;i++) // 펜 색상 변경
-	      {
-	    	  if(e.getSource()==gr.color[i])
-	    	  {
-	    		  gr.col=gr.c[i];
-	    	  }
-	      }
-	      if(e.getSource()==gr.eraser_btn) //전체지우기
-	      {
-	    	  gr.vStart.clear();//선을 모두 삭제
-	          gr.draw.repaint(); // 캔버스를 repaint해라
-	      }
-	   
-         if (e.getSource() == gr.qus_btn) {
-	        // t.interrupt();
-	        gr.bThread = false;
-	        //qus.setVisible(true);
-	        //char_group[0].removeAll();
-	        System.out.println("name1:"+gr.char_group[0].id.getText());
-	        gr.char_group[0].id.setText("홍길동");
-	        //char_group[0].repaint();
-	        gr.char_group[0].validate();
-	        System.out.println("name2:"+gr.char_group[0].id.getText());
-	        System.out.println("aaa");
-        
-       }
+		for (int i = 0; i < gr.c.length; i++) // 펜 색상 변경
+		{
+			if (e.getSource() == gr.color[i]) {
+				gr.col = gr.c[i];
+			}
+		}
+		if (e.getSource() == gr.eraser_btn) // 전체지우기
+		{
+			gr.vStart.clear();// 선을 모두 삭제
+			gr.draw.repaint(); // 캔버스를 repaint해라
+		}
+
+		if (e.getSource() == gr.qus_btn) {
+			// t.interrupt();
+			gr.bThread = false;
+			// qus.setVisible(true);
+			// char_group[0].removeAll();
+			System.out.println("name1:" + gr.char_group[0].id.getText());
+			gr.char_group[0].id.setText("홍길동");
+			// char_group[0].repaint();
+			gr.char_group[0].validate();
+			System.out.println("name2:" + gr.char_group[0].id.getText());
+			System.out.println("aaa");
+
+		}
 	}
 
 	@Override
@@ -333,13 +343,15 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 				case Function.MYLOG: {
 					System.out.println("WR 보여주기");
 					card.show(getContentPane(), "WR");
-				}break;
-				
+				}
+					break;
+
 				case Function.WAITCHAT: {
 					wr.bar.setValue(wr.bar.getMaximum());
 					wr.ta.append(st.nextToken() + "\n");
-				}break;
-				
+				}
+					break;
+
 				case Function.CHARACTERCHOICE: {
 					System.out.println("CHARACTERCHOICE 작동");
 					wr.nickName.setText(st.nextToken());
@@ -347,79 +359,79 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					wr.mc.setIcon(temp);
 					temp = new ImageIcon("image\\RANK\\" + Integer.parseInt(st.nextToken()) + ".png");
 					wr.rank.setIcon(temp);
-				}break;
-				
+				}
+					break;
+
 				case Function.MAKEROOM: {
 					System.out.println("MAKEROOM작동~");
-					/*int temp = Integer.parseInt(st.nextToken());
-					String roomNumber= Integer.toString(temp+1);*/
-					String roomNumber= st.nextToken();
-					String rname=st.nextToken();
-					String state=st.nextToken();					
-					String inwon=st.nextToken();
-					String pwd=st.nextToken();
-					String[] data = {roomNumber,rname,state,inwon,pwd};
+					/*
+					 * int temp = Integer.parseInt(st.nextToken()); String roomNumber=
+					 * Integer.toString(temp+1);
+					 */
+					String roomNumber = st.nextToken();
+					String rname = st.nextToken();
+					String state = st.nextToken();
+					String inwon = st.nextToken();
+					String pwd = st.nextToken();
+					String[] data = { roomNumber, rname, state, inwon, pwd };
 					wr.model1.addRow(data);
-					}break;	
-					
-				case Function.ROOMNAMEUPDATE: { //사용자 방위지 업데이트
-					String id=st.nextToken();
-			    	String pos=st.nextToken();
-			    	String temp="";
-			    	for(int i=0;i<wr.model2.getRowCount();i++)
-			    	{
-			    		temp=wr.model2.getValueAt(i, 0).toString();
-			    		if(id.equals(temp))
-			    		{
-			    			wr.model2.setValueAt(pos, i, 1);
-			    			break;
-			    		}
-			    	}
-					}break;	
-				
-				case Function.ROOMUPDATE:{
+				}
+					break;
+
+				case Function.ROOMNAMEUPDATE: { // 사용자 방위지 업데이트
+					String id = st.nextToken();
+					String pos = st.nextToken();
+					String temp = "";
+					for (int i = 0; i < wr.model2.getRowCount(); i++) {
+						temp = wr.model2.getValueAt(i, 0).toString();
+						if (id.equals(temp)) {
+							wr.model2.setValueAt(pos, i, 1);
+							break;
+						}
+					}
+				}
+					break;
+
+				case Function.ROOMUPDATE: {
 					String[] data = {};
-				}break;
-				
+				}
+					break;
+
 				case Function.ROOMIN: {
 					CharVO temp = new CharVO();
 					temp.setId(st.nextToken());
 					temp.setRank(Integer.parseInt(st.nextToken()));
 					temp.setIcon(st.nextToken());
-					
-					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
-					int i=0;
+
+					// +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
+					int i = 0;
 					int num_temp = Integer.parseInt(st.nextToken());
-					while(i<num_temp)						
-					{
-						if(gr.char_group[i].isVisible()==false)
-						{
+					while (i < num_temp) {
+						if (gr.char_group[i].isVisible() == false) {
 							gr.char_group[i].setCharVO(temp);
 							gr.char_group[i].setVisible(true);
 							break;
 						}
 						i++;
 					}
-					if(i>=num_temp)
-					{
+					if (i >= num_temp) {
 						System.out.println("방 정원 초과");
 					}
-				}break;
-				
+				}
+					break;
+
 				case Function.MYROOMIN: {
 					CharVO temp = new CharVO();
 					temp.setId(st.nextToken());
 					temp.setRank(Integer.parseInt(st.nextToken()));
 					temp.setIcon(st.nextToken());
-					
-					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
+
+					// +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
 					int num_temp = Integer.parseInt(st.nextToken());
-					roomNumber=Integer.parseInt(st.nextToken());
-					int i=0;
-					while(i<num_temp)						
-					{
-						if(gr.char_group[i].isVisible()==false)
-						{							
+					roomNumber = Integer.parseInt(st.nextToken());
+					int i = 0;
+					while (i < num_temp) {
+						if (gr.char_group[i].isVisible() == false) {
 							gr.char_group[i].setCharVO(temp);
 							gr.char_group[i].setVisible(true);
 							card.show(getContentPane(), "GR");
@@ -427,57 +439,49 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 						}
 						i++;
 					}
-					if(i>=num_temp)
-					{
+					if (i >= num_temp) {
 						System.out.println("방 정원 초과");
 					}
-				}break;
-				
-				case Function.MYROOMOUT:
-			    {
-			    	/*CharVO temp = new CharVO();
-			    	temp.setId(" ");
-			    	temp.set*/
-			    	for(int i=0;i<8;i++)
-			    	{
-			    		gr.char_group[i].setVisible(false);
-			    	}
-			    	gr.ta.setText("");
-			    	card.show(getContentPane(), "WR");
-			    }
-			    break;
-			    case Function.ROOMOUT:
-			    {
-			    	String id=st.nextToken();
-			    	for(int i=0;i<8;i++)
-			    	{
-			    		String temp=gr.char_group[i].id.getText();
-			    		System.out.println("****************RoomOut: "+id+","+temp);
-			    		if(id.equals(temp))
-			    		{
-			    			gr.char_group[i].id.setText(" ");
-			    			gr.char_group[i].setVisible(false);
-			    			break;
-			    		}
-			    	}
-			    	/*for(int i=0;i<cr.model.getRowCount();i++)
-			    	{
-			    		String temp=cr.model.getValueAt(i, 0).toString();
-			    		if(name.equals(temp))
-			    		{
-			    			cr.model.removeRow(i);
-			    			break;
-			    		}
-			    	}*/
-			    }
-			    break;
-			    case Function.ROOMCHAT: {
-			    	System.out.println("myWindow roomchat 작동");
+				}
+					break;
+
+				case Function.MYROOMOUT: {
+					/*
+					 * CharVO temp = new CharVO(); temp.setId(" "); temp.set
+					 */
+					for (int i = 0; i < 8; i++) {
+						gr.char_group[i].setVisible(false);
+					}
+					gr.ta.setText("");
+					card.show(getContentPane(), "WR");
+				}
+					break;
+				case Function.ROOMOUT: {
+					String id = st.nextToken();
+					for (int i = 0; i < 8; i++) {
+						String temp = gr.char_group[i].id.getText();
+						System.out.println("****************RoomOut: " + id + "," + temp);
+						if (id.equals(temp)) {
+							gr.char_group[i].id.setText(" ");
+							gr.char_group[i].setVisible(false);
+							break;
+						}
+					}
+					/*
+					 * for(int i=0;i<cr.model.getRowCount();i++) { String
+					 * temp=cr.model.getValueAt(i, 0).toString(); if(name.equals(temp)) {
+					 * cr.model.removeRow(i); break; } }
+					 */
+				}
+					break;
+				case Function.ROOMCHAT: {
+					System.out.println("myWindow roomchat 작동");
 					gr.bar.setValue(gr.bar.getMaximum());
 					gr.ta.append(st.nextToken() + "\n");
-				}break;
+				}
+					break;
 				////////////////// 추가
-			    case Function.MOUSEPRESS: {
+				case Function.MOUSEPRESS: {
 					double x = Double.parseDouble(st.nextToken());
 					double y = Double.parseDouble(st.nextToken());
 					Point point = new Point((int) x, (int) y);
@@ -493,205 +497,182 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					gr.draw.repaint();
 				}
 					break;
-			    case Function.WAITUPDATE:
-			    {
-			    	/*String id=st.nextToken();
-			    	String pos=st.nextToken();
-			    	String rn=st.nextToken();
-			    	String rc=st.nextToken();
-			    	String rm=st.nextToken();
-			    	
-			    	String temp="";
-			    	for(int i=0;i<wr.model1.getRowCount();i++)
-			    	{
-			    		temp=wr.model1.getValueAt(i, 0).toString();
-			    		if(temp.equals(rn))
-			    		{
-			    			if(Integer.parseInt(rc)<1)
-			    			{
-			    				wr.model1.removeRow(i);
-			    			}
-			    			else
-			    			{
-			    				wr.model1.setValueAt(rc+"/"+rm, i, 2);
-			    			}
-			    			break;
-			    		}
-			    	}
-			    	for(int i=0;i<wr.model2.getRowCount();i++)
-			    	{
-			    		temp=wr.model2.getValueAt(i, 0).toString();
-			    		if(id.equals(temp))
-			    		{
-			    			wr.model2.setValueAt(pos, i, 3);
-			    			break;
-			    		}
-			    	}*/
-			    }
+				case Function.WAITUPDATE: {
+					/*
+					 * String id=st.nextToken(); String pos=st.nextToken(); String
+					 * rn=st.nextToken(); String rc=st.nextToken(); String rm=st.nextToken();
+					 * 
+					 * String temp=""; for(int i=0;i<wr.model1.getRowCount();i++) {
+					 * temp=wr.model1.getValueAt(i, 0).toString(); if(temp.equals(rn)) {
+					 * if(Integer.parseInt(rc)<1) { wr.model1.removeRow(i); } else {
+					 * wr.model1.setValueAt(rc+"/"+rm, i, 2); } break; } } for(int
+					 * i=0;i<wr.model2.getRowCount();i++) { temp=wr.model2.getValueAt(i,
+					 * 0).toString(); if(id.equals(temp)) { wr.model2.setValueAt(pos, i, 3); break;
+					 * } }
+					 */
+				}
 
-                                                case Function.GAMESTART: {
-			    	 gr.t.start();
-			         Catch_gameroom.bThread = true;
-				}break;
-			    case Function.GAMEMYMUNJE: {
+				case Function.GAMESTART: {
+					gr.t.start();
+					Catch_gameroom.bThread = true;
+					
+				}
+					break;
+				case Function.GAMEMYMUNJE: {
 					gr.qus.setVisible(true);
 					gr.tf.setEditable(false);
 					gr.tf.setBackground(Color.GRAY);
 					String munje = st.nextToken();
 					gr.qus.setText(munje);
-					out.write((Function.GAMESTART + "|" + roomno + "\n")
-		                     .getBytes());
+					out.write((Function.GAMESTART + "|" + roomno + "\n").getBytes());
+				}
+					break;
 					
-					
-				}break;
-				
-				
-				
-					
-				}//switch문끝
-				
-			}//while문 끝
-			
+				case Function.REMOVEACTIONLISTENER:
+				{
+					gr.draw.removeMouseListener(this);
+					gr.draw.removeMouseMotionListener(this);
+				}
+
+				}// switch문끝
+
+			} // while문 끝
+
 		} catch (Exception ex) {
-			System.out.println("Clinet:"+ex.getMessage());
+			System.out.println("Clinet:" + ex.getMessage());
 			ex.printStackTrace();
 		}
 	}
-	////////////////////////////////////////////////한정일 추가~
-	@Override
-	   public void mouseClicked(MouseEvent e) {
-	      if (e.getSource() == wr.table1) {
-	         if (e.getClickCount() == 2) {
-	        	 System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString());
-	            // Room.java = public Room(int roomNumber,String roomName, String roomState,
-	            // String roomPwd, int maxcount)
-	            try {
-	               if (wr.table1.getValueAt(wr.table1.getSelectedRow(), 2).toString().equals("비공개")) {
-	               pwdStr =wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString();
-	               System.out.println("pwdStr(더블클릭한 방비밀번호) : "+pwdStr);               
-	               dialog.setResizable(false);
-	               dialog.setLocationRelativeTo(null);
-	               dialog.setVisible(true);
-	            } else {
-	               try {
-	                  // 누른 방의 번호를 가져온다.
-	                  out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0) + "\n")
-	                        .getBytes());
-	                  card.show(getContentPane(), "GR");
-	               } catch (IOException e1) {
-	                  // TODO Auto-generated catch block
-	                  e1.printStackTrace();
-	               }
-	            }
-	            } catch (Exception e2) {
-	               System.out.println("더블클릭의 if부분~ ::::::::"+e2.getMessage());
-	               e2.printStackTrace();
-	            }
-	         }
-	      }
-	      if (e.getSource() == gr.timer_btn) {
-	          gr.t = gr.new TimeThread();
-	          gr.bThread = true;
-	          gr.t.start();
-	          gr.qus.setVisible(false);
-	       }
-	   }
-	///////////////////////////////////////////////////////////////
 
-	/*@Override
+	//////////////////////////////////////////////// 한정일 추가~
+	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getSource()==wr.table1)
-		{
-			if(e.getClickCount()==2)
-			{
-				if(wr.table1.getValueAt(wr.table1.getSelectedRow(), 2).toString().equals("비공개"))
-				{
-					
-				}
-				//Room.java = public Room(int roomNumber,String roomName, String roomState, String roomPwd, int maxcount)
-				//System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 0))
-          	    try {
-          	    	roomno = Integer.parseInt((String)wr.table1.getValueAt(wr.table1.getSelectedRow(), 0));
-          	    	System.out.println("더블클릭 후 방번호 :"+roomno);
-          	    	//                                       누른 방의 번호를 가져온다. 
-					out.write((Function.MYROOMIN+"|"+roomno+"\n").getBytes());
-					card.show(getContentPane(), "GR");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+		if (e.getSource() == wr.table1) {
+			if (e.getClickCount() == 2) {
+				System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString());
+				// Room.java = public Room(int roomNumber,String roomName, String roomState,
+				// String roomPwd, int maxcount)
+				try {
+					if (wr.table1.getValueAt(wr.table1.getSelectedRow(), 2).toString().equals("비공개")) {
+						pwdStr = wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString();
+						System.out.println("pwdStr(더블클릭한 방비밀번호) : " + pwdStr);
+						dialog.setResizable(false);
+						dialog.setLocationRelativeTo(null);
+						dialog.setVisible(true);
+					} else {
+						try {
+							// 누른 방의 번호를 가져온다.
+							out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0)
+									+ "\n").getBytes());
+							card.show(getContentPane(), "GR");
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				} catch (Exception e2) {
+					System.out.println("더블클릭의 if부분~ ::::::::" + e2.getMessage());
+					e2.printStackTrace();
 				}
 			}
 		}
-		
-	}*/
+		if (e.getSource() == gr.timer_btn) {
+			gr.t = gr.new TimeThread();
+			gr.bThread = true;
+			gr.t.start();
+			gr.qus.setVisible(false);
+		}
+	}
+	///////////////////////////////////////////////////////////////
+
+	/*
+	 * @Override public void mouseClicked(MouseEvent e) {
+	 * if(e.getSource()==wr.table1) { if(e.getClickCount()==2) {
+	 * if(wr.table1.getValueAt(wr.table1.getSelectedRow(),
+	 * 2).toString().equals("비공개")) {
+	 * 
+	 * } //Room.java = public Room(int roomNumber,String roomName, String roomState,
+	 * String roomPwd, int maxcount)
+	 * //System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 0)) try
+	 * { roomno =
+	 * Integer.parseInt((String)wr.table1.getValueAt(wr.table1.getSelectedRow(),
+	 * 0)); System.out.println("더블클릭 후 방번호 :"+roomno); // 누른 방의 번호를 가져온다.
+	 * out.write((Function.MYROOMIN+"|"+roomno+"\n").getBytes());
+	 * card.show(getContentPane(), "GR"); } catch (IOException e1) { // TODO
+	 * Auto-generated catch block e1.printStackTrace(); } } }
+	 * 
+	 * }
+	 */
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		gr.vStart.add(null);
-        gr.vStart.add(e.getPoint());
-        try {
-           out.write((Function.MOUSEPRESS+"|" + roomNumber+"|"+e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
-        } catch (Exception ex) {
-        }
-        //System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
+		gr.vStart.add(e.getPoint());
+		try {
+			out.write((Function.MOUSEPRESS + "|" + roomNumber + "|" + e.getPoint().getX() + "|" + e.getPoint().getY()
+					+ "\n").getBytes());
+		} catch (Exception ex) {
+		}
+		// System.out.println("mousePressed:" + e.getPoint().getX() + "," +
+		// e.getPoint().getY());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		gr.vStart.add(e.getPoint());
-        try {
-           out.write((Function.MOUSEMOVE+"|" + roomNumber+"|"+e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
-        } catch (Exception ex) {
-        }
-        gr.draw.repaint();
+		try {
+			out.write((Function.MOUSEMOVE + "|" + roomNumber + "|" + e.getPoint().getX() + "|" + e.getPoint().getY()
+					+ "\n").getBytes());
+		} catch (Exception ex) {
+		}
+		gr.draw.repaint();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		 switch (e.getKeyCode()) {
-         case KeyEvent.VK_ENTER:
-            gr.vStart.removeAllElements();
-            gr.draw.repaint();
-            break;
-         }
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_ENTER:
+			gr.vStart.removeAllElements();
+			gr.draw.repaint();
+			break;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

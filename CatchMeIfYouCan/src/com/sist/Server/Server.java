@@ -358,6 +358,8 @@ public class Server implements Runnable{
 											"|"+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.maxcount);
 									user.messageTo(Function.ROOMCHAT
 											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
+									//user.messageTo(Function.ROOMCHAT+
+										//	"|"+user.charvo.getId());
 								}
 								// 방에 들어가는 사람 처리
 								//room.userVc.addElement(this);
@@ -461,12 +463,15 @@ public class Server implements Runnable{
 						for(int i=0;i<roomVc.size();i++)
 						{
 							Room room=roomVc.elementAt(i);
-	                        for(int k=0;k<room.userVc.size();k++)
+							if(Integer.parseInt(rn)==room.roomNumber)
 							{
-								Client user=room.userVc.get(k);
-								// get(i)=elements
-								user.messageTo(Function.ROOMCHAT+"|["+id+"]"+data);
-								
+		                        for(int k=0;k<room.userVc.size();k++)
+								{
+									Client user=room.userVc.get(k);
+									// get(i)=elements
+									user.messageTo(Function.ROOMCHAT+"|["+charvo.getId()+"]"+data);
+									
+								}
 							}
                        }break;
                      }//swith문 끝

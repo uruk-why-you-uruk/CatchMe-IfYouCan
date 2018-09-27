@@ -37,6 +37,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
    // 채팅창을 위한 택스트필드 선언
    JTextArea ta;
    JTextField tf;
+   JScrollBar bar;
    // 팔레트 버튼을 위한 버튼
    JButton[] color = new JButton[6];
    Color[] c = {Color.BLACK, Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.WHITE};
@@ -100,9 +101,9 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       // 채팅창 선언
 
 
-
       ta = new JTextArea();
       JScrollPane js3 = new JScrollPane(ta); // 스크롤을 위해 감싸주는 컴포넌트
+      bar=js3.getVerticalScrollBar();
       tf = new JTextField();
       
       // 플레이어들의 정보를 담을 클래스 선언하기

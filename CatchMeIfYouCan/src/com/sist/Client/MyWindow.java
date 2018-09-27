@@ -73,6 +73,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 
 		// 리스너와 쓰래드 시작
 		// new Thread(this).start();
+		gr.tf.addActionListener(this);
 		wr.tf.addActionListener(this);// actionPerformed
 		mv.b1.addActionListener(this);
 		cs.enter.addActionListener(this);
@@ -103,7 +104,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.66", 7339); 
+				s = new Socket("211.238.142.61", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -428,6 +429,11 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			    	}*/
 			    }
 			    break;
+			    case Function.ROOMCHAT: {
+			    	System.out.println("myWindow roomchat 작동");
+					gr.bar.setValue(gr.bar.getMaximum());
+					gr.ta.append(st.nextToken() + "\n");
+				}break;
 			    case Function.WAITUPDATE:
 			    {
 			    	/*String id=st.nextToken();

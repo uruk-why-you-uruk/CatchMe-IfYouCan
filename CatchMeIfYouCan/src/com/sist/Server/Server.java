@@ -361,6 +361,8 @@ public class Server implements Runnable{
 											"|"+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.maxcount);
 									user.messageTo(Function.ROOMCHAT
 											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
+									//user.messageTo(Function.ROOMCHAT+
+										//	"|"+user.charvo.getId());
 								}
 								// 방에 들어가는 사람 처리
 								//room.userVc.addElement(this);

@@ -379,7 +379,7 @@ public class Server implements Runnable{
 								room.userVc.addElement(this);
 								// ´ë±â½Ç 
 								messageAll(Function.WAITUPDATE+"|"
-										+id+"|"+pos+"|"+room.roomName+"|"
+										+charvo.getId()+"|"+pos+"|"+room.roomName+"|"
 										+room.current+"|"+room.maxcount);
 							}
 						}

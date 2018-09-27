@@ -211,7 +211,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			card.show(getContentPane(), "GR");
 		}
 		
-		if (e.getSource() == gr.out_btn) {
+		if (e.getSource() == gr.out_btn) {     
 			try {
 				out.write((Function.ROOMOUT+"|"+roomno+"\n").getBytes());
 			} catch (IOException e1) {

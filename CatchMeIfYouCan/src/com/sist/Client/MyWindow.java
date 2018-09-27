@@ -34,7 +34,7 @@ import com.sist.common.Function;
 
 public class MyWindow extends JFrame implements ActionListener, Runnable,MouseListener {
 	// 윈도우 설정
-	static int charno = 0;
+	static int charno = 0,roomno=0;
 	static String temp;
 	MainView mv = new MainView();
 	WaitRoom wr = new WaitRoom();
@@ -42,6 +42,11 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 	//WaitRoom_NewRoom_Panel wrnp = new WaitRoom_NewRoom_Panel();
 	Character_select cs = new Character_select();
 	Catch_gameroom gr = new Catch_gameroom();
+	////////////////////////////////////////////////한정일 추가
+	PwdDialog dialog=new PwdDialog(this, "비공개방 비밀번호 입력");
+	String pwdStr, pwdStrCheck;
+	////////////////////////////////////////////////////////
+	
 	CardLayout card = new CardLayout();
 	Socket s;
 	BufferedReader in;
@@ -77,7 +82,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		wrn.okButton.addActionListener(this);
 		wrn.noButton.addActionListener(this);
 		wr.table1.addMouseListener(this);
-
+		dialog.okButton.addActionListener(this); //한정일 추가
 	}
 
 	public static void main(String[] args) {
@@ -98,7 +103,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.62", 7339); 
+				s = new Socket("211.238.142.66", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -111,7 +116,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			card.show(getContentPane(), "CS");
 		}
 		if (e.getSource() == cs.enter) { // 캐릭터 선택화면에서 엔터를 누르면 대기실로 이동한다.
-
 			try {
 				out.write(
 						(Function.CHARACTERCHOICE + "|" + temp + "|" + charno + "|" + (int) (Math.random() * 5) + "\n")
@@ -172,11 +176,11 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			}
 
 			String state = "";
-			String pwd = "";
+			String pwd = "null";
 			if (wrn.open.isSelected()) // 공개버튼이 선택됐다.
 			{
 				state = "공개";
-				pwd = " ";
+				pwd = "null";
 			} else {
 				state = "비공개";
 				pwd = new String(wrn.roomPsw.getPassword());
@@ -186,7 +190,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			try {
 				//Room.java = public Room(String roomName, String roomState, String roomPwd, int maxcount)
 				if(state.equals("비공개")) {
-					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd.trim() + "|" + (inwon + 4) + "\n")
+					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd + "|" + (inwon + 4) + "\n")
 						.getBytes());
 				}else {
 					out.write((Function.MAKEROOM + "|" + rname + "|" + state.trim() + "|" + pwd +"|"+ (inwon + 4)+"\n")
@@ -208,8 +212,36 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		}
 		
 		if (e.getSource() == gr.out_btn) {
+			try {
+				out.write((Function.ROOMOUT+"|"+roomno+"\n").getBytes());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			card.show(getContentPane(), "WR");
 		}
+		////////////////////////////////////////////////////한정일 추가
+		if(e.getSource() ==dialog.okButton) { //방 비번 다이얼로그 확인버튼
+	         pwdStrCheck=dialog.tf.getText();
+	         if(pwdStrCheck.equals(pwdStr)) {
+	            try {
+	               // 누른 방의 번호를 가져온다.
+	               out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0) + "\n")
+	                     .getBytes());
+	               card.show(getContentPane(), "GR");
+	            } catch (IOException e1) {
+	               // TODO Auto-generated catch block
+	               e1.printStackTrace();
+	            }
+	         }else {
+	            dialog.tf.setText("");
+	            dialog.setVisible(false);
+	            JOptionPane.showMessageDialog(null, "틀렸습니다!.");
+	         }
+	         dialog.tf.setText("");
+	         dialog.setVisible(false);
+	      }
+		///////////////////////////////////////////////////////
 	}
 
 	@Override
@@ -263,12 +295,14 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 				
 				case Function.MAKEROOM: {
 					System.out.println("MAKEROOM작동~");
-					String roomNumber=st.nextToken();
+					/*int temp = Integer.parseInt(st.nextToken());
+					String roomNumber= Integer.toString(temp+1);*/
+					String roomNumber= st.nextToken();
 					String rname=st.nextToken();
 					String state=st.nextToken();					
 					String inwon=st.nextToken();
-					//String pwd=st.nextToken();
-					String[] data = {roomNumber,rname,state,inwon};
+					String pwd=st.nextToken();
+					String[] data = {roomNumber,rname,state,inwon,pwd};
 					wr.model1.addRow(data);
 					}break;	
 					
@@ -298,9 +332,22 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					temp.setIcon(st.nextToken());
 					
 					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
+					int i=0;
 					int num_temp = Integer.parseInt(st.nextToken());
-					
-					gr.char_group[num_temp-1].setCharVO(temp);
+					while(i<num_temp)						
+					{
+						if(gr.char_group[i].isVisible()==false)
+						{
+							gr.char_group[i].setCharVO(temp);
+							gr.char_group[i].setVisible(true);
+							break;
+						}
+						i++;
+					}
+					if(i>=num_temp)
+					{
+						System.out.println("방 정원 초과");
+					}
 				}break;
 				
 				case Function.MYROOMIN: {
@@ -311,9 +358,100 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					
 					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
 					int num_temp = Integer.parseInt(st.nextToken());
-					gr.char_group[num_temp-1].setCharVO(temp);
-					card.show(getContentPane(), "GR");
+					int i=0;
+					while(i<num_temp)						
+					{
+						if(gr.char_group[i].isVisible()==false)
+						{							
+							gr.char_group[i].setCharVO(temp);
+							gr.char_group[i].setVisible(true);
+							card.show(getContentPane(), "GR");
+							break;
+						}
+						i++;
+					}
+					if(i>=num_temp)
+					{
+						System.out.println("방 정원 초과");
+					}
 				}break;
+				
+				case Function.MYROOMOUT:
+			    {
+			    	/*CharVO temp = new CharVO();
+			    	temp.setId(" ");
+			    	temp.set*/
+			    	for(int i=0;i<8;i++)
+			    	{
+			    		gr.char_group[i].setVisible(false);
+			    	}
+			    	gr.ta.setText("");
+			    	card.show(getContentPane(), "WR");
+			    }
+			    break;
+			    case Function.ROOMOUT:
+			    {
+			    	String id=st.nextToken();
+			    	for(int i=0;i<8;i++)
+			    	{
+			    		String temp=gr.char_group[i].id.getText();
+			    		System.out.println("****************RoomOut: "+id+","+temp);
+			    		if(id.equals(temp))
+			    		{
+			    			gr.char_group[i].id.setText(" ");
+			    			gr.char_group[i].setVisible(false);
+			    			break;
+			    		}
+			    	}
+			    	/*for(int i=0;i<cr.model.getRowCount();i++)
+			    	{
+			    		String temp=cr.model.getValueAt(i, 0).toString();
+			    		if(name.equals(temp))
+			    		{
+			    			cr.model.removeRow(i);
+			    			break;
+			    		}
+			    	}*/
+			    }
+			    break;
+			    case Function.WAITUPDATE:
+			    {
+			    	/*String id=st.nextToken();
+			    	String pos=st.nextToken();
+			    	String rn=st.nextToken();
+			    	String rc=st.nextToken();
+			    	String rm=st.nextToken();
+			    	
+			    	String temp="";
+			    	for(int i=0;i<wr.model1.getRowCount();i++)
+			    	{
+			    		temp=wr.model1.getValueAt(i, 0).toString();
+			    		if(temp.equals(rn))
+			    		{
+			    			if(Integer.parseInt(rc)<1)
+			    			{
+			    				wr.model1.removeRow(i);
+			    			}
+			    			else
+			    			{
+			    				wr.model1.setValueAt(rc+"/"+rm, i, 2);
+			    			}
+			    			break;
+			    		}
+			    	}
+			    	for(int i=0;i<wr.model2.getRowCount();i++)
+			    	{
+			    		temp=wr.model2.getValueAt(i, 0).toString();
+			    		if(id.equals(temp))
+			    		{
+			    			wr.model2.setValueAt(pos, i, 3);
+			    			break;
+			    		}
+			    	}*/
+			    }
+				
+				
+				
 					
 				}//switch문끝
 				
@@ -324,18 +462,58 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			ex.printStackTrace();
 		}
 	}
-
+	////////////////////////////////////////////////한정일 추가~
 	@Override
+	   public void mouseClicked(MouseEvent e) {
+	      if (e.getSource() == wr.table1) {
+	         if (e.getClickCount() == 2) {
+	        	 System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString());
+	            // Room.java = public Room(int roomNumber,String roomName, String roomState,
+	            // String roomPwd, int maxcount)
+	            try {
+	               if (wr.table1.getValueAt(wr.table1.getSelectedRow(), 2).toString().equals("비공개")) {
+	               pwdStr =wr.table1.getValueAt(wr.table1.getSelectedRow(), 4).toString();
+	               System.out.println("pwdStr(더블클릭한 방비밀번호) : "+pwdStr);               
+	               dialog.setResizable(false);
+	               dialog.setLocationRelativeTo(null);
+	               dialog.setVisible(true);
+	            } else {
+	               try {
+	                  // 누른 방의 번호를 가져온다.
+	                  out.write((Function.MYROOMIN + "|" + wr.table1.getValueAt(wr.table1.getSelectedRow(), 0) + "\n")
+	                        .getBytes());
+	                  card.show(getContentPane(), "GR");
+	               } catch (IOException e1) {
+	                  // TODO Auto-generated catch block
+	                  e1.printStackTrace();
+	               }
+	            }
+	            } catch (Exception e2) {
+	               System.out.println("더블클릭의 if부분~ ::::::::"+e2.getMessage());
+	               e2.printStackTrace();
+	            }
+	         }
+	      }
+	   }
+	///////////////////////////////////////////////////////////////
+
+	/*@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==wr.table1)
 		{
 			if(e.getClickCount()==2)
 			{
+				if(wr.table1.getValueAt(wr.table1.getSelectedRow(), 2).toString().equals("비공개"))
+				{
+					
+				}
 				//Room.java = public Room(int roomNumber,String roomName, String roomState, String roomPwd, int maxcount)
 				//System.out.println(wr.table1.getValueAt(wr.table1.getSelectedRow(), 0))
           	    try {
+          	    	roomno = Integer.parseInt((String)wr.table1.getValueAt(wr.table1.getSelectedRow(), 0));
+          	    	System.out.println("더블클릭 후 방번호 :"+roomno);
           	    	//                                       누른 방의 번호를 가져온다. 
-					out.write((Function.MYROOMIN+"|"+wr.table1.getValueAt(wr.table1.getSelectedRow(), 0)+"\n").getBytes());
+					out.write((Function.MYROOMIN+"|"+roomno+"\n").getBytes());
 					card.show(getContentPane(), "GR");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -344,7 +522,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			}
 		}
 		
-	}
+	}*/
 
 	@Override
 	public void mousePressed(MouseEvent e) {

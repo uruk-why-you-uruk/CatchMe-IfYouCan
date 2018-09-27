@@ -217,11 +217,6 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 	          draw.repaint(); // 캔버스를 repaint해라
 	      }
 	   
-	   if (e.getSource() == tf) {
-         String s = tf.getText();
-         ta.append(s + "\n");
-         tf.setText("");
-      }
       if (e.getSource() == qus_btn) {
           // t.interrupt();
           bThread = false;

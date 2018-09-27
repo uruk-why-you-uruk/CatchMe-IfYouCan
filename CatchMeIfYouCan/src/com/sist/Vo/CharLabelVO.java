@@ -17,17 +17,17 @@ public class CharLabelVO extends JPanel{
 	{
 		setLayout(new FlowLayout());
 		charinfo_Panel = new JPanel();
-		state = new JLabel("Leader");
-		this.id = new JLabel("¹Ú¹®¼ö");
+		state = new JLabel(" ");
+		this.id = new JLabel(" ");
 		ImageIcon a = new ImageIcon("image\\RANK\\"+0+".png");
-		this.rank = new JLabel(a);
+		this.rank = new JLabel(" ");
 		this.rank.setSize(90, 30);
-		this.score = new JLabel("0"); 
+		this.score = new JLabel(" "); 
 		this.score.setBorder(b7);
 		//this.img = new ImageIcon("image\\"+img+"\\"+rank+".png");
 		this.img = new ImageIcon("image\\char_mini\\0.png");
 		
-		this.img_la = new JLabel(this.img);
+		this.img_la = new JLabel(" ");
 		this.img_la.setSize(90, 110);
 		b6.isBorderOpaque();
 		this.img_la.setBorder(b6);
@@ -47,7 +47,7 @@ public class CharLabelVO extends JPanel{
 		charinfo_Panel.setOpaque(false);
 		this.add(this.img_la);
 		this.add(charinfo_Panel);
-		this.setVisible(true);
+		this.setVisible(false);
 		this.setSize(170, 100);
 		this.setBackground(Color.CYAN);
 		

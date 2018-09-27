@@ -32,7 +32,7 @@ public class Server implements Runnable{
    private final int PORT=7339;
    //private String name;
    private String location;
-   public static int roomN=1;
+   public static int roomN=0;
    //클라이언트의 정보를 저장
    private ArrayList<Client> waitList =new ArrayList<Client>();
    
@@ -137,8 +137,8 @@ public class Server implements Runnable{
                      pos="대기실";
                      for(Client ss:waitList)
                      {
-                    	 System.out.println("로그인 id:"+ss.getId());
-                    	 if(id.equals(ss.getId()))
+                    	 System.out.println("로그인 id:"+ss.charvo.getId());
+                    	 if(id.equals(ss.charvo.getId()))
                     	 {
                     		 System.out.println(charvo.getId()+": 존재");
  							out.write((Function.DUPLICATE+"|\n").getBytes());
@@ -252,7 +252,7 @@ public class Server implements Runnable{
 						// 명령(방들어가기)
 						System.out.println("MAKEROOM :"+room.current);
 						messageTo(Function.MYROOMIN+"|"
-								+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
+								+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
 						
 						// 출력 ==> client 
 						messageAll(Function.ROOMNAMEUPDATE+"|"
@@ -290,14 +290,19 @@ public class Server implements Runnable{
 									Client user=room.userVc.elementAt(j);
 									System.out.println("Server current:"+room.current);
 									user.messageTo(Function.ROOMIN+
-											"|"+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
+											"|"+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
 									user.messageTo(Function.ROOMCHAT
 											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
 								}
 								// 방에 들어가는 사람 처리
-								room.userVc.addElement(this);
+								//room.userVc.addElement(this);
+								System.out.println("myroomin방에 들어가고 나서 UserVC size(): "+room.userVc.size());
+								for(int z=0;z<room.userVc.size();z++)
+								{
+									System.out.println((z+1)+"번째: "+room.userVc.elementAt(z).charvo.getId());
+							    }
 								messageTo(Function.MYROOMIN+"|"
-										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
+										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
 								for(int k=0;k<room.userVc.size();k++)
 								{
 									Client user=room.userVc.elementAt(k);
@@ -306,9 +311,10 @@ public class Server implements Runnable{
 										
 										System.out.println((k+1)+"번째 사람 :"+user.charvo.getId());
 									  messageTo(Function.ROOMIN+"|"
-											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+(k+1));
+											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.maxcount);
 									}
 								}
+								room.userVc.addElement(this);
 								// 대기실 
 								/*messageAll(Function.WAITUPDATE+"|"
 										+id+"|"+pos+"|"+room.roomName+"|"
@@ -335,11 +341,11 @@ public class Server implements Runnable{
 					case Function.ROOMIN:
 					{
 					
-						String rn=st.nextToken();
+						int rn=Integer.parseInt(st.nextToken());
 						for(int i=0;i<roomVc.size();i++)
 						{
 							Room room=roomVc.elementAt(i);
-							if(rn.equals(room.roomNumber))
+							if(rn==room.roomNumber)
 							{
 								room.current++;
 								pos=room.roomName;
@@ -348,23 +354,29 @@ public class Server implements Runnable{
 								{
 									Client user=room.userVc.elementAt(j);
 									user.messageTo(Function.ROOMIN+
-											"|"+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.current);
+											"|"+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.maxcount);
 									user.messageTo(Function.ROOMCHAT
 											+"|[알림 ☞]"+user.charvo.getId()+"님이 입장하셨습니다");
 								}
 								// 방에 들어가는 사람 처리
-								room.userVc.addElement(this);
+								//room.userVc.addElement(this);
+								System.out.println("roomin방에 들어가고 나서 UserVC size(): "+room.userVc.size());
+								for(int z=0;z<room.userVc.size();z++)
+								{
+									System.out.println((z+1)+"번째: "+room.userVc.elementAt(z).charvo.getId());
+							    }
 								messageTo(Function.MYROOMIN+"|"
-										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.current);
+										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
 								for(int k=0;k<room.userVc.size();k++)
 								{
 									Client user=room.userVc.elementAt(k);
-									if(!id.equals(user.id))
+									if(!charvo.getId().equals(user.charvo.getId()))
 									{
 									  messageTo(Function.ROOMIN+"|"
-											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+(k+1));
+											  +user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+"|"+room.maxcount);
 									}
 								}
+								room.userVc.addElement(this);
 								// 대기실 
 								messageAll(Function.WAITUPDATE+"|"
 										+id+"|"+pos+"|"+room.roomName+"|"
@@ -390,24 +402,25 @@ public class Server implements Runnable{
 					 *        
 					 *   강퇴 , 초대 , 게임 
 					 */
-					/*case Function.ROOMOUT:
+					case Function.ROOMOUT:
 					{
 					
-						String rn=st.nextToken();
+						int rn=Integer.parseInt(st.nextToken());
 						for(int i=0;i<roomVc.size();i++)
 						{
 							Room room=roomVc.elementAt(i);
-							if(rn.equals(room.roomName))
+							if(rn==room.roomNumber)
 							{
+								System.out.println("Server roomVC의 number:"+rn+","+room.roomNumber);
 								room.current--;
 								pos="대기실";
 								// 방에 있는 사람 처리
 								for(int j=0;j<room.userVc.size();j++)
 								{
 									Client user=room.userVc.elementAt(j);
-									user.messageTo(Function.ROOMOUT+"|"+id+"|"+name);
+									user.messageTo(Function.ROOMOUT+"|"+charvo.getId());
 									user.messageTo(Function.ROOMCHAT
-											+"|[알림 ☞]"+name+"님이 퇴장하셨습니다");
+											+"|[알림 ☞]"+charvo.getId()+"님이 퇴장하셨습니다");
 								}
 								// 방에 있는 사람 처리??
 								//room.userVc.addElement(this);
@@ -415,15 +428,20 @@ public class Server implements Runnable{
 								for(int k=0;k<room.userVc.size();k++)
 								{
 									Client user=room.userVc.elementAt(k);
-									if(id.equals(user.id))
+									if(charvo.getId().equals(user.charvo.getId()))
 									{
+										System.out.println(room.userVc.elementAt(k).charvo.getId()+": DELETE");
 									   room.userVc.removeElementAt(k);
+									   for(int z=0;z<room.userVc.size();z++)
+									   {
+										   System.out.println((z+1)+"번째: "+room.userVc.elementAt(z).charvo.getId());
+									   }
 									   break;
 									}
 								}
 								// 대기실 
 								messageAll(Function.WAITUPDATE+"|"
-										+id+"|"+pos+"|"+room.roomName+"|"
+										+charvo.getId()+"|"+pos+"|"+room.roomName+"|"
 										+room.current+"|"+room.maxcount);
 								if(room.current<1)
 								{
@@ -433,10 +451,7 @@ public class Server implements Runnable{
 							}
 						}
 					}
-					break;
-                  */
-                  
-                     
+					break;     
                }//swith문 끝
                
             }

@@ -1,6 +1,7 @@
 package com.sist.Server;
-import java.util.*; 
+import java.util.*;
 
+import com.sist.Server.Server.Client;
 import com.sist.Vo.CharVO;
 import com.sist.common.Function;
 
@@ -451,9 +452,26 @@ public class Server implements Runnable{
 							}
 						}
 					}
-					break;     
-               }//swith문 끝
+					break;
+					
+					 case Function.ROOMCHAT:
+                     {
+                        String rn=st.nextToken();
+                        String data=st.nextToken();
+						for(int i=0;i<roomVc.size();i++)
+						{
+							Room room=roomVc.elementAt(i);
+	                        for(int k=0;k<room.userVc.size();k++)
+							{
+								Client user=room.userVc.get(k);
+								// get(i)=elements
+								user.messageTo(Function.ROOMCHAT+"|["+id+"]"+data);
+								
+							}
+                       }break;
+                     }//swith문 끝
                
+               }
             }
          } catch (Exception e) {System.out.println(e.getMessage());}
             // TODO: handle exception

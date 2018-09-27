@@ -220,6 +220,20 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			}
 			card.show(getContentPane(), "WR");
 		}
+		if (e.getSource() == gr.tf) {
+			// 채팅 요청
+			try {
+				String msg = gr.tf.getText().trim();
+				// 입력값 읽기
+				if (msg.length() < 1)
+					return;
+				out.write((Function.ROOMCHAT+ "|" +roomno+"|"+ msg + "\n").getBytes());
+				// 처리 ==> 서버
+				gr.tf.setText("");
+				gr.tf.requestFocus();// focus
+			} catch (Exception ex) {
+			}
+		}
 		////////////////////////////////////////////////////한정일 추가
 		if(e.getSource() ==dialog.okButton) { //방 비번 다이얼로그 확인버튼
 	         pwdStrCheck=dialog.tf.getText();

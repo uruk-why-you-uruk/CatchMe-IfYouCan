@@ -2,8 +2,11 @@ package com.sist.Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.*;
 import java.util.*;
 // 윈도우가 위치하는 위치
@@ -26,13 +29,14 @@ import javax.swing.event.ListSelectionListener;
 import java.net.Socket;
 import java.util.Vector;
 
+import com.sist.Client.Catch_gameroom.TimeThread;
 import com.sist.Server.Room;
 import com.sist.Server.Server.Client;
 import com.sist.Vo.CharLabelVO;
 import com.sist.Vo.CharVO;
 import com.sist.common.Function;
 
-public class MyWindow extends JFrame implements ActionListener, Runnable,MouseListener {
+public class MyWindow extends JFrame implements ActionListener, Runnable,MouseListener,MouseMotionListener,KeyListener {
 	// 윈도우 설정
 	static int charno = 0,roomno=0;
 	static String temp;
@@ -52,7 +56,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 	BufferedReader in;
 	OutputStream out;
 	// Vector<Point> vStart = new Vector<Point>();
-
+    int roomNumber;
 	public MyWindow() {
 		System.out.println("mywindow 실행");
 		setLayout(card);
@@ -84,6 +88,17 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		wrn.noButton.addActionListener(this);
 		wr.table1.addMouseListener(this);
 		dialog.okButton.addActionListener(this); //한정일 추가
+		
+		
+		  
+		// 추가 부분 
+		  gr.qus_btn.addActionListener(this);
+		  gr.timer_btn.addMouseListener(this);
+		  gr.tf.addActionListener(this);
+		  gr.eraser_btn.addActionListener(this);
+		  gr.draw.addMouseListener(this);
+		  gr.draw.addMouseMotionListener(this);
+		  gr.addKeyListener(this);
 	}
 
 	public static void main(String[] args) {
@@ -104,7 +119,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.61", 7339); 
+				s = new Socket("211.238.142.66", 7339); 
 				
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -212,9 +227,9 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			card.show(getContentPane(), "GR");
 		}
 		
-		if (e.getSource() == gr.out_btn) {     
+		if (e.getSource() == gr.out_btn) {
 			try {
-				out.write((Function.ROOMOUT+"|"+roomno+"\n").getBytes());
+				out.write((Function.ROOMOUT+"|"+roomNumber+"\n").getBytes());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -228,7 +243,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 				// 입력값 읽기
 				if (msg.length() < 1)
 					return;
-				out.write((Function.ROOMCHAT+ "|" +roomno+"|"+ msg + "\n").getBytes());
+				out.write((Function.ROOMCHAT+ "|" +roomNumber+"|"+ msg + "\n").getBytes());
 				// 처리 ==> 서버
 				gr.tf.setText("");
 				gr.tf.requestFocus();// focus
@@ -257,6 +272,32 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 	         dialog.setVisible(false);
 	      }
 		///////////////////////////////////////////////////////
+		  for(int i=0;i<gr.c.length;i++) // 펜 색상 변경
+	      {
+	    	  if(e.getSource()==gr.color[i])
+	    	  {
+	    		  gr.col=gr.c[i];
+	    	  }
+	      }
+	      if(e.getSource()==gr.eraser_btn) //전체지우기
+	      {
+	    	  gr.vStart.clear();//선을 모두 삭제
+	          gr.draw.repaint(); // 캔버스를 repaint해라
+	      }
+	   
+         if (e.getSource() == gr.qus_btn) {
+	        // t.interrupt();
+	        gr.bThread = false;
+	        //qus.setVisible(true);
+	        //char_group[0].removeAll();
+	        System.out.println("name1:"+gr.char_group[0].id.getText());
+	        gr.char_group[0].id.setText("홍길동");
+	        //char_group[0].repaint();
+	        gr.char_group[0].validate();
+	        System.out.println("name2:"+gr.char_group[0].id.getText());
+	        System.out.println("aaa");
+        
+       }
 	}
 
 	@Override
@@ -373,6 +414,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					
 					//+user.charvo.getId()+"|"+user.charvo.getRank()+"|"+user.charvo.getIcon()+room.current);
 					int num_temp = Integer.parseInt(st.nextToken());
+					roomNumber=Integer.parseInt(st.nextToken());
 					int i=0;
 					while(i<num_temp)						
 					{
@@ -434,6 +476,23 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 					gr.bar.setValue(gr.bar.getMaximum());
 					gr.ta.append(st.nextToken() + "\n");
 				}break;
+				////////////////// 추가
+			    case Function.MOUSEPRESS: {
+					double x = Double.parseDouble(st.nextToken());
+					double y = Double.parseDouble(st.nextToken());
+					Point point = new Point((int) x, (int) y);
+					gr.vStart.add(null);
+					gr.vStart.add(point);
+				}
+					break;
+				case Function.MOUSEMOVE: {
+					double x = Double.parseDouble(st.nextToken());
+					double y = Double.parseDouble(st.nextToken());
+					Point point = new Point((int) x, (int) y);
+					gr.vStart.add(point);
+					gr.draw.repaint();
+				}
+					break;
 			    case Function.WAITUPDATE:
 			    {
 			    	/*String id=st.nextToken();
@@ -469,6 +528,22 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 			    		}
 			    	}*/
 			    }
+
+                                                case Function.GAMESTART: {
+			    	 gr.t.start();
+			         Catch_gameroom.bThread = true;
+				}break;
+			    case Function.GAMEMYMUNJE: {
+					gr.qus.setVisible(true);
+					gr.tf.setEditable(false);
+					gr.tf.setBackground(Color.GRAY);
+					String munje = st.nextToken();
+					gr.qus.setText(munje);
+					out.write((Function.GAMESTART + "|" + roomno + "\n")
+		                     .getBytes());
+					
+					
+				}break;
 				
 				
 				
@@ -514,6 +589,12 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 	            }
 	         }
 	      }
+	      if (e.getSource() == gr.timer_btn) {
+	          gr.t = gr.new TimeThread();
+	          gr.bThread = true;
+	          gr.t.start();
+	          gr.qus.setVisible(false);
+	       }
 	   }
 	///////////////////////////////////////////////////////////////
 
@@ -547,7 +628,13 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		gr.vStart.add(null);
+        gr.vStart.add(e.getPoint());
+        try {
+           out.write((Function.MOUSEPRESS+"|" + roomNumber+"|"+e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+        } catch (Exception ex) {
+        }
+        //System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
 	}
 
 	@Override
@@ -563,6 +650,46 @@ public class MyWindow extends JFrame implements ActionListener, Runnable,MouseLi
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		gr.vStart.add(e.getPoint());
+        try {
+           out.write((Function.MOUSEMOVE+"|" + roomNumber+"|"+e.getPoint().getX() + "|" + e.getPoint().getY() + "\n").getBytes());
+        } catch (Exception ex) {
+        }
+        gr.draw.repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		 switch (e.getKeyCode()) {
+         case KeyEvent.VK_ENTER:
+            gr.vStart.removeAllElements();
+            gr.draw.repaint();
+            break;
+         }
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

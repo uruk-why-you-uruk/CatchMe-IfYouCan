@@ -18,7 +18,7 @@ class char_if {
    JLabel id, rank, score, icon;
 }
 
-public class Catch_gameroom extends JPanel implements ActionListener, MouseListener {
+public class Catch_gameroom extends JPanel{
    static int k;
    boolean flag = false;
    Vector<Point> vStart = new Vector<Point>();
@@ -56,6 +56,8 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
    Catch_gameroom() {
 
       // 출제자에게 보이는 문제 
+	  draw.setFocusable(true);
+	  
       qus = new JLabel(new ImageIcon("image\\question.png"));
       qus.setBounds(265, 70, 197, 31);
       add(qus);
@@ -138,7 +140,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
          color[i].setBorderPainted(false);
          color[i].setFocusPainted(false);
          color[i].setContentAreaFilled(false);
-         color[i].addActionListener(this);
+        // color[i].addActionListener(this);
          color[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
          color_Panel.add(color[i]);
       }
@@ -185,10 +187,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
       setLayout(null);
       setVisible(true);
 
-      qus_btn.addActionListener(this);
-      timer_btn.addMouseListener(this);
-      tf.addActionListener(this);
-      eraser_btn.addActionListener(this);
+     
    }
 
    public Image getImageSizeChange(ImageIcon icon, int width, int height) {
@@ -203,71 +202,9 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
    }
 
-   @Override
-   public void actionPerformed(ActionEvent e) { // 채팅을치면 채팅창에 입력된게 올라가는고
-	   for(int i=0;i<c.length;i++) // 펜 색상 변경
-	      {
-	    	  if(e.getSource()==color[i])
-	    	  {
-	    		  col=c[i];
-	    	  }
-	      }
-	      if(e.getSource()==eraser_btn) //전체지우기
-	      {
-	    	  vStart.clear();//선을 모두 삭제
-	          draw.repaint(); // 캔버스를 repaint해라
-	      }
-	   
-      if (e.getSource() == qus_btn) {
-          // t.interrupt();
-          bThread = false;
-          //qus.setVisible(true);
-          //char_group[0].removeAll();
-          System.out.println("name1:"+char_group[0].id.getText());
-          char_group[0].id.setText("홍길동");
-          //char_group[0].repaint();
-          char_group[0].validate();
-          System.out.println("name2:"+char_group[0].id.getText());
-          System.out.println("aaa");
-          
-       }
-   }
+ 
 
-   @Override
-   public void mouseClicked(MouseEvent e) {
-      if (e.getSource() == timer_btn) {
-         t = new TimeThread();
-         bThread = true;
-         t.start();
-         qus.setVisible(false);
-      }
-      
-   } 
-
-   @Override
-   public void mousePressed(MouseEvent e) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void mouseReleased(MouseEvent e) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void mouseEntered(MouseEvent e) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void mouseExited(MouseEvent e) {
-      // TODO Auto-generated method stub
-
-   }
-
+   
    class TimeThread extends Thread {
       public void run() {
          k = 150;
@@ -298,7 +235,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
 
       public MyPanel() {
 
-         addKeyListener(new KeyListener() {
+         /*addKeyListener(new KeyListener() {
 
             @Override
 
@@ -349,7 +286,7 @@ public class Catch_gameroom extends JPanel implements ActionListener, MouseListe
                }
                System.out.println("mousePressed:" + e.getPoint().getX() + "," + e.getPoint().getY());
             }
-         });
+         });*/
       }
 
       public void paintComponent(Graphics g) {

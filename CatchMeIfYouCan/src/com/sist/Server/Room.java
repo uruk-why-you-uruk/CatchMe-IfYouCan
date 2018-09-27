@@ -18,6 +18,7 @@ public class Room {
 	int current; //현재인원
 	int maxcount; //설정된 인원
 	int roomNumber; //방번호
+	boolean gameState = false;
 	
 	public Room() {};
 

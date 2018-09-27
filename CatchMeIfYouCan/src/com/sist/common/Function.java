@@ -40,6 +40,9 @@ public class Function {
     public static final int GAMETIMEOVER=520; //시간이 끝날때까지 맞춘 사람이 없는 거 처리
     public static final int GAMEROUNDEND=530;//게임 각 라운드 종료오
     public static final int GAMEEND=540;//(모든 라운드 끝)
+    
+    public static final int MOUSEMOVE=600;//(모든 라운드 끝)
+    public static final int MOUSEPRESS=610;//(모든 라운드 끝)
     // 채팅 관련
     public static final int CHAT=700;//채팅하기
     public static final int LOGOUT=900;//클라이언트종료??

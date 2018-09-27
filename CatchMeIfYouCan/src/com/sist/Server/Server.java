@@ -256,7 +256,7 @@ public class Server implements Runnable{
 						// 명령(방들어가기)
 						System.out.println("MAKEROOM :"+room.current);
 						messageTo(Function.MYROOMIN+"|"
-								+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
+								+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount+"|"+room.roomNumber);
 						
 						// 출력 ==> client 
 						messageAll(Function.ROOMNAMEUPDATE+"|"
@@ -306,7 +306,7 @@ public class Server implements Runnable{
 									System.out.println((z+1)+"번째: "+room.userVc.elementAt(z).charvo.getId());
 							    }
 								messageTo(Function.MYROOMIN+"|"
-										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount);
+										+charvo.getId()+"|"+charvo.getRank()+"|"+charvo.getIcon()+"|"+room.maxcount+"|"+room.roomNumber);
 								for(int k=0;k<room.userVc.size();k++)
 								{
 									Client user=room.userVc.elementAt(k);
@@ -353,6 +353,27 @@ public class Server implements Runnable{
 							{
 								room.current++;
 								pos=room.roomName;
+								if(room.gameState == false)
+								{
+									if(room.current>=3)
+									{
+										room.gameState=true;
+										Client user = room.userVc.elementAt(0);
+										String munje = "바이오리듬";
+										user.messageTo(Function.GAMEMYMUNJE+"|"+munje);
+										user.messageTo(Function.ROOMCHAT
+												+"|게임이 시작됩니다!!!!");
+										for(int j=1;j<room.userVc.size();j++)
+										{
+											user=room.userVc.elementAt(j);
+											user.messageTo(Function.GAMEMUNJE+"|");
+											user.messageTo(Function.ROOMCHAT
+													+"|게임이 시작됩니다!!!!");
+											//user.messageTo(Function.ROOMCHAT+
+												//	"|"+user.charvo.getId());
+										}
+									}
+								}
 								// 방에 있는 사람 처리
 								for(int j=0;j<room.userVc.size();j++)
 								{
@@ -476,8 +497,60 @@ public class Server implements Runnable{
 									
 								}
 							}
-                       }break;
+                       }
                      }//swith문 끝
+                     break;
+					 case Function.MOUSEMOVE:
+					 {
+						    String rn=st.nextToken();
+	                        String data1=st.nextToken();
+	                        String data2=st.nextToken();
+	                        //System.out.println("Data:"+data);
+							for(int i=0;i<roomVc.size();i++)
+							{
+								Room room=roomVc.elementAt(i);
+								if(Integer.parseInt(rn)==room.roomNumber)
+								{
+			                        for(int k=0;k<room.userVc.size();k++)
+									{
+										Client user=room.userVc.get(k);
+										// get(i)=elements
+										
+										if(user!=this)
+										{
+										   user.messageTo(Function.MOUSEMOVE+"|"+data1+"|"+data2);
+										}
+										
+									}
+								}
+	                       }
+					 }
+					 break;
+					 case Function.MOUSEPRESS:
+					 {
+						    String rn=st.nextToken();
+	                        String data1=st.nextToken();
+	                        //System.out.println("Data:"+data);
+	                        String data2=st.nextToken();
+							for(int i=0;i<roomVc.size();i++)
+							{
+								Room room=roomVc.elementAt(i);
+								if(Integer.parseInt(rn)==room.roomNumber)
+								{
+			                        for(int k=0;k<room.userVc.size();k++)
+									{
+										Client user=room.userVc.get(k);
+										// get(i)=elements
+										if(user!=this)
+										{
+										   user.messageTo(Function.MOUSEPRESS+"|"+data1+"|"+data2);
+										}
+										
+									}
+								}
+	                       }
+					 }
+					 break;
                
                }
             }

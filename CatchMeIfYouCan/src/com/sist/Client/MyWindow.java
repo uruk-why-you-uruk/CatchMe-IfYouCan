@@ -298,7 +298,7 @@ public class MyWindow extends JFrame
 		if (e.getSource() == gr.qus_btn) {
 			// t.interrupt();
 			gr.bThread = false;
-			// qus.setVisible(true);
+			gr.qus.setVisible(true);
 			// char_group[0].removeAll();
 			System.out.println("name1:" + gr.char_group[0].id.getText());
 			gr.char_group[0].id.setText("ȫ�浿");
@@ -523,7 +523,7 @@ public class MyWindow extends JFrame
 					gr.tf.setEditable(false);
 					gr.tf.setBackground(Color.GRAY);
 					String munje = st.nextToken();
-					gr.qus.setText(munje);
+					gr.qus_text.setText(munje);
 					out.write((Function.GAMESTART + "|" + roomno + "\n").getBytes());
 				}
 					break;

@@ -27,7 +27,7 @@ public class Catch_gameroom extends JPanel{
    // 버튼 및 컴포넌트를 담는 패널들
    JPanel timer, color_Panel;
    // 라벨 선언
-   JLabel room_grade, chat, qus;
+   JLabel room_grade, chat, qus,qus_text;
    // 캐릭터 정보를 담는 클래스 배열
    CharVO[] player = new CharVO[8];
    // 캐릭터 정보를 출력해줄 라벨을 담는 클래스 배열
@@ -59,8 +59,13 @@ public class Catch_gameroom extends JPanel{
 	  draw.setFocusable(true);
 	  
       qus = new JLabel(new ImageIcon("image\\question.png"));
+      qus_text = new JLabel("goal");
+      qus_text.setBounds(330, 70, 130, 31);
       qus.setBounds(265, 70, 197, 31);
+      
+      add(qus_text);
       add(qus);
+      
 
       setLayout(null);
       // 배경이미지 출력

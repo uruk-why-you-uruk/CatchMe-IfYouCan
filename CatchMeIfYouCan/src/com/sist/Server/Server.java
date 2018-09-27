@@ -457,6 +457,7 @@ public class Server implements Runnable {
 						for (int i = 0; i < roomVc.size(); i++) {
 							Room room = roomVc.elementAt(i);
 							if (Integer.parseInt(rn) == room.roomNumber) {
+								System.out.println("==========Game START userSize:"+room.userVc.size());
 								Client user = room.userVc.get(0);
 								user.messageTo(Function.GAMESTART + "|");
 								user.messageTo(Function.ROOMCHAT + "|" + "[안내]게임이 시작됩니다.");

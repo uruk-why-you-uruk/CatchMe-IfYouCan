@@ -50,6 +50,7 @@ public class MyWindow extends JFrame
 	//////////////////////////////////////////////// 한정일 추가
 	PwdDialog dialog = new PwdDialog(this, "비공개방 비밀번호 입력");
 	String pwdStr, pwdStrCheck;
+	static String munje;
 	////////////////////////////////////////////////////////
 
 	CardLayout card = new CardLayout();
@@ -92,8 +93,8 @@ public class MyWindow extends JFrame
 		dialog.okButton.addActionListener(this); // 한정일 추가
 
 		// 추가 부분
-		gr.qus_btn.addActionListener(this);
-		gr.timer_btn.addMouseListener(this);
+/*		gr.qus_btn.addActionListener(this);
+		gr.timer_btn.addMouseListener(this);*/
 		gr.tf.addActionListener(this);
 		gr.eraser_btn.addActionListener(this);
 		gr.draw.addMouseListener(this);
@@ -119,7 +120,7 @@ public class MyWindow extends JFrame
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.66", 7339);
+				s = new Socket("211.238.142.65", 7337);
 
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -239,27 +240,31 @@ public class MyWindow extends JFrame
 		if (e.getSource() == gr.tf) {
 			// 채팅 요청
 			// 만약 타이머가 돌고 있다면 
-			if(gr.bThread==true)
-			{
-				String msg = gr.tf.getText().trim();
-				try {
-					out.write((Function.GAMEYESNO + "|" +roomno + "|" + msg + "\n").getBytes());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			String msg = gr.tf.getText().trim();
 			try {
-				String msg = gr.tf.getText().trim();
+				msg = gr.tf.getText().trim();
 				// 입력값 읽기
 				if (msg.length() < 1)
 					return;
 				out.write((Function.ROOMCHAT + "|" + roomNumber + "|" + msg + "\n").getBytes());
+				out.write((Function.GAMEYESNO + "|" +roomno + "|"+ msg + "\n").getBytes());	
 				// 처리 ==> 서버
 				gr.tf.setText("");
 				gr.tf.requestFocus();// focus
 			} catch (Exception ex) {
 			}
+			
+			/*if(gr.flag==true)
+			{
+				try {
+					System.out.println("@@@@@@@@@@@@@my window msg: "+msg);
+					out.write((Function.GAMEYESNO + "|" +roomno + "|"+ msg + "\n").getBytes());																	
+				} catch (IOException e1) {
+					System.out.println("정답 보내기 : "+e1.getMessage());
+					e1.printStackTrace();
+				}
+			}	*/		
+			
 		}
 		//////////////////////////////////////////////////// 한정일 추가
 		if (e.getSource() == dialog.okButton) { // 방 비번 다이얼로그 확인버튼
@@ -291,11 +296,14 @@ public class MyWindow extends JFrame
 		}
 		if (e.getSource() == gr.eraser_btn) // 전체지우기
 		{
-			gr.vStart.clear();// 선을 모두 삭제
-			gr.draw.repaint(); // 캔버스를 repaint해라
+			try {
+				out.write((Function.GAMECLEANALL+"|"+roomno+"\n").getBytes());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 
-		if (e.getSource() == gr.qus_btn) {
+		/*if (e.getSource() == gr.qus_btn) {
 			// t.interrupt();
 			gr.bThread = false;
 			gr.qus.setVisible(true);
@@ -306,8 +314,7 @@ public class MyWindow extends JFrame
 			gr.char_group[0].validate();
 			System.out.println("name2:" + gr.char_group[0].id.getText());
 			System.out.println("aaa");
-
-		}
+		}*/
 	}
 
 	@Override
@@ -497,7 +504,7 @@ public class MyWindow extends JFrame
 					gr.draw.repaint();
 				}
 					break;
-				case Function.WAITUPDATE: {
+				case Function.WAITUPDATE: { // 대기방에서 방 정보 업데이트해준즌것
 					/*
 					 * String id=st.nextToken(); String pos=st.nextToken(); String
 					 * rn=st.nextToken(); String rc=st.nextToken(); String rm=st.nextToken();
@@ -513,26 +520,47 @@ public class MyWindow extends JFrame
 				}
 
 				case Function.GAMESTART: {
-					gr.t.start();
-					Catch_gameroom.bThread = true;
+					System.out.println("나 시작하긴 하니?#########");
+					gr.bThread = true;
+					gr.t.start();	
 					
-				}
-					break;
+				}break;
+				
 				case Function.GAMEMYMUNJE: {
 					gr.qus.setVisible(true);
 					gr.tf.setEditable(false);
+					gr.tf.removeActionListener(this);
 					gr.tf.setBackground(Color.GRAY);
-					String munje = st.nextToken();
+					munje = st.nextToken();
 					gr.qus_text.setText(munje);
 					out.write((Function.GAMESTART + "|" + roomno + "\n").getBytes());
+				}break;
+				
+				case Function.GAMEMUNJE:{
+					munje = st.nextToken();
+					gr.qus_text.setText(munje);
+					gr.k=150;
 				}
-					break;
-					
+	
 				case Function.REMOVEACTIONLISTENER:
 				{
 					gr.draw.removeMouseListener(this);
 					gr.draw.removeMouseMotionListener(this);
-				}
+				} break;
+				
+				case Function.GAMEROUNDEND:
+				{
+					Catch_gameroom.k=150;
+					
+				}break;
+				
+				case Function.GAMECLEANALL:
+				{
+					gr.vStart.clear();// 선을 모두 삭제
+					gr.draw.repaint(); // 캔버스를 repaint해라
+				}break;
+				
+				
 
 				}// switch문끝
 
@@ -576,12 +604,12 @@ public class MyWindow extends JFrame
 				}
 			}
 		}
-		if (e.getSource() == gr.timer_btn) {
+/*		if (e.getSource() == gr.timer_btn) {
 			gr.t = gr.new TimeThread();
 			gr.bThread = true;
 			gr.t.start();
 			gr.qus.setVisible(false);
-		}
+		}*/
 	}
 	///////////////////////////////////////////////////////////////
 

@@ -30,6 +30,7 @@ public class Function {
     public static final int GAMEMYMUNJE=430;//문제출제자
     public static final int GAMEDAP=440;//답 제출, 서버의 답과 채팅에서 친 답 비교
     public static final int GAMEYESNO=450;//정답과 오답 전송
+    public static final int GAMESTOP=460;
 
     public static final int GAMEGIVEUP=460; //게임포기
     public static final int GAMECLEANALL=470;//스케치화면 초기화
@@ -40,6 +41,7 @@ public class Function {
     public static final int GAMETIMEOVER=520; //시간이 끝날때까지 맞춘 사람이 없는 거 처리
     public static final int GAMEROUNDEND=530;//게임 각 라운드 종료오
     public static final int GAMEEND=540;//(모든 라운드 끝)
+
     
     public static final int MOUSEMOVE=600;//(모든 라운드 끝)
     public static final int MOUSEPRESS=610;//(모든 라운드 끝)

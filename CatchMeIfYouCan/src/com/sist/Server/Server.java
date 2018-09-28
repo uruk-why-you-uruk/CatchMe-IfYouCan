@@ -32,13 +32,15 @@ import java.io.*;
 public class Server implements Runnable {
 	// 서버 소켓 생성
 	private ServerSocket ss;
-	private final int PORT = 7339;
+	private final int PORT = 7337;
 	// private String name;
 	private String location;
 	public static int roomN = 0;
 	// 클라이언트의 정보를 저장
 	private ArrayList<Client> waitList = new ArrayList<Client>();
-
+	String[] munje = {"바이오리듬","비밀"};
+	static int munjeNum=0;
+	static int round=1;
 	private Vector<Room> roomVc = new Vector<Room>(); // table1
 	// 클라이언트의 IP, id....
 
@@ -263,9 +265,8 @@ public class Server implements Runnable {
 										System.out.println("SERVER 게임 시작 해볼까요??");
 										room.gameState = true;
 										Client user = room.userVc.elementAt(0);
-										String munje = "바이오리듬";
-										room.goal = munje;
-										user.messageTo(Function.GAMEMYMUNJE + "|" + munje);
+										room.goal = munje[munjeNum];
+										user.messageTo(Function.GAMEMYMUNJE + "|" + room.goal);
 										user.messageTo(Function.ROOMCHAT + "|게임이 시작됩니다!!!!");
 										for (int j = 1; j < room.userVc.size(); j++) {
 											user = room.userVc.elementAt(j);
@@ -333,15 +334,14 @@ public class Server implements Runnable {
 									break;
 								}
 								System.out.println("###########서버 현재 인원: "+room.current);
-								if (room.gameState == false) {
+								/*if (room.gameState == false) {
 									System.out.println("******************서버 현재 인원: "+room.current);
 									if (room.current >= 3) {
 										System.out.println("SERVER 게임 시작 해볼까요??");
 										room.gameState = true;
 										Client user = room.userVc.elementAt(0);
-										String munje = "바이오리듬";
-										room.goal = munje;
-										user.messageTo(Function.GAMEMYMUNJE + "|" + munje);
+										room.goal = munje[munjeNum];
+										user.messageTo(Function.GAMEMYMUNJE + "|" + room.goal);
 										user.messageTo(Function.ROOMCHAT + "|게임이 시작됩니다!!!!");
 										for (int j = 1; j < room.userVc.size(); j++) {
 											user = room.userVc.elementAt(j);
@@ -351,7 +351,7 @@ public class Server implements Runnable {
 											// "|"+user.charvo.getId());
 										}
 									}
-								}
+								}*/
 								// 방에 있는 사람 처리
 								for (int j = 0; j < room.userVc.size(); j++) {
 									Client user = room.userVc.elementAt(j);
@@ -384,8 +384,7 @@ public class Server implements Runnable {
 										+ "|" + room.current + "|" + room.maxcount);
 							}
 						}
-					}
-						break;
+					}break;
 					/*
 					 * 방찾는다 현재인원 증가 위치 변경 ========== 방에 있는 사람 => 방에 들어가는 사람의 정보 전송 => 입장메세지 방에 들어가는
 					 * 사람 처리 => 방으로 변경 => 방에 있는 사람의 모든 정보를 받는다 대기실 처리 => 1) 인원 (table1) 2) 위치
@@ -458,16 +457,18 @@ public class Server implements Runnable {
 							Room room = roomVc.elementAt(i);
 							if (Integer.parseInt(rn) == room.roomNumber) {
 								System.out.println("==========Game START userSize:"+room.userVc.size());
-								Client user = room.userVc.get(0);
-								user.messageTo(Function.GAMESTART + "|");
+								Client user = room.userVc.get(0);								
 								user.messageTo(Function.ROOMCHAT + "|" + "[안내]게임이 시작됩니다.");
+								user.messageTo(Function.ROOMCHAT + "|" + round+"라운드를 실행합니다.!");
+								user.messageTo(Function.GAMESTART + "|" + room.goal);
+								
 								for (int k = 1; k < room.userVc.size(); k++) {
 									user = room.userVc.get(k);
-									// get(i)=elements
-									user.messageTo(Function.GAMESTART + "|");
+									//get(i)=elements									
 									user.messageTo(Function.ROOMCHAT + "|" + "[안내]게임이 시작됩니다.");
+									user.messageTo(Function.ROOMCHAT + "|" + round+"라운드를 실행합니다.!");
+									user.messageTo(Function.GAMESTART + "|" + room.goal);
 									user.messageTo(Function.REMOVEACTIONLISTENER + "|");
-
 								}
 							}
 						}
@@ -480,19 +481,45 @@ public class Server implements Runnable {
 						for (int i = 0; i < roomVc.size(); i++) {
 							Room room = roomVc.elementAt(i);
 							if (Integer.parseInt(rn) == room.roomNumber) {
+								System.out.println("방 번호 비교 완료:"+room.roomNumber);
+								System.out.println("조건 비교.:" +"넘어온 msg, data : "+data + "   GOAL : "+room.goal);
 								if(room.goal.equals(data))
 								{
-								for (int k = 1; k < room.userVc.size(); k++) {
-									Client user = room.userVc.get(k);
-									// get(i)=elements
-									user.messageTo(Function.GAMEROUNDEND + "|");
-								}
-
+									System.out.println("문제를 맞췄다.: "+"넘어온 msg, data : "+data + "   GOAL : "+room.goal);
+									round++;
+									munjeNum++;
+									for (int k = 1; k < room.userVc.size(); k++) {
+										Client user = room.userVc.get(k);
+										// get(i)=elements
+										user.messageTo(Function.GAMEROUNDEND+"|");
+										user.messageTo(Function.ROOMCHAT + "|" + charvo.getId()+"님이 정답을 맞추셨습니다!!");
+										user.messageTo(Function.ROOMCHAT + "|" +round+"라운드를 실행합니다.!");
+									}
+									room.goal=munje[munjeNum];
+									Client user = room.userVc.get(0);//번째만 문제가 바뀌어야된다.
+									user.messageTo(Function.GAMEMUNJE + "|" + room.goal);
+									user.messageTo(Function.ROOMCHAT + "|" + charvo.getId()+"님이 정답을 맞추셨습니다!!");
+									user.messageTo(Function.ROOMCHAT + "|" +round+"라운드를 실행합니다.!");
 								}
 							}
 						}
 					} // swith문 끝
 						break;
+						
+					case Function.GAMECLEANALL:
+					{
+						String rn=st.nextToken();
+						for (int i = 0; i < roomVc.size(); i++) {
+							Room room = roomVc.elementAt(i);
+							if (Integer.parseInt(rn) == room.roomNumber) {
+								for (int k = 0; k < room.userVc.size(); k++) {
+									Client user = room.userVc.get(k);
+									// get(i)=elements
+									user.messageTo(Function.GAMECLEANALL + "|");
+								}
+							}
+						}
+					}break;
 
 					case Function.MOUSEMOVE: {
 						String rn = st.nextToken();

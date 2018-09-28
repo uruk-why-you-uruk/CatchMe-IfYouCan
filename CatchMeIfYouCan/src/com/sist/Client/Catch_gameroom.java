@@ -46,8 +46,6 @@ public class Catch_gameroom extends JPanel{
    ImageIcon out_img, giveup, eraser;
    JButton out_btn,giveup_btn, eraser_btn;
 
-   JButton timer_btn = new JButton("타이머시작");
-   JButton qus_btn = new JButton("문제 끄기");
    TimeThread t = new TimeThread();
    Color col=Color.BLACK;
    
@@ -59,7 +57,7 @@ public class Catch_gameroom extends JPanel{
 	  draw.setFocusable(true);
 	  
       qus = new JLabel(new ImageIcon("image\\question.png"));
-      qus_text = new JLabel("goal");
+      qus_text = new JLabel("");
       qus_text.setBounds(330, 70, 130, 31);
       qus.setBounds(265, 70, 197, 31);
       
@@ -97,12 +95,6 @@ public class Catch_gameroom extends JPanel{
       eraser_btn.setContentAreaFilled(false);
       eraser_btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
       add(eraser_btn);
-      
-      
-
-      qus_btn.setBounds(50, 600, 115, 51);
-      qus_btn.setBackground(Color.YELLOW);
-      add(qus_btn);
       
 
       // 채팅창 선언
@@ -165,9 +157,7 @@ public class Catch_gameroom extends JPanel{
       add("Center",draw);
       add(tf);
       add(timerLabel);
-      add(timer_btn);
       timerLabel.setText(String.valueOf(String.format("%02d:%02d", 2, 30)));
-      timer_btn.setBounds(580, 580, 150, 150);
       timerLabel.setFont(new Font("Gothic", Font.ITALIC, 50));
       timerLabel.setForeground(Color.WHITE);
       int y1 = 112;
@@ -213,16 +203,17 @@ public class Catch_gameroom extends JPanel{
    class TimeThread extends Thread {
       public void run() {
          k = 150;
-         if (flag == false) {
-            flag = true;
-            while (bThread) {
+         {
+            
+           /* while ( flag != false) {
+            	flag = true;
                if (k < 0)
                   break;
                try {
                   int minutes = k / 60;
                   int seconds = k % 60;
                   timerLabel.setText(String.valueOf(String.format("%02d:%02d", minutes, seconds)));
-                  System.out.printf("%d\n", k);
+                  //System.out.printf("%d\n", k);
                   Thread.sleep(1000);
                   // timerLabel.repaint();
                } catch (InterruptedException e1) {
@@ -231,7 +222,27 @@ public class Catch_gameroom extends JPanel{
 
                k--;
             }
-            flag = false;
+            flag = false;*/
+        	 if (flag == false) {
+ 				flag = true;
+ 				while (bThread) {
+ 					if (k < 0)
+ 						interrupt();
+ 					try {
+ 						int minutes = k / 60;
+ 						int seconds = k % 60;
+ 						timerLabel.setText(String.valueOf(String.format("%02d:%02d", minutes, seconds)));
+ 						System.out.printf("%d\n", k);
+ 						Thread.sleep(1000);
+ 						// timerLabel.repaint();
+ 					} catch (InterruptedException e1) {
+ 						e1.printStackTrace();
+ 					}
+
+ 					k--;
+ 				}
+ 				flag = false;
+ 			}
          }
       }
    }

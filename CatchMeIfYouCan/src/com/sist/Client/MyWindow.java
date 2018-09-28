@@ -49,6 +49,7 @@ public class MyWindow extends JFrame
 	Catch_gameroom gr = new Catch_gameroom();
 	//////////////////////////////////////////////// 한정일 추가
 	PwdDialog dialog = new PwdDialog(this, "비공개방 비밀번호 입력");
+	EndDialog Edialog = new EndDialog(this, "게임이 종료");
 	String pwdStr, pwdStrCheck;
 	static String munje;
 	////////////////////////////////////////////////////////
@@ -98,6 +99,10 @@ public class MyWindow extends JFrame
 		gr.tf.addActionListener(this);
 		gr.eraser_btn.addActionListener(this);
 		gr.draw.addMouseListener(this);
+		for(int i =0;i<6;i++)
+		{
+			gr.color[i].addActionListener(this);
+		}
 		gr.draw.addMouseMotionListener(this);
 		gr.addKeyListener(this);
 	}
@@ -120,7 +125,7 @@ public class MyWindow extends JFrame
 		if (e.getSource() == mv.b1) {
 			// 버튼 누르면
 			try {
-				s = new Socket("211.238.142.65", 7337);
+				s = new Socket("211.238.142.66", 7337);
 
 				in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				// byte ==> 2byte
@@ -142,6 +147,17 @@ public class MyWindow extends JFrame
 				e1.printStackTrace();
 			}
 
+		}
+		for (int i = 0; i < gr.c.length; i++) // 펜 색상 변경
+		{
+			if (e.getSource() == gr.color[i]) {
+				gr.col = gr.c[i];
+				try {
+					out.write((Function.GAMECOLOR+"|"+roomno+"|"+i+"\n").getBytes());
+					}catch(IOException e2) {
+						e2.printStackTrace();
+						}
+				}
 		}
 		if (e.getSource() == wr.tf) {
 			// 채팅 요청
@@ -539,9 +555,8 @@ public class MyWindow extends JFrame
 				case Function.GAMEMUNJE:{
 					munje = st.nextToken();
 					gr.qus_text.setText(munje);
-					gr.k=150;
+					gr.k=70;
 				}
-	
 				case Function.REMOVEACTIONLISTENER:
 				{
 					gr.draw.removeMouseListener(this);
@@ -550,7 +565,7 @@ public class MyWindow extends JFrame
 				
 				case Function.GAMEROUNDEND:
 				{
-					Catch_gameroom.k=150;
+					Catch_gameroom.k=70;
 					
 				}break;
 				
@@ -560,6 +575,19 @@ public class MyWindow extends JFrame
 					gr.draw.repaint(); // 캔버스를 repaint해라
 				}break;
 				
+				case Function.GAMEEND:
+				{
+					gr.k = 0;
+					gr.vStart.clear();// 선을 모두 삭제
+					gr.draw.repaint(); // 캔버스를 repaint해라
+					JOptionPane.showMessageDialog(this, "게임이 종료됐습니다.");
+					
+				}break;
+				case Function.GAMECOLOR:
+				{
+					int i=Integer.parseInt(st.nextToken());
+					gr.col = gr.c[i];
+				}break;
 				
 
 				}// switch문끝

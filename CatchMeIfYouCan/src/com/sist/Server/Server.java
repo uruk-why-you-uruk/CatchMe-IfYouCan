@@ -38,7 +38,7 @@ public class Server implements Runnable {
 	public static int roomN = 0;
 	// 클라이언트의 정보를 저장
 	private ArrayList<Client> waitList = new ArrayList<Client>();
-	String[] munje = {"바이오리듬","비밀"};
+	String[] munje = {"바이오리듬","엿장수","JAVA","우거지","퇴학","철새","비밀","불곰","말","수영강사","메추라기","포인트"};
 	static int munjeNum=0;
 	static int round=1;
 	private Vector<Room> roomVc = new Vector<Room>(); // table1
@@ -261,7 +261,7 @@ public class Server implements Runnable {
 								System.out.println("###########서버 현재 인원: "+room.current);
 								if (room.gameState == false) {
 									System.out.println("******************서버 현재 인원: "+room.current);
-									if (room.current >= 3) {
+									if (room.current >= 4) {
 										System.out.println("SERVER 게임 시작 해볼까요??");
 										room.gameState = true;
 										Client user = room.userVc.elementAt(0);
@@ -270,7 +270,7 @@ public class Server implements Runnable {
 										user.messageTo(Function.ROOMCHAT + "|게임이 시작됩니다!!!!");
 										for (int j = 1; j < room.userVc.size(); j++) {
 											user = room.userVc.elementAt(j);
-											user.messageTo(Function.GAMEMUNJE + "|");
+											//user.messageTo(Function.GAMEMUNJE + "|"+room.goal);
 											user.messageTo(Function.ROOMCHAT + "|게임이 시작됩니다!!!!");
 											// user.messageTo(Function.ROOMCHAT+
 											// "|"+user.charvo.getId());
@@ -474,7 +474,22 @@ public class Server implements Runnable {
 						}
 					} // swith문 끝
 						break;
-						
+					case Function.GAMECOLOR:
+					{
+						String rn=st.nextToken();
+						String col=st.nextToken();
+						for (int i = 0; i < roomVc.size(); i++) {
+							Room room = roomVc.elementAt(i);
+							if (Integer.parseInt(rn) == room.roomNumber) {
+								for (int k = 0; k < room.userVc.size(); k++) {
+									Client user = room.userVc.get(k);
+									// get(i)=elements
+									user.messageTo(Function.GAMECOLOR + "|"+col);
+								}
+							}
+						}
+					}break;
+					
 					case Function.GAMEYESNO: {
 						String rn = st.nextToken();
 						String data = st.nextToken();
@@ -487,19 +502,31 @@ public class Server implements Runnable {
 								{
 									System.out.println("문제를 맞췄다.: "+"넘어온 msg, data : "+data + "   GOAL : "+room.goal);
 									round++;
-									munjeNum++;
-									for (int k = 1; k < room.userVc.size(); k++) {
-										Client user = room.userVc.get(k);
-										// get(i)=elements
-										user.messageTo(Function.GAMEROUNDEND+"|");
-										user.messageTo(Function.ROOMCHAT + "|" + charvo.getId()+"님이 정답을 맞추셨습니다!!");
-										user.messageTo(Function.ROOMCHAT + "|" +round+"라운드를 실행합니다.!");
+									if(round >3)
+									{
+										for (int k = 0; k < room.userVc.size(); k++) {
+											Client user = room.userVc.get(k);
+											// get(i)=elements
+											user.messageTo(Function.GAMEEND+"|");
+											user.messageTo(Function.ROOMCHAT + "|" + "게임이 종료되었습니다.");
+										}
 									}
-									room.goal=munje[munjeNum];
-									Client user = room.userVc.get(0);//번째만 문제가 바뀌어야된다.
-									user.messageTo(Function.GAMEMUNJE + "|" + room.goal);
-									user.messageTo(Function.ROOMCHAT + "|" + charvo.getId()+"님이 정답을 맞추셨습니다!!");
-									user.messageTo(Function.ROOMCHAT + "|" +round+"라운드를 실행합니다.!");
+									else {
+										munjeNum++;
+										for (int k = 1; k < room.userVc.size(); k++) {
+											Client user = room.userVc.get(k);
+											// get(i)=elements
+											user.messageTo(Function.GAMEROUNDEND + "|");
+											user.messageTo(
+													Function.ROOMCHAT + "|" + charvo.getId() + "님이 정답을 맞추셨습니다!!");
+											user.messageTo(Function.ROOMCHAT + "|" + round + "라운드를 실행합니다.!");
+										}
+										room.goal = munje[munjeNum];
+										Client user = room.userVc.get(0);// 번째만 문제가 바뀌어야된다.
+										user.messageTo(Function.GAMEMUNJE + "|" + room.goal);
+										user.messageTo(Function.ROOMCHAT + "|" + charvo.getId() + "님이 정답을 맞추셨습니다!!");
+										user.messageTo(Function.ROOMCHAT + "|" + round + "라운드를 실행합니다.!");
+									}
 								}
 							}
 						}

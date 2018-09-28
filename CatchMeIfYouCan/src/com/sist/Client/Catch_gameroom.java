@@ -202,7 +202,7 @@ public class Catch_gameroom extends JPanel{
    
    class TimeThread extends Thread {
       public void run() {
-         k = 150;
+         k = 20;
          {
             
            /* while ( flag != false) {
@@ -227,7 +227,7 @@ public class Catch_gameroom extends JPanel{
  				flag = true;
  				while (bThread) {
  					if (k < 0)
- 						interrupt();
+ 						break;
  					try {
  						int minutes = k / 60;
  						int seconds = k % 60;

@@ -256,9 +256,8 @@ public class MyWindow extends JFrame
 		if (e.getSource() == gr.tf) {
 			// 채팅 요청
 			// 만약 타이머가 돌고 있다면 
-			String msg = gr.tf.getText().trim();
-			try {
-				msg = gr.tf.getText().trim();
+				try {
+					String	msg = gr.tf.getText().trim();
 				// 입력값 읽기
 				if (msg.length() < 1)
 					return;
@@ -267,9 +266,10 @@ public class MyWindow extends JFrame
 				// 처리 ==> 서버
 				gr.tf.setText("");
 				gr.tf.requestFocus();// focus
-			} catch (Exception ex) {
-			}
+				}
 			
+			catch (Exception ex) {
+			}
 			/*if(gr.flag==true)
 			{
 				try {
@@ -556,6 +556,7 @@ public class MyWindow extends JFrame
 					munje = st.nextToken();
 					gr.qus_text.setText(munje);
 					gr.k=70;
+				
 				}
 				case Function.REMOVEACTIONLISTENER:
 				{

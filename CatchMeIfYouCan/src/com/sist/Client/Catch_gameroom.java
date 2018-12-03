@@ -232,7 +232,7 @@ public class Catch_gameroom extends JPanel{
  						int minutes = k / 60;
  						int seconds = k % 60;
  						timerLabel.setText(String.valueOf(String.format("%02d:%02d", minutes, seconds)));
- 						System.out.printf("%d\n", k);
+ 						//System.out.printf("%d\n", k);
  						Thread.sleep(1000);
  						// timerLabel.repaint();
  					} catch (InterruptedException e1) {
